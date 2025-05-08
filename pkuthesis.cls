@@ -40,7 +40,7 @@
         name       = {,.},
         beforeskip = 5.64bp,
         afterskip  = 5.64bp,
-        break      = \newpage,
+        break      = \clearpage,
     },
     subsection = {
         format = \zihao{3}\rmfamily,
@@ -71,6 +71,8 @@
 \RequirePackage{caption}
 \captionsetup[figure]{labelfont=sf,labelsep=quad,font=small,name=\textrm{图}}
 \counterwithin{figure}{section}
+\captionsetup[table]{labelfont=sf,labelsep=quad,font=small,name=\textrm{表}}
+\counterwithin{table}{section}
 
 \RequirePackage{tocloft}
 \RenewDocumentCommand{\cfttoctitlefont}{}{\hfil\zihao{-2}\sffamily\bfseries}
