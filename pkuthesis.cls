@@ -148,11 +148,76 @@
         题目：& \preTitleCn\titleCn \\
              & \preTitleEn\titleEn
     \end{tblr}
-    \newpage
+    \clearpage
+    \vspace*{12.622mm}
+    \centerline{\zihao{3}\textsf{版权声明}}
+
+    \vspace*{14.522mm}
+
+    \noindent\begin{minipage}[t]{\textwidth}
+        \linespread{2}\selectfont
+        \setlength{\parindent}{2\ccwd}
+        任何收存和保管本论文各种版本的单位和个人，未经本论文作者同意，
+        不得将本论文转借他人，亦不得随意复制、抄录、拍照或以任何方式传播。否则，引起有碍作者著作权之问题，
+        将可能承担法律责任。
+    \end{minipage}
+    \clearpage
     \vspace*{7.277mm}
     \tableofcontents
     \pagestyle{fancy}
     \setcounter{page}{1}
+}
+
+\AddToHook{enddocument} {
+    \section*{\centerline{北京大学学位论文原创性声明和使用授权说明}}
+    \addcontentsline{toc}{section}{北京大学学位论文原创性声明和使用授权说明}
+    \pagestyle{empty}
+
+    \vspace*{2.359mm}
+
+    \centerline{\zihao{4}\textbf{原创性声明}}
+
+    \vspace*{7.572mm}
+
+    本人郑重声明：所呈交的学位论文，是本人在导师的指导下，独立进行研究工作所取得的成果。
+    除文中已经注明引用的内容外，本论文不含任何其他个人或集体已经发表或撰写过的作品或成果。
+    对本文的研究做出重要贡献的个人和集体，均已在文中以明确方式标明。本声明的法律结果由本人承担。
+
+    \vspace*{17.497mm}
+
+    \begin{flushright}
+        论文作者签名：\hspace*{8.5\ccwd}
+
+        \vspace*{1.538mm}
+
+        日期：\hspace*{2\ccwd}年\hspace*{1.5\ccwd}月\hspace*{2\ccwd}日
+    \end{flushright}
+
+    \vspace*{51.83mm}
+
+    \centerline{\zihao{4}\textbf{学位论文使用授权说明}}
+
+    \vspace*{10.817mm}
+
+    本人完全了解北京大学关于收集、保存、使用学位论文的规定，即：
+
+    \begin{itemize}
+        \item 按照学校要求提交学位论文的印刷本和电子版本；
+
+        \item 学校有权保存学位论文的印刷本和电子版，并提供目录检索与阅览服务，在校园网上提供服务；
+
+        \item 学校可以采用影印、缩印、数字化或其它复制手段保存论文；
+    \end{itemize}
+
+    \vspace*{14.694mm}
+
+    \begin{flushright}
+        论文作者签名：\hspace*{5\ccwd}导师签名：\hspace*{5\ccwd}
+
+        \vspace*{3.042mm}
+
+        日期：\hspace*{1.5\ccwd}年\hspace*{1.5\ccwd}月\hspace*{1.5\ccwd}日\hspace*{6.5\ccwd}
+    \end{flushright}
 }
 
 \RequirePackage{graphicx,tabularray}
