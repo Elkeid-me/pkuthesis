@@ -56,8 +56,8 @@
 }
 
 \RequirePackage[left=2cm, right=2cm, bindingoffset=0.5cm,
-            top=2.5cm, bottom=2.5cm,
-            head=3.8mm, headsep=12.02mm, footskip=7.5mm, twoside]{geometry}
+                top=2.5cm, bottom=2.5cm,
+                head=3.8mm, headsep=12.02mm, footskip=7.5mm, twoside]{geometry}
 
 \RequirePackage[nocheck]{fancyhdr}
 \fancyhead[C]{{\zihao{-5} \titleCn}}
