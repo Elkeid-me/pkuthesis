@@ -1,7 +1,7 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{pkuthesis}
 \PassOptionsToPackage{no-math}{fontspec}
-\LoadClass[a4paper,fontset=none,zihao=-4,linespread=1.35]{ctexart}
+\LoadClass[a4paper,fontset=none,zihao=-4,linespread=1.354167]{ctexart}
 
 \setCJKmainfont{Source Han Serif SC Regular}[
     BoldFont       = Source Han Serif SC Bold,
@@ -67,7 +67,7 @@
 \fancyfoot[C]{{\zihao{5}\textsf{第 \thepage 页}}}
 
 \RequirePackage{enumitem}
-\setlist{topsep=0pt,itemsep=0pt,listparindent=2\ccwd}
+\setlist{itemsep=0pt,listparindent=2\ccwd}
 
 \RequirePackage{caption}
 \captionsetup[figure]{labelfont=sf,labelsep=quad,font=small,name=\textrm{图}}
@@ -165,6 +165,7 @@
     \clearpage
     \vspace*{7.277mm}
     \tableofcontents
+    \clearpage
     \pagestyle{fancy}
     \setcounter{page}{1}
 }
