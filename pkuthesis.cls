@@ -35,7 +35,8 @@
 \newfontfamily \SourceHanSerif {Source Han Serif SC Regular}
 
 \ctexset {
-    contentsname = \centerline{\zihao{-2}\sffamily\bfseries 目\hspace{1\ccwd}录}\vspace*{1.5pt},
+    appendix/name = {\appendixname},
+    contentsname  = \centerline{\zihao{-2}\sffamily\bfseries 目\hspace{1\ccwd}录}\vspace*{1.5pt},
     section = {
         format     = \zihao{3}\sffamily,
         name       = {,.},
@@ -120,7 +121,7 @@
             Q[halign=c,valign=b,wd=8.3cm,font=\zihao{3}\FangSong\FangSongEn]
         },
         rows = { ht=1.1cm,rowsep=0pt },
-        columns = { colsep=0pt},
+        columns = { colsep=0pt },
         hline{2,3,4,5,6} = {2}{2}{dash=solid,wd=0.5bp},
     }
         姓\hspace*{2\ccwd}名：& \studentName \\
@@ -162,6 +163,27 @@
         不得将本论文转借他人，亦不得随意复制、抄录、拍照或以任何方式传播。
         否则，引起有碍作者著作权之问题，将可能承担法律责任。
     \end{minipage}
+    \clearpage
+    \centerline{\zihao{3}\textsf{\textbf{摘要}}}
+
+    ~
+
+    \abstractCn
+
+    ~
+
+    关键词：\keywordsCn
+
+    \clearpage
+    \centerline{\zihao{3}\textsf{\textbf{ABSTRACT}}}
+
+    ~
+
+    \abstractEn
+
+    ~
+
+    KEY WORDS: \keywordsEn
     \clearpage
     \vspace*{7.277mm}
     \tableofcontents
@@ -222,6 +244,15 @@
         日期：\hspace*{1.5\ccwd}年\hspace*{1.5\ccwd}月\hspace*{1.5\ccwd}日\hspace*{6.5\ccwd}
     \end{flushright}
 }
+
+\AddToHook{package/biblatex/after} {
+    \defbibheading{bibliography}[\refname]{
+        \section*{#1}
+        \addcontentsline{toc}{section}{#1}
+        \vspace*{16.5pt}
+    }
+}
+
 \RequirePackage[perpage,symbol*]{footmisc}
 \DefineFNsymbols*{Circles} {
     {\SourceHanSerif ①} {\SourceHanSerif ②}
@@ -232,3 +263,25 @@
 }
 \setfnsymbol{Circles}
 \RequirePackage{graphicx,tabularray}
+\NewTblrEnviron{hqtblr}
+\SetTblrInner[hqtblr] {
+    hline{1,Z} = { dash=solid,wd=2.25bp },
+    hline{2}   = { dash=solid,wd=0.5bp },
+    rows       = { font=\small, rowsep=1.25pt },
+    row{1}     = { font=\small\sffamily\bfseries },
+}
+\NewDocumentCommand { \Appendix } { } {
+    \appendix
+    \ctexset {
+        subsection = {
+            name   = {附录},
+            format = \zihao{-4}\rmfamily,
+            indent = 2\ccwd,
+        },
+    }
+}
+
+\NewDocumentCommand { \Acknowledgments } { } {
+    \section*{致谢}
+    \addcontentsline{toc}{section}{致谢}
+}
