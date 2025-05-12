@@ -151,6 +151,53 @@
              & \preTitleEn\titleEn
     \end{tblr}
     \clearpage
+    \centerline{\zihao{3}北京大学本科毕业论文导师评阅表}
+    \vspace*{15.535mm}
+    \noindent\begin{tblr} {
+        hline{1,2,3,4,5,6,9} = {solid},
+        vlines,
+        hspan=minimal,
+        rows = { rowsep=0pt },
+        columns = { colsep=1.5mm },
+        colspec = {
+            Q[halign=c,wd=1.80cm]
+            Q[halign=c,wd=2.13cm]
+            Q[halign=c,wd=2.38cm]
+            Q[halign=c,wd=3.22cm]
+            Q[halign=c,wd=2.20cm]
+            Q[halign=c,wd=2.87cm]
+        },
+        rowspec = {
+            Q[valign=m,ht=0.82cm]
+            Q[valign=m,ht=0.82cm]
+            Q[halign=c,valign=m,ht=1.1cm]
+            Q[valign=m,ht=0.82cm]
+            Q[valign=m,ht=0.82cm]
+            Q[ht=13.6cm]
+            Q[ht=0.82cm]
+            Q[ht=0.82cm]
+        },
+        cell{1}{5,6} = {r=2,c=1}{halign=c,valign=m},
+        cell{4}{1}   = {r=2,c=1}{halign=c,valign=m},
+        cell{4,5}{2} = {halign=c},
+        cell{4,5}{3} = {r=1,c=4}{halign=l},
+        cell{6}{1}   = {r=1,c=6}{halign=l,valign=h},
+        cell{7,8}{1} = {r=1,c=6}{halign=l,valign=m},
+    }
+        学生姓名 & \studentName & 本科院系 & \schoolName & 论文成绩（等级制）& \\
+        学生学号 & \studentID & 本科专业 & \majorIn & & \\
+        导师姓名 & \tutorName & {导师单位/\\所在学院} & & 导师职称 \\
+        论文题目 & 中文 & \titleCn & & & \\
+                & 英文 & \titleEn & & & \\
+        {
+          \setlength{\parindent}{2\ccwd}\centerline{导师评语}
+
+          \centerline{\textit{（包含对论文的性质、难度、分量、综合训练等是否符合培养目标的目的等评价）}}
+        } & & & & & \\
+        \hspace{18.5\ccwd}导师签名： & & & & & \\
+        \hspace{22.5\ccwd}年\hspace{3\ccwd}月\hspace{3\ccwd}日 & & & & & \\
+    \end{tblr}
+    \clearpage
     \vspace*{12.622mm}
     \centerline{\zihao{3}\textsf{版权声明}}
 
@@ -253,6 +300,19 @@
     }
 }
 
+\AddToHook{package/markdown/after} {
+    \markdownSetup {
+        shiftHeadings          = -1,
+        citations              = true,
+        relativeReferences     = true,
+        headerAttributes       = true,
+        rawAttribute           = true,
+        hashEnumerators        = true,
+        texMathDollars         = true,
+        texMathSingleBackslash = true,
+    }
+}
+
 \RequirePackage[perpage,symbol*]{footmisc}
 \DefineFNsymbols*{Circles} {
     {\SourceHanSerif ①} {\SourceHanSerif ②}
@@ -262,7 +322,9 @@
     {\SourceHanSerif ⑨}
 }
 \setfnsymbol{Circles}
+
 \RequirePackage{graphicx,tabularray}
+
 \NewTblrEnviron{hqtblr}
 \SetTblrInner[hqtblr] {
     hline{1,Z} = { dash=solid,wd=2.25bp },
@@ -270,6 +332,7 @@
     rows       = { font=\small, rowsep=1.25pt },
     row{1}     = { font=\small\sffamily\bfseries },
 }
+
 \NewDocumentCommand { \Appendix } { } {
     \appendix
     \ctexset {
