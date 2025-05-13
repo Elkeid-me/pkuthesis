@@ -19,10 +19,10 @@
     BoldItalicFont = Source Han Sans SC Light,
 ]
 \setmainfont{Nimbus Roman No9 L}
-\setmonofont{JetBrains Mono NF Regular}[
-    BoldFont       = JetBrains Mono NF Bold,
-    ItalicFont     = JetBrains Mono NF Italic,
-    BoldItalicFont = JetBrains Mono NF Bold Italic,
+\setmonofont{JetBrains Mono NL Regular}[
+    BoldFont       = JetBrains Mono NL Bold,
+    ItalicFont     = JetBrains Mono NL Italic,
+    BoldItalicFont = JetBrains Mono NL Bold Italic,
 ]
 \setsansfont{Inter Regular}[
     BoldFont       = Inter Bold,
