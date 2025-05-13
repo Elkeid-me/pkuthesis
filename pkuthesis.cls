@@ -19,10 +19,10 @@
     BoldItalicFont = Source Han Sans SC Light,
 ]
 \setmainfont{Nimbus Roman No9 L}
-\setmonofont{JetBrains Mono NL Regular}[
-    BoldFont       = JetBrains Mono NL Bold,
-    ItalicFont     = JetBrains Mono NL Italic,
-    BoldItalicFont = JetBrains Mono NL Bold Italic,
+\setmonofont{JetBrains Mono NF Regular}[
+    BoldFont       = JetBrains Mono NF Bold,
+    ItalicFont     = JetBrains Mono NF Italic,
+    BoldItalicFont = JetBrains Mono NF Bold Italic,
 ]
 \setsansfont{Inter Regular}[
     BoldFont       = Inter Bold,
@@ -30,8 +30,8 @@
     BoldItalicFont = Inter Bold Italic,
 ]
 \newfontfamily \InterFont {Inter} [ Numbers = Monospaced ]
-\newCJKfontfamily \FangSong {SimFang}
-\newfontfamily \FangSongEn {SimFang}
+\newCJKfontfamily \FangSong {FangSong}
+\newfontfamily \FangSongEn {FangSong}
 \newfontfamily \SourceHanSerif {Source Han Serif SC Regular}
 
 \ctexset {
@@ -154,7 +154,7 @@
     \centerline{\zihao{3}北京大学本科毕业论文导师评阅表}
     \vspace*{15.535mm}
     \noindent\begin{tblr} {
-        hline{1,2,3,4,5,6,9} = {solid},
+        hline{1,2,3,4,5,6,10} = {solid},
         vlines,
         hspan=minimal,
         rows = { rowsep=0pt },
@@ -182,7 +182,7 @@
         cell{4,5}{2} = {halign=c},
         cell{4,5}{3} = {r=1,c=4}{halign=l},
         cell{6}{1}   = {r=1,c=6}{halign=l,valign=h},
-        cell{7,8}{1} = {r=1,c=6}{halign=l,valign=m},
+        cell{7,8,9}{1} = {r=1,c=6}{halign=l,valign=m},
     }
         学生姓名 & \studentName & 本科院系 & \schoolName & 论文成绩（等级制）& \\
         学生学号 & \studentID & 本科专业 & \majorIn & & \\
@@ -195,6 +195,7 @@
           \centerline{\textit{（包含对论文的性质、难度、分量、综合训练等是否符合培养目标的目的等评价）}}
         } & & & & & \\
         \hspace{18.5\ccwd}导师签名： & & & & & \\
+        \\
         \hspace{22.5\ccwd}年\hspace{3\ccwd}月\hspace{3\ccwd}日 & & & & & \\
     \end{tblr}
     \clearpage
