@@ -6,12 +6,12 @@
 \setCJKmainfont{Source Han Serif SC Regular}[
     BoldFont       = Source Han Serif SC Bold,
     ItalicFont     = STKaiti,
-    BoldItalicFont = STKaiti
+    BoldItalicFont = STKaiti,
 ]
 \setCJKmonofont{Source Han Sans SC Light}[
     BoldFont       = Source Han Sans SC Regular,
     ItalicFont     = STKaiti,
-    BoldItalicFont = STKaiti
+    BoldItalicFont = STKaiti,
 ]
 \setCJKsansfont{Source Han Sans SC Regular}[
     BoldFont       = Source Han Sans SC Medium,
@@ -154,7 +154,7 @@
     \centerline{\zihao{3}北京大学本科毕业论文导师评阅表}
     \vspace*{15.535mm}
     \noindent\begin{tblr} {
-        hline{1,2,3,4,5,6,10} = {solid},
+        hline{1,2,3,4,5,6,8} = {solid},
         vlines,
         hspan=minimal,
         rows = { rowsep=0pt },
@@ -175,14 +175,13 @@
             Q[valign=m,ht=0.82cm]
             Q[ht=13.6cm]
             Q[ht=0.82cm]
-            Q[ht=0.82cm]
         },
         cell{1}{5,6} = {r=2,c=1}{halign=c,valign=m},
         cell{4}{1}   = {r=2,c=1}{halign=c,valign=m},
         cell{4,5}{2} = {halign=c},
         cell{4,5}{3} = {r=1,c=4}{halign=l},
         cell{6}{1}   = {r=1,c=6}{halign=l,valign=h},
-        cell{7,8,9}{1} = {r=1,c=6}{halign=l,valign=m},
+        cell{7}{1} = {r=1,c=6}{halign=l,valign=m},
     }
         学生姓名 & \studentName & 本科院系 & \schoolName & 论文成绩（等级制）& \\
         学生学号 & \studentID & 本科专业 & \majorIn & & \\
@@ -194,9 +193,7 @@
 
           \centerline{\textit{（包含对论文的性质、难度、分量、综合训练等是否符合培养目标的目的等评价）}}
         } & & & & & \\
-        \hspace{18.5\ccwd}导师签名： & & & & & \\
-        \\
-        \hspace{22.5\ccwd}年\hspace{3\ccwd}月\hspace{3\ccwd}日 & & & & & \\
+        { \hspace{20.5\ccwd}导师签名：\par ~\\ \hspace{24.5\ccwd}年\hspace{3\ccwd}月\hspace{3\ccwd}日} & & & & & \\
     \end{tblr}
     \clearpage
     \vspace*{12.622mm}
