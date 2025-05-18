@@ -1,7 +1,12 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{pkuthesis}
+\ProvidesClass{pkuthesis}[2025/05/18 v1.0.0-rc1 2025 年本科生毕业论文 LaTeX 模板]
+\ExplSyntaxOn
+    \bool_new:N \g_pkuthesis_centersec_bool
+    \DeclareOption{centersec} { \bool_gset_true:N \g_pkuthesis_centersec_bool }
+    \ProcessOptions\relax
+\ExplSyntaxOff
 \PassOptionsToPackage{no-math}{fontspec}
-\LoadClass[a4paper,fontset=none,zihao=-4,linespread=1.354167]{ctexart}
+\LoadClass[a4paper,fontset=none,zihao=-4,linespread=1.354167,sub3section]{ctexart}
 
 \setCJKmainfont{Source Han Serif SC Regular}[
     BoldFont       = Source Han Serif SC Bold,
@@ -33,10 +38,10 @@
 \newCJKfontfamily \FangSong {FangSong}
 \newfontfamily \FangSongEn {FangSong}
 \newfontfamily \SourceHanSerif {Source Han Serif SC Regular}
+\newCJKfontfamily \KaiTi {STKaiti}
 
 \ctexset {
     appendix/name = {\appendixname},
-    contentsname  = \centerline{\zihao{-2}\sffamily\bfseries 目\hspace{1\ccwd}录}\vspace*{1.5pt},
     section = {
         format     = \zihao{3}\sffamily,
         name       = {,.},
@@ -56,6 +61,19 @@
         afterskip  = 5.64pt,
     }
 }
+
+\ExplSyntaxOn
+    \bool_if:NT \g_pkuthesis_centersec_bool
+    {
+        \ctexset {
+            section = {
+                format    += \centering,
+                name       = {第,章},
+                number     = \zhnum{section},
+            }
+        }
+    }
+\ExplSyntaxOff
 
 \RequirePackage[left=2cm, right=2cm, bindingoffset=0.5cm,
                 top=2.5cm, bottom=2.5cm,
@@ -162,8 +180,8 @@
         colspec = {
             Q[halign=c,wd=1.80cm]
             Q[halign=c,wd=2.13cm]
-            Q[halign=c,wd=2.38cm]
-            Q[halign=c,wd=3.22cm]
+            Q[halign=c,wd=2.13cm]
+            Q[halign=c,wd=3.47cm]
             Q[halign=c,wd=2.20cm]
             Q[halign=c,wd=2.87cm]
         },
@@ -173,15 +191,14 @@
             Q[halign=c,valign=m,ht=1.1cm]
             Q[valign=m,ht=0.82cm]
             Q[valign=m,ht=0.82cm]
-            Q[ht=13.6cm]
-            Q[ht=0.82cm]
+            Q[ht=14.6cm]
         },
         cell{1}{5,6} = {r=2,c=1}{halign=c,valign=m},
         cell{4}{1}   = {r=2,c=1}{halign=c,valign=m},
         cell{4,5}{2} = {halign=c},
         cell{4,5}{3} = {r=1,c=4}{halign=l},
         cell{6}{1}   = {r=1,c=6}{halign=l,valign=h},
-        cell{7}{1} = {r=1,c=6}{halign=l,valign=m},
+        cell{7}{1}   = {r=1,c=6}{halign=l,valign=m},
     }
         学生姓名 & \studentName & 本科院系 & \schoolName & 论文成绩（等级制）& \\
         学生学号 & \studentID & 本科专业 & \majorIn & & \\
@@ -189,11 +206,12 @@
         论文题目 & 中文 & \titleCn & & & \\
                 & 英文 & \titleEn & & & \\
         {
-          \setlength{\parindent}{2\ccwd}\centerline{导师评语}
+            \setlength{\parindent}{2\ccwd}\centerline{导师评语}
 
-          \centerline{\textit{（包含对论文的性质、难度、分量、综合训练等是否符合培养目标的目的等评价）}}
+            \KaiTi
+            \centerline{（包含对论文的性质、难度、分量、综合训练等是否符合培养目标的目的等评价）}
         } & & & & & \\
-        { \hspace{20.5\ccwd}导师签名：\par ~\\ \hspace{24.5\ccwd}年\hspace{3\ccwd}月\hspace{3\ccwd}日} & & & & & \\
+        { \hspace{20.5\ccwd}导师签名：\par ~ \par \hspace{24.5\ccwd}年\hspace{3\ccwd}月\hspace{3\ccwd}日} & & & & & \\
     \end{tblr}
     \clearpage
     \vspace*{12.622mm}
@@ -213,7 +231,7 @@
 
     ~
 
-    \abstractCn
+    { \bfseries \abstractCn }
 
     ~
 
