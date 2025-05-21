@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{pkuthesis}[2025/05/18 v1.0.0-rc1 2025 年本科生毕业论文 LaTeX 模板]
+\ProvidesClass{pkuthesis}[2025/05/21 v1.0.0-rc2 2025 年本科生毕业论文 LaTeX 模板]
 \ExplSyntaxOn
     \bool_new:N \g_pkuthesis_centersec_bool
     \DeclareOption{centersec} { \bool_gset_true:N \g_pkuthesis_centersec_bool }
@@ -42,6 +42,7 @@
 
 \ctexset {
     appendix/name = {\appendixname},
+    contentsname  = 目\hspace{1\ccwd}录,
     section = {
         format     = \zihao{3}\sffamily,
         name       = {,.},
