@@ -11,7 +11,7 @@
 %
 % This work has the LPPL maintenance status `maintained'.
 %
-% The Current Maintainer of this work is M. Y. Name.
+% The Current Maintainer of this work is Elkeid Me.
 %
 % This work consists of the file pkuthesis.cls.
 
