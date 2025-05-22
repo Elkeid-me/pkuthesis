@@ -16,7 +16,7 @@
 % This work consists of the file pkuthesis.cls.
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesExplClass{pkuthesis}{2025/05/22}{1.0.0-rc3}{2025 年本科生毕业论文 LaTeX 模板}
+\ProvidesExplClass{pkuthesis}{2025/05/23}{1.0.0-rc4}{2025 年本科生毕业论文 LaTeX 模板}
 
 \bool_new:N \__pkuthesis_centersec_bool
 \DeclareOption{centersec} { \bool_gset_true:N \__pkuthesis_centersec_bool }
@@ -105,36 +105,37 @@
 \setlist{itemsep=0pt,listparindent=2\ccwd}
 
 \RequirePackage{caption}
-\captionsetup[figure]{labelfont=sf,labelsep=quad,font=small,name=\textrm{图}}
+\DeclareCaptionFont{11point}{\fontsize{11bp}{14.4bp}\selectfont}
+\captionsetup[figure]{labelfont=sf,labelsep=quad,font=11point,name=\textrm{图}}
 \counterwithin{figure}{section}
-\captionsetup[table]{labelfont=sf,labelsep=quad,font=small,name=\textrm{表}}
+\captionsetup[table]{labelfont=sf,labelsep=quad,font=11point,name=\textrm{表}}
 \counterwithin{table}{section}
 
 \RequirePackage{tocloft}
 \RenewDocumentCommand{\cfttoctitlefont}{}{\hfil\zihao{-2}\sffamily\bfseries}
 \RenewDocumentCommand{\cftaftertoctitle}{}{\hfill}
 \RenewDocumentCommand{\cftbeforetoctitleskip}{}{0pt}
-\RenewDocumentCommand{\cftaftertoctitleskip}{}{1.5pt}
+\RenewDocumentCommand{\cftaftertoctitleskip}{}{0.755bp}
 \tocloftpagestyle{empty}
 
 \RenewDocumentCommand{\cftdot}{}{\textmd{.}}
 \RenewDocumentCommand{\cftdotsep}{}{0.5}
-\RenewDocumentCommand{\cftparskip}{}{3.5pt}
+\RenewDocumentCommand{\cftparskip}{}{3.44bp}
 
 \RenewDocumentCommand{\cftbeforesecskip}{}{0pt}
 \RenewDocumentCommand{\cftsecdotsep}{}{\cftdotsep}
-\RenewDocumentCommand{\cftsecfont}{}{\sffamily\InterFont\small}
-\RenewDocumentCommand{\cftsecpagefont}{}{\InterFont\small}
+\RenewDocumentCommand{\cftsecfont}{}{\sffamily\InterFont\fontsize{11bp}{13.248bp}\selectfont}
+\RenewDocumentCommand{\cftsecpagefont}{}{\InterFont\fontsize{11bp}{13.248bp}\selectfont}
 
 \cftsetindents{subsection}{0.39cm}{1.5em}
-\RenewDocumentCommand{\cftsubsecfont}{}{\InterFont\small}
+\RenewDocumentCommand{\cftsubsecfont}{}{\InterFont\fontsize{11bp}{13.248bp}\selectfont}
 \RenewDocumentCommand{\cftsubsecaftersnumb}{}{\rmfamily}
-\RenewDocumentCommand{\cftsubsecpagefont}{}{\InterFont\small}
+\RenewDocumentCommand{\cftsubsecpagefont}{}{\InterFont\fontsize{11bp}{13.248bp}\selectfont}
 
 \cftsetindents{subsubsection}{0.78cm}{1.5em}
-\RenewDocumentCommand{\cftsubsubsecfont}{}{\InterFont\small}
+\RenewDocumentCommand{\cftsubsubsecfont}{}{\InterFont\fontsize{11bp}{13.248bp}\selectfont}
 \RenewDocumentCommand{\cftsubsubsecaftersnumb}{}{\rmfamily}
-\RenewDocumentCommand{\cftsubsubsecpagefont}{}{\InterFont\small}
+\RenewDocumentCommand{\cftsubsubsecpagefont}{}{\InterFont\fontsize{11bp}{13.248bp}\selectfont}
 
 \AddToHook{begindocument/end} {
     \pagestyle{empty}
@@ -160,7 +161,7 @@
         学\hspace*{2\ccwd}号：& \__pkuthesis_student_id: \\
         院\hspace*{2\ccwd}系：& \__pkuthesis_school: \\
         专\hspace*{2\ccwd}业：& \__pkuthesis_major: \\
-        导师姓名： & \__pkuthesis_tutor:
+        导师姓名： & \__pkuthesis_mentor:
     \end{tblr}
 
     \begin{center}
@@ -215,7 +216,7 @@
     }
         学生姓名 & \__pkuthesis_author: & 本科院系 & \__pkuthesis_school: & 论文成绩（等级制）& \__pkuthesis_grade: \\
         学生学号 & \__pkuthesis_student_id: & 本科专业 & \__pkuthesis_major: & & \\
-        导师姓名 & \__pkuthesis_tutor_in_table: & {导师单位/\\所在学院} & \__pkuthesis_tutor_workplace: & 导师职称 & \__pkuthesis_tutor_academic_title: \\
+        导师姓名 & \__pkuthesis_mentor_in_table: & {导师单位/\\所在学院} & \__pkuthesis_mentor_workplace: & 导师职称 & \__pkuthesis_mentor_academic_title: \\
         论文题目 & 中文 & \__pkuthesis_title_cn: & & & \\
                 & 英文 & \__pkuthesis_title_en: & & & \\
         {
@@ -252,7 +253,7 @@
     \par\ \par
     KEY~WORDS:~\__pkuthesis_keywords_en:
     \clearpage
-    \vspace*{7.277mm}
+    \vspace*{18.01bp}
     \tableofcontents
     \clearpage
     \pagestyle{fancy}
@@ -303,7 +304,7 @@
     \defbibheading{bibliography}[\refname]{
         \section*{#1}
         \addcontentsline{toc}{section}{#1}
-        \vspace*{16.5pt}
+        \vspace*{16.5bp}
     }
 }
 
@@ -357,7 +358,7 @@
             name   = {附录},
             format = \zihao{-4}\rmfamily,
             indent = 2\ccwd,
-        },
+        }
     }
 }
 
@@ -367,14 +368,14 @@
     \addcontentsline{toc}{section}{致谢}
 }
 
-\NewDocumentCommand { \tutor } { o m m m }
+\NewDocumentCommand { \mentor } { o m m m }
 {
-    \cs_new:Npn \__pkuthesis_tutor: { #2 }
-    \cs_new:Npn \__pkuthesis_tutor_workplace: { #3 }
-    \cs_new:Npn \__pkuthesis_tutor_academic_title: { #4 }
+    \cs_new:Npn \__pkuthesis_mentor: { #2 }
+    \cs_new:Npn \__pkuthesis_mentor_workplace: { #3 }
+    \cs_new:Npn \__pkuthesis_mentor_academic_title: { #4 }
     \IfNoValueTF {#1}
-      { \cs_new:Npn \__pkuthesis_tutor_in_table: { #2 } }
-      { \cs_new:Npn \__pkuthesis_tutor_in_table: { #1 } }
+      { \cs_new:Npn \__pkuthesis_mentor_in_table: { #2 } }
+      { \cs_new:Npn \__pkuthesis_mentor_in_table: { #1 } }
 }
 
 \cs_new:Npn \__pkuthesis_title_cn_format: { }
