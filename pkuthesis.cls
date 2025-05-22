@@ -282,6 +282,7 @@
     \vspace*{51.83mm}
     \centerline{\zihao{4}\textbf{学位论文使用授权说明}}
     \vspace*{10.817mm}
+    \par
     本人完全了解北京大学关于收集、保存、使用学位论文的规定，即：
     \begin{itemize}
         \item 按照学校要求提交学位论文的印刷本和电子版本；
