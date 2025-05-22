@@ -1,23 +1,23 @@
+% +++
+% bibtex = "biber"
+% +++
 \documentclass{pkuthesis}
-\newcommand{\preTitleCn}{}
-\newcommand{\preTitleEn}{}
-\newcommand{\titleCn}{高超声速涡轮喷气发动机研究}
-\newcommand{\titleEn}{Research on Hypersonic Turbojet}
-\newcommand{\studentName}{千早爱音}
-\newcommand{\studentID}{114514}
-\newcommand{\schoolName}{羽丘女子学园}
-\newcommand{\majorIn}{航空动力}
-\newcommand{\tutorName}{长崎素世}
-
-\newcommand{\abstractCn}{
+\titleCn{高超声速涡轮喷气发动机研究}
+\titleEn{Research on Hypersonic Turbojet}
+\author{千早爱音}
+\studentID{114514}
+\school{羽丘女子学园}
+\major{航空动力}
+\tutor{长崎素世}{月之森女子学园}{贝斯手}
+\abstractCn{
     本文介绍了高超声速涡轮喷气发动机所面临的技术挑战，例如极高的气动加热、进气管理、燃烧效率和材料限制，
     并概述了为应对这些挑战而采用的先进技术。文章重点介绍了日本航空航天研发机构（JAXA）开发的预冷式高超
     声速涡轮喷气发动机亚比例模型——S-发动机。S-发动机旨在为 Mach 5 级高超声速客机提供动力，其主要特点
     是采用液氢预冷系统。文章回顾了 S-发动机的研发目标、主要特点、研发进展以及其在日本高超声速技术发展
     中的重要性。同时提及了日本在超燃冲压发动机等其他高超声速推进技术方面取得的进展。
 }
-\newcommand{\keywordsCn}{高超声速涡轮喷气发动机，S-发动机，预冷技术，进气管理，超燃冲压发动机}
-\newcommand{\abstractEn}{
+\keywordsCn{高超声速涡轮喷气发动机，S-发动机，预冷技术，进气管理，超燃冲压发动机}
+\abstractEn{
     This article introduces the technical challenges associated with hypersonic turbojet
     engines, such as extreme aerodynamic heating, intake management, combustion efficiency,
     and material limitations, and outlines the advanced technologies employed to address
@@ -29,16 +29,30 @@
     significance in the development of hypersonic technology in Japan. It also mentions
     Japan's progress in other hypersonic propulsion technologies such as scramjets.
 }
-\newcommand{\keywordsEn}{
+\keywordsEn{
     Hypersonic Turbojet Engine, S-engine, Precooling Technology,
     Intake Management, Combustion Efficiency, cramjet
 }
+
+\grade{良}
+\turtorComments{
+    高超声速飞行器是各国航空业竞争的重要目标之一。然而传统的、基于火箭发动机或超燃冲压发动机的动力系统
+    要么比冲低，要么燃烧工况恶劣。
+
+    本文介绍了使用预冷却器的涡轮喷气发动机，使传统涡轮发动机的最大工作速度从 Mach 3 提高至 Mach 5。
+
+    论文结构清晰，内容完整，遵循学术写作规范。论文表明综合训练已达到培养目标的要求。
+
+    千早爱音同学通过本论文的研究工作，较好地掌握了本门学科的基础理论、专门知识和基本技能，并展现出一定
+    的创新能力和解决实际问题的能力，具有担负专门技术工作的初步能力。论文达到学士学位论文的水平要求，
+    同意提交答辩。
+}
 \usepackage[style=gb7714-2015]{biblatex}
-\addbibresource{ref.bib}
+\addbibresource{example.bib}
 \begin{document}
 \section{引言}
 
-高超声速涡轮喷气发动机\footnote{此示例文档使用大语言模型生成，仅作展示模板只用，不保证内容的正确性。}
+高超声速涡轮喷气发动机\footnote{此示例文档使用大语言模型生成，仅作展示模板之用，不保证内容的正确性。}
 是一种旨在在高超声速（通常指 Mach 5 或更高）下有效运行的航空喷气发动机\cite{noauthor_bang_2025}。
 与传统的亚音速或超音速涡轮喷气发动机相比，高超声速环境带来了极端挑战，包括：
 
@@ -107,10 +121,10 @@ S-发动机的研发是日本在高超声速技术领域的重要一步。通过
 总而言之，S-发动机是日本在高超声速涡轮喷气发动机领域进行的重要研究项目，它代表了日本在该领域的技术探索和努力，
 并为未来高超声速飞行器的发展做出了贡献。
 \printbibliography
-\Appendix
+\appendix
 \section{声明}
 \subsection{哈气}
 此示例文档使用大语言模型生成，仅作展示模板只用，不保证内容的正确性。
-\Acknowledgments
+\acknowledgments
 感谢长崎素世。
 \end{document}

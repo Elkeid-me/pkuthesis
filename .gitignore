@@ -1,3 +1,13 @@
-/*.pdf
-/*.7z
 /fonts
+*.7z
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.dvi
+*.gz
+*.log
+*.out
+*.pdf
+*.toc
+*.xml
