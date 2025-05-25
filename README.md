@@ -8,8 +8,11 @@
 - 易于修改，作者不希望文档类充斥着 Plain TeX 或 LaTeX2e 古神语；
 - 主要满足作者本人的需求。
 
-## 截图
-
 ## 使用
 
-文档见 [`pkuthesis`](https://elkeid-me.github.io/posts/templeate-doc)
+文档见 [pkuthesis](https://elkeid-me.github.io/posts/templeate-doc)
+
+## 截图
+
+![](https://cdn.jsdelivr.net/gh/Elkeid-me/elkeid-me.github.io@refs/heads/main/pages/posts/templeate-doc/screen-shot.webp)
+
