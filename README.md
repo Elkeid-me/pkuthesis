@@ -12,10 +12,21 @@
 
 文档见 [pkuthesis](https://elkeid-me.github.io/posts/templeate-doc)
 
-Overleaf 无法上传大于 50 MB 的 `.zip` 项目。目前有两个办法：
+`pkuthesis` 已在以下在线环境测试：
 
-1. 创建项目后，再上传 `fonts` 文件夹
-2. 使用北京大学校园网部署的 [Overleaf](https://latex.pku.edu.cn)
+- [Overleaf](https://www.overleaf.com/)
+  - Overleaf 免费账号至多上传 50 MB 的 `.zip` 文件。目前有两个办法：
+    1. 创建项目后，再上传 `fonts` 文件夹；
+    2. 使用[北大 LaTeX](https://latex.pku.edu.cn)。
+  - Overleaf 免费账号编译时间为 20 秒。仍然建议使用北大 LaTeX，或考虑以下两个在线平台：
+
+- [TeXPage](https://www.texpage.com/)
+  - 没有 50 MB 上传大小限制；
+  - 免费账号编译时间 1 分钟。
+- [Cloud LaTeX](https://cloudlatex.io/)
+  - 没有 50 MB 上传大小限制；
+  - 免费账号编译时间 2 分钟。
+  - 而且这玩意有 VS Code 扩展（
 
 ## 截图
 
