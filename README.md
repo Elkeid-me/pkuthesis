@@ -12,7 +12,11 @@
 
 文档见 [pkuthesis](https://elkeid-me.github.io/posts/templeate-doc)
 
+Overleaf 无法上传大于 50 MB 的 `.zip` 项目。目前有两个办法：
+
+1. 创建项目后，再上传 `fonts` 文件夹
+2. 使用北京大学校园网部署的 [Overleaf](https://latex.pku.edu.cn)
+
 ## 截图
 
 ![](https://cdn.jsdelivr.net/gh/Elkeid-me/elkeid-me.github.io@refs/heads/main/pages/posts/templeate-doc/screen-shot.webp)
-
