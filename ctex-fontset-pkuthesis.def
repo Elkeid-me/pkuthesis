@@ -17,7 +17,7 @@
 % ctex-fontset-pkuthesis.def.
 
 \ProvidesExplFile{ctex-fontset-pkuthesis.def}
-  {2025/05/25}{1.0.0}{为 pkuthesis 提供字体支持}
+  {2025/05/27}{1.0.1}{Font set for pkuthesis}
 
 \sys_if_engine_uptex:TF
 {
@@ -45,11 +45,14 @@
       { upmonoit }
       { fonts \\ -HYKaiTiS.ttf }
       { fonts \\ -HYKaiTiS.ttf }
-    \NewDocumentCommand { \KaiTi          } { } { \rmfamily }
-    \NewDocumentCommand { \FangSong       } { } { \rmfamily }
-    \NewDocumentCommand { \FangSongEn     } { } { \rmfamily }
+
+    \RequirePackage{stix2}
+
+    \NewDocumentCommand { \InterTNUM } { } { \rmfamily }
+    \NewDocumentCommand { \FangSong } { } { \rmfamily }
+    \NewDocumentCommand { \FangSongEn } { } { \rmfamily }
     \NewDocumentCommand { \SourceHanSerif } { } { \rmfamily }
-    \NewDocumentCommand { \InterTnum      } { } { \rmfamily }
+    \NewDocumentCommand { \KaiTi } { } { \rmfamily }
 }
 {
     \setCJKmainfont { -SourceHanSerifSC-Regular.otf }
@@ -90,13 +93,15 @@
     ]
     \setsansfont { -Inter }
     [
-        Path           = fonts/,
-        Extension      = .otf,
-        UprightFont    = *-Regular,
-        BoldFont       = *-Bold,
-        ItalicFont     = *-Italic,
-        BoldItalicFont = *-BoldItalic,
-        Renderer       = OpenType,
+        Path             = fonts/,
+        Extension        = .otf,
+        UprightFont      = *-Regular,
+        BoldFont         = *-Bold,
+        ItalicFont       = *-Italic,
+        BoldItalicFont   = *-BoldItalic,
+        CharacterVariant = 1,
+        StylisticSet     = 3,
+        Renderer         = OpenType,
     ]
     \setmonofont { -JetBrainsMonoNL }
     [
@@ -108,11 +113,12 @@
         BoldItalicFont = *-BoldItalic,
         Renderer       = OpenType,
     ]
-    \newfontfamily \InterTnum { -Inter-Regular.otf }
+    \newfontfamily \InterTNUM { -Inter-Regular.otf }
     [
-        Path      = fonts/,
-        Numbers   = Monospaced,
-        Renderer  = OpenType,
+        Path             = fonts/,
+        Numbers          = Monospaced,
+        CharacterVariant = 1,
+        Renderer         = OpenType,
     ]
     \newCJKfontfamily \FangSong { -HYFangSongS.ttf }
     [
@@ -124,11 +130,13 @@
         Path      = fonts/,
         Renderer  = OpenType,
     ]
-    \newfontfamily \SourceHanSerif { -SourceHanSerifSC-Regular.otf } [
+    \newfontfamily \SourceHanSerif { -SourceHanSerifSC-Regular.otf }
+    [
         Path      = fonts/,
         Renderer  = OpenType,
     ]
-    \newCJKfontfamily \KaiTi { -HYKaiTiS.ttf } [
+    \newCJKfontfamily \KaiTi { -HYKaiTiS.ttf }
+    [
         Path      = fonts/,
         Renderer  = OpenType,
     ]
