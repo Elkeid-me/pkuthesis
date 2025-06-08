@@ -20,7 +20,7 @@
 \ProvidesExplClass{pkuthesis}
   {2025/05/27}{2.0.0-dev}{Thesis class for School of EECS, Peking University, 2025}
 
-`pkuthesis` 暂时只支持 XeTeX 和 LuaTeX。
+% `pkuthesis` 暂时只支持 XeTeX 和 LuaTeX。
 \msg_new:nnn { pkuthesis } { unsupported-engine }
 {
     The~ pkuthesis~ class~ requires~ XeTeX~ or~ LuaTeX.~
@@ -196,7 +196,10 @@
 \fancyfoot [ C ] { \zihao { 5 } \textsf { 第 \thepage 页 } }
 \fancyfoot [ R ] { }
 
-\setlist { itemsep = 0pt, listparindent = 2 \ccwd }
+\setlist {
+  itemsep       = 0pt,
+  listparindent = 2 \ccwd,
+}
 
 \DeclareCaptionFont { 11point }
   { \fontsize { 11bp } { 14.4bp } \selectfont }
@@ -262,11 +265,16 @@
 \RenewDocumentCommand { \cftsubsubsecpagefont } { }
   { \__pku_inter_tnum: }
 
-\DefineFNsymbols* { pkuthesis-circles } {
-    { \SourceHanSerif ① } { \SourceHanSerif ② }
-    { \SourceHanSerif ③ } { \SourceHanSerif ④ }
-    { \SourceHanSerif ⑤ } { \SourceHanSerif ⑥ }
-    { \SourceHanSerif ⑦ } { \SourceHanSerif ⑧ }
+\DefineFNsymbols* { pkuthesis-circles }
+{
+    { \SourceHanSerif ① }
+    { \SourceHanSerif ② }
+    { \SourceHanSerif ③ }
+    { \SourceHanSerif ④ }
+    { \SourceHanSerif ⑤ }
+    { \SourceHanSerif ⑥ }
+    { \SourceHanSerif ⑦ }
+    { \SourceHanSerif ⑧ }
     { \SourceHanSerif ⑨ }
 }
 \setfnsymbol { pkuthesis-circles }
@@ -613,18 +621,24 @@
 
 \RenewDocumentCommand { \author } { m }
   { \cs_new:Npn \__pku_author: {#1} }
-\NewDocumentCommand { \titleCn } { m }
-  { \cs_new:Npn \__pku_title_cn: {#1} }
-\NewDocumentCommand { \titleEn } { m }
-  { \cs_new:Npn \__pku_title_en: {#1} }
-\NewDocumentCommand { \abstractCn } { +m }
-  { \cs_new:Npn \__pku_abstract_cn: {#1} }
-\NewDocumentCommand { \abstractEn } { +m }
-  { \cs_new:Npn \__pku_abstract_en: {#1} }
-\NewDocumentCommand { \keywordsCn } { m }
-  { \cs_new:Npn \__pku_keywords_cn: {#1} }
-\NewDocumentCommand { \keywordsEn } { m }
-  { \cs_new:Npn \__pku_keywords_en: {#1} }
+\RenewDocumentCommand { \title } { s m }
+{
+    \IfBooleanTF {#1}
+      { \cs_new:Npn \__pku_title_en: {#2} }
+      { \cs_new:Npn \__pku_title_cn: {#2} }
+}
+\RenewDocumentCommand { \abstract } { s +m }
+{
+    \IfBooleanTF {#1}
+      { \cs_new:Npn \__pku_abstract_en: {#2} }
+      { \cs_new:Npn \__pku_abstract_cn: {#2} }
+}
+\NewDocumentCommand { \keywords } { s m }
+{
+    \IfBooleanTF {#1}
+      { \cs_new:Npn \__pku_keywords_cn: {#2} }
+      { \cs_new:Npn \__pku_keywords_en: {#2} }
+}
 \NewDocumentCommand { \studentID } { m }
   { \cs_new:Npn \__pku_student_id: {#1} }
 \NewDocumentCommand { \school } { m }
@@ -635,7 +649,9 @@
   { \cs_new:Npn \__pku_grade: {#1} }
 \NewDocumentCommand { \mentorComments } { +m }
   { \cs_new:Npn \__pku_mentor_comments: {#1} }
-\NewDocumentCommand { \titleCnFormat } { m }
-  { \cs_set:Npn \__pku_title_cn_format: {#1} }
-\NewDocumentCommand { \titleEnFormat } { m }
-  { \cs_set:Npn \__pku_title_en_format: {#1} }
+\NewDocumentCommand { \titleFormat } { s m }
+{
+    \IfBooleanTF {#1}
+      { \cs_set:Npn \__pku_title_en_format: {#2} }
+      { \cs_set:Npn \__pku_title_cn_format: {#2} }
+}
