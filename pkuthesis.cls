@@ -18,16 +18,20 @@
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesExplClass{pkuthesis}
-  {2025/06/09}{2.0.0-dev}{Thesis class for School of EECS, Peking University, 2025}
+  {2025/06/10}{2.0.0-dev}{Thesis class for School of EECS, Peking University, 2025}
 
 % `pkuthesis` 暂时只支持 XeTeX、LuaTeX 或 upLaTeX。
 \msg_new:nnn { pkuthesis } { unsupported-engine }
   {
-    The~ pkuthesis~ class~ requires~ XeTeX,~ LuaTeX~ or~ upLaTeX.~
+    The~ pkuthesis~ class~ requires~ XeTeX,~ LuaTeX~ or~ upTeX.~
     `#1'~ is~ not~ supported~ at~ present.
   }
-\bool_if:nF
-  { \sys_if_engine_xetex_p: || \sys_if_engine_luatex_p: || \sys_if_engine_uptex_p: }
+\bool_lazy_any:nF
+  {
+    { \sys_if_engine_xetex_p:  }
+    { \sys_if_engine_luatex_p: }
+    { \sys_if_engine_uptex_p:  }
+  }
   {
     \msg_fatal:nnx { pkuthesis } { unsupported-engine }
       { \c_sys_engine_str }
@@ -36,15 +40,15 @@
 % 与此同时，对 upLaTeX 的支持尚在测试中。
 \msg_new:nnn { pkuthesis } { uplatex-support }
   {
-    Support~ for~ upLaTeX~ is~ currently~ in~ testing.~ Functionality~ may~
+    Support~ for~ upTeX~ is~ currently~ in~ testing.~ Functionality~ may~
     be~ incomplete~ and~ contain~ errors.~ Please~ prioritize~ XeTeX~ or~
     LuaTeX~ instead.
   }
-\bool_if:nT
-  { \sys_if_engine_uptex_p: }
+\sys_if_engine_uptex:F
   { \msg_warning:nn { pkuthesis } { uplatex-support } }
 
 \bool_new:N \g__pku_centersec_bool
+\bool_new:N \g__pku_debug_bool
 \bool_new:N \g__pku_draft_bool
 \clist_new:N \g__pku_to_ctex_clist
 \cs_new_protected:Npn \__ccwd_space:n #1 { \skip_horizontal:n { #1 \ccwd } }
@@ -56,6 +60,8 @@
         \clist_gput_right:Nn \g__pku_to_ctex_clist { draft }
       },
     draft     .value_forbidden:n = true,
+    debug     .code:n = { \bool_gset_true:N \g__pku_debug_bool },
+    draft     .value_forbidden:n = true,
     centersec .code:n = { \bool_gset_true:N \g__pku_centersec_bool },
     centersec .value_forbidden:n = true,
   }
@@ -65,7 +71,7 @@
 \PassOptionsToPackage { no-math } { fontspec }
 
 % 使用 XeTeX 时，打开 `xeCJK` 的 `CJKmath` 选项，使数学环境中可以直接输入
-% CJK 字符，与使用 LuaTeX 时 `luatex-ja` 的行为一致。
+% CJK 字符，与使用 LuaTeX 时 `LuaTeX-ja` 的行为一致。
 \sys_if_engine_xetex:T
   { \PassOptionsToPackage { CJKmath } { xecjk } }
 
@@ -184,11 +190,16 @@
     tocloft,
   }
 
-% 处理 `draft` 开关。
-\bool_if:NT \g__pku_draft_bool { \geometry { showframe } }
+% 处理 `debug` 开关。
+\bool_if:NT \g__pku_debug_bool
+  {
+    \sys_if_engine_luatex:TF
+      { \RequirePackage { lua-visual-debug } }
+      { \geometry { showframe } }
+  }
 
 \fancyhead [ L ] { }
-\fancyhead [ C ] { \zihao { -5 } \__pku_title_cn: }
+\fancyhead [ C ] { \zihao { -5 } \l__pku_info_title_cn_tl }
 \fancyhead [ R ] { }
 \fancyfoot [ L ] { }
 \fancyfoot [ C ] { \zihao { 5 } \textsf { 第 \thepage 页 } }
@@ -204,18 +215,18 @@
   { \fontsize { 11 bp } { 14.4 bp } \selectfont }
 \captionsetup [ figure ]
   {
-    labelfont = sf,
+    % labelfont = sf,
     labelsep  = quad,
     font      = 11point,
-    name      = \textrm { 图 },
+    name      = { 图 },
   }
 \counterwithin { figure } { section }
 \captionsetup [ table ]
   {
-    labelfont = sf,
+    % labelfont = sf,
     labelsep  = quad,
     font      = 11point,
-    name = \textrm { 表 },
+    name      = { 表 },
   }
 \counterwithin { table } { section }
 
@@ -291,42 +302,41 @@
   {
     \pagestyle { empty }
     \begin { center }
-        % \__pku_vspace:n { 0pt }
+        % \skip_vertical:n { 0pt }
         \includegraphics [ width = 83.9 mm ] { PKU-Logo.pdf }
         \par
         % \skip_vertical:n { -58.39 mm }
         \zihao { -0 } \textsf { 本科生毕业论文 }
     \end { center }
-
+    \par
     \skip_vertical:n { 78.887 mm }
-
     \noindent
-    \skip_horizontal:n { 175.cm }
+    \skip_horizontal:n { 17.5 mm }
     \begin { tblr }
       {
         colspec =
           {
-            Q [ halign = c, valign = b, wd = 3.19cm,
+            Q [ halign = c, valign = b, wd = 31.9 mm,
                 font = \zihao { 3 } \sffamily ]
-            Q [ halign = c, valign = b, wd = 8.3cm,
+            Q [ halign = c, valign = b, wd = 83 mm,
                 font = \zihao { 3 } \FangSong ]
           },
-        rows                   = { ht = 1.1cm, rowsep = 0pt },
-        columns                = { colsep = 0pt },
-        hline {2, 3, 4, 5, 6 } = { 2 } { 2 } { dash = solid, wd = 0.5bp },
+        rows                   = { ht = 11 mm, rowsep = 0 pt },
+        columns                = { colsep = 0 pt },
+        hline {2, 3, 4, 5, 6 } = { 2 } { 2 } { dash = solid, wd = 0.5 bp },
       }
         姓 \__ccwd_space:n { 2 } 名： &
-          \__pku_author:      \\
+          \l__pku_info_author_tl      \\
 
         学 \__ccwd_space:n { 2 } 号： &
           \FangSongEn
-          \__pku_student_id:  \\
+          \l__pku_info_student_id_tl  \\
 
         院 \__ccwd_space:n { 2 } 系： &
-          \__pku_school:      \\
+          \l__pku_info_school_tl      \\
 
         专 \__ccwd_space:n { 2 } 业： &
-          \__pku_major:       \\
+          \l__pku_info_major_tl       \\
 
         导师姓名： & \__pku_mentor:
     \end { tblr }
@@ -339,8 +349,9 @@
 
     \skip_vertical:n { -176.595 mm }
 
+    \par
     \noindent
-    \skip_horizontal:n { 12.5 cm }
+    \skip_horizontal:n { 12.5 mm }
     \begin { tblr }
       {
         colspec =
@@ -351,14 +362,14 @@
                 font = \zihao { 1 } \sffamily \bfseries ]
           },
         rows            = { ht = 10.8 mm, rowsep = 2 mm },
-        columns         = { colsep = 0pt },
+        columns         = { colsep = 0 pt },
         hline { 2 , 3 } = { 2 } { 2 } { dash = solid, wd = 0.75bp },
       }
         题目：& \__pku_title_cn_format:
-               \__pku_title_cn: \\
+               \l__pku_info_title_cn_tl \\
 
              & \__pku_title_en_format:
-               \__pku_title_en: \\
+               \l__pku_info_title_en_tl \\
     \end { tblr }
     \clearpage
     \newgeometry
@@ -382,12 +393,12 @@
             columns = { colsep = 1.5 mm },
             colspec =
               {
-                Q [ halign = c, wd = 18.0 mm ]
-                Q [ halign = c, wd = 21.3 mm ]
-                Q [ halign = c, wd = 21.3 mm ]
-                Q [ halign = c, wd = 34.7 mm ]
-                Q [ halign = c, wd = 20.0 mm ]
-                Q [ halign = c, wd = 22.7 mm ]
+                Q [ halign = c, wd = 18.16 mm ]
+                Q [ halign = c, wd = 21.46 mm ]
+                Q [ halign = c, wd = 21.46 mm ]
+                Q [ halign = c, wd = 34.86 mm ]
+                Q [ halign = c, wd = 20.16 mm ]
+                Q [ halign = c, wd = 22.86 mm ]
               },
             rowspec =
               {
@@ -410,18 +421,18 @@
             cell { 7 } { 1 }    = { r = 1, c = 6 }
                                   { halign = l, valign = m },
           }
-            学生姓名 & \__pku_author: &
-            本科院系 & \__pku_school: &
-            论文成绩（等级制）& \__pku_grade: \\
+            学生姓名 & \l__pku_info_author_tl &
+            本科院系 & \l__pku_info_school_tl &
+            论文成绩（等级制）& \l__pku_info_grade_tl \\
 
-            学生学号 & \__pku_student_id: & 本科专业 & \__pku_major: & & \\
+            学生学号 & \l__pku_info_student_id_tl & 本科专业 & \l__pku_info_major_tl & & \\
 
             导师姓名 & \__pku_mentor_in_table: &
             { 导师单位 / \\ 所在学院 } & \__pku_mentor_workplace: &
             导师职称 & \__pku_mentor_academic_title: \\
 
-            论文题目 & 中文 & \__pku_title_cn: & & & \\
-                    & 英文 & \__pku_title_en: & & & \\
+            论文题目 & 中文 & \l__pku_info_title_cn_tl & & & \\
+                    & 英文 & \l__pku_info_title_en_tl & & & \\
               {
                 \setlength { \parindent } { 2 \ccwd }
                 \centerline { 导师评语 }
@@ -433,7 +444,7 @@
                     符合培养目标的目的等评价）
                   }
                 \par
-                \__pku_mentor_comments:
+                \l__pku_info_mentor_comments_tl
               } & & & & & \\
               {
                 \__ccwd_space:n { 20.5 }
@@ -467,16 +478,16 @@
     \setcounter { page } { 1 }
     \centerline { \zihao{ 3 } \textsf{ \textbf{ 摘要 } } }
     \par \  \par
-    { \bfseries \__pku_abstract_cn: }
+    { \bfseries \l__pku_info_abstract_cn_tl }
     \par \  \par
-    关键词：\__pku_keywords_cn:
+    关键词：\l__pku_info_keywords_cn_tl
     \clearpage
     \setcounter { page } { 1 }
     \centerline { \zihao { 3 } \textsf { \textbf { ABSTRACT } } }
     \par \  \par
-    \__pku_abstract_en:
+    \l__pku_info_abstract_en_tl
     \par \  \par
-    KEY~WORDS:~\__pku_keywords_en:
+    KEY~ WORDS:~ \l__pku_info_keywords_en_tl
     \clearpage
     \setcounter { page } { 1 }
     \skip_vertical:n { 18.01bp }
@@ -509,7 +520,7 @@
     所取得的成果。除文中已经注明引用的内容外，本论文不含任何其他个人或集体
     已经发表或撰写过的作品或成果。对本文的研究做出重要贡献的个人和集体，均
     已在文中以明确方式标明。本声明的法律结果由本人承担。
-    \skip_vertical:n { 17.497mm }
+    \skip_vertical:n { 17.497 mm }
     \begin { flushright }
         论文作者签名：
         \__ccwd_space:n { 8.5 }
@@ -537,14 +548,14 @@
         在校园网上提供服务；
         \item 学校可以采用影印、缩印、数字化或其它复制手段保存论文；
     \end { itemize }
-    \skip_vertical:n { 14.694mm }
+    \skip_vertical:n { 14.694 mm }
     \begin { flushright }
         论文作者签名：
         \__ccwd_space:n { 5 }
         导师签名：
         \__ccwd_space:n { 5 }
         \par
-        \skip_vertical:n { 3.042mm }
+        \skip_vertical:n { 3.042 mm }
         日期：
         \__ccwd_space:n { 1.5 }
         年
@@ -586,10 +597,10 @@
   {
     \hypersetup
       {
-        pdftitle    = { \__pku_title_cn: },
-        pdfauthor   = { \__pku_author: },
-        pdfkeywords = { \__pku_keywords_cn: },
-        pdfcreator  = { LaTeX~with~pkuthesis~class },
+        pdftitle    = { \l__pku_info_title_cn_tl },
+        pdfauthor   = { \l__pku_info_author_tl },
+        pdfkeywords = { \l__pku_info_keywords_cn_tl },
+        pdfcreator  = { LaTeX~ with~ pkuthesis~ class },
       }
   }
 
@@ -615,6 +626,34 @@
     \addcontentsline { toc } { section } { 致谢 }
   }
 
+\keys_define:nn { pkuthesis / info }
+  {
+    title      .tl_set:N = \l__pku_info_title_cn_tl,
+    title*     .tl_set:N = \l__pku_info_title_en_tl,
+    author     .tl_set:N = \l__pku_info_author_tl,
+    student-id .tl_set:N = \l__pku_info_student_id_tl,
+    school     .tl_set:N = \l__pku_info_school_tl,
+    major      .tl_set:N = \l__pku_info_major_tl,
+    mentor     .tl_set:N = \l__pku_info_mentor_tl,
+
+    abstract .tl_set:N = \l__pku_info_abstract_cn_tl,
+    keywords .tl_set:N = \l__pku_info_keywords_cn_tl,
+
+    abstract* .tl_set:N = \l__pku_info_abstract_en_tl,
+    keywords* .tl_set:N = \l__pku_info_keywords_en_tl,
+
+    grade           .tl_set:N = \l__pku_info_grade_tl,
+    mentor-comments .tl_set:N = \l__pku_info_mentor_comments_tl,
+  }
+
+% \keys_define:nn { pkuthesis / style }
+%   {
+%     title   .code:n = \l__pku_info_title_cn_tl,
+%     title*  .code:n = \l__pku_info_title_en_tl,
+%   }
+
+\NewDocumentCommand { \ThesisInfo } { +m }
+  { \keys_set:nn { pkuthesis / info } {#1} }
 \NewDocumentCommand { \mentor } { o m m m }
   {
     \cs_new:Npn \__pku_mentor: {#2}
@@ -628,36 +667,6 @@
 \cs_new:Npn \__pku_title_cn_format: { }
 \cs_new:Npn \__pku_title_en_format: { }
 
-\RenewDocumentCommand { \author } { m }
-  { \cs_new:Npn \__pku_author: {#1} }
-\RenewDocumentCommand { \title } { s m }
-  {
-    \IfBooleanTF {#1}
-      { \cs_new:Npn \__pku_title_en: {#2} }
-      { \cs_new:Npn \__pku_title_cn: {#2} }
-  }
-\RenewDocumentCommand { \abstract } { s +m }
-  {
-    \IfBooleanTF {#1}
-      { \cs_new:Npn \__pku_abstract_en: {#2} }
-      { \cs_new:Npn \__pku_abstract_cn: {#2} }
-  }
-\NewDocumentCommand { \keywords } { s m }
-  {
-    \IfBooleanTF {#1}
-      { \cs_new:Npn \__pku_keywords_cn: {#2} }
-      { \cs_new:Npn \__pku_keywords_en: {#2} }
-  }
-\NewDocumentCommand { \studentID } { m }
-  { \cs_new:Npn \__pku_student_id: {#1} }
-\NewDocumentCommand { \school } { m }
-  { \cs_new:Npn \__pku_school: {#1} }
-\NewDocumentCommand { \major } { m }
-  { \cs_new:Npn \__pku_major: {#1} }
-\NewDocumentCommand { \grade } { m }
-  { \cs_new:Npn \__pku_grade: {#1} }
-\NewDocumentCommand { \mentorComments } { +m }
-  { \cs_new:Npn \__pku_mentor_comments: {#1} }
 \NewDocumentCommand { \titleFormat } { s m }
   {
     \IfBooleanTF {#1}

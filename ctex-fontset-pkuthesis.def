@@ -17,7 +17,7 @@
 % ctex-fontset-pkuthesis.def.
 
 \ProvidesExplFile{ctex-fontset-pkuthesis.def}
-  {2025/06/09}{1.0.1}{Font set for pkuthesis}
+  {2025/06/10}{2.0.0-dev}{Font set for pkuthesis}
 
 \sys_if_engine_uptex:TF
 {
@@ -35,8 +35,8 @@
       { fonts \\ -SourceHanSansSC-Medium.otf }
     \ctex_set_upmap_unicode:nnn
       { upsansit }
-      { fonts \\ -SourceHanSansSC-ExtraLight.otf }
       { fonts \\ -SourceHanSansSC-Light.otf }
+      { fonts \\ -SourceHanSansSC-Regular.otf }
     \ctex_set_upmap_unicode:nnn
       { upmono }
       { fonts \\ -SourceHanSansSC-Light.otf }
@@ -56,33 +56,33 @@
 }
 {
     \setCJKmainfont { -SourceHanSerifSC-Regular.otf }
-    [
+      [
         Path           = fonts/,
         BoldFont       = -SourceHanSerifSC-Bold.otf,
         ItalicFont     = -HYKaiTiS.ttf,
         BoldItalicFont = -HYKaiTiS.ttf,
         Renderer       = OpenType,
-    ]
+      ]
     \setCJKsansfont { -SourceHanSansSC }
-    [
+      [
         Path           = fonts/,
         Extension      = .otf,
         UprightFont    = *-Regular,
         BoldFont       = *-Medium,
-        ItalicFont     = *-ExtraLight,
-        BoldItalicFont = *-Light,
+        ItalicFont     = *-Light,
+        BoldItalicFont = *-Regular,
         Renderer       = OpenType,
-    ]
-    \setCJKmonofont { -SourceHanSansSC-Light.otf }
-    [
+      ]
+    \setCJKmonofont { -SourceHanSansSC-Regular.otf }
+      [
         Path           = fonts/,
-        BoldFont       = -SourceHanSansSC-Regular.otf,
+        BoldFont       = -SourceHanSansSC-Medium.otf,
         ItalicFont     = -HYKaiTiS.ttf,
         BoldItalicFont = -HYKaiTiS.ttf,
         Renderer       = OpenType,
-    ]
+      ]
     \setmainfont { -STIXTwoText }
-    [
+      [
         Path           = fonts/,
         Extension      = .otf,
         UprightFont    = *-Regular,
@@ -90,9 +90,9 @@
         ItalicFont     = *-Italic,
         BoldItalicFont = *-BoldItalic,
         Renderer       = OpenType,
-    ]
+      ]
     \setsansfont { -Inter }
-    [
+      [
         Path             = fonts/,
         Extension        = .otf,
         UprightFont      = *-Regular,
@@ -102,9 +102,9 @@
         CharacterVariant = 1,
         StylisticSet     = 3,
         Renderer         = OpenType,
-    ]
+      ]
     \setmonofont { -JetBrainsMonoNL }
-    [
+      [
         Path           = fonts/,
         Extension      = .ttf,
         UprightFont    = *-Regular,
@@ -112,32 +112,32 @@
         ItalicFont     = *-Italic,
         BoldItalicFont = *-BoldItalic,
         Renderer       = OpenType,
-    ]
+      ]
     \newfontfamily \InterTNUM { -Inter-Regular.otf }
-    [
+      [
         Path             = fonts/,
         Numbers          = Monospaced,
         CharacterVariant = 1,
         Renderer         = OpenType,
-    ]
+      ]
     \newCJKfontfamily \FangSong { -HYFangSongS.ttf }
-    [
+      [
         Path      = fonts/,
         Renderer  = OpenType,
-    ]
+      ]
     \newfontfamily \FangSongEn { -ShipporiMincho-Regular.otf }
-    [
+      [
         Path      = fonts/,
         Renderer  = OpenType,
-    ]
+      ]
     \newfontfamily \SourceHanSerif { -SourceHanSerifSC-Regular.otf }
-    [
+      [
         Path      = fonts/,
         Renderer  = OpenType,
-    ]
+      ]
     \newCJKfontfamily \KaiTi { -HYKaiTiS.ttf }
-    [
+      [
         Path      = fonts/,
         Renderer  = OpenType,
-    ]
+      ]
 }
