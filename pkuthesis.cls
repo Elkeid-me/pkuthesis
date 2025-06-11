@@ -18,7 +18,7 @@
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesExplClass{pkuthesis}
-  {2025/06/10}{2.0.0-dev}{Thesis class for School of EECS, Peking University, 2025}
+  {2025/06/11}{2.0.0-dev}{Thesis class for School of EECS, Peking University, 2025}
 
 % `pkuthesis` 暂时只支持 XeTeX、LuaTeX 或 upLaTeX。
 \msg_new:nnn { pkuthesis } { unsupported-engine }
@@ -44,7 +44,7 @@
     be~ incomplete~ and~ contain~ errors.~ Please~ prioritize~ XeTeX~ or~
     LuaTeX~ instead.
   }
-\sys_if_engine_uptex:F
+\sys_if_engine_uptex:T
   { \msg_warning:nn { pkuthesis } { uplatex-support } }
 
 \bool_new:N \g__pku_centersec_bool
@@ -241,7 +241,7 @@
 \tocloftpagestyle { empty }
 
 \cs_new_protected:Npn \__pku_inter_tnum:
-  { \InterTNUM \fontsize { 11 bp } { 13.248 bp } \selectfont }
+  { \__tnum_sans: \fontsize { 11 bp } { 13.248 bp } \selectfont }
 
 \RenewDocumentCommand { \cftdot } { }
   { \textmd { . } }
@@ -277,15 +277,15 @@
 
 \DefineFNsymbols* { pkuthesis-circles }
   {
-    { \SourceHanSerif ① }
-    { \SourceHanSerif ② }
-    { \SourceHanSerif ③ }
-    { \SourceHanSerif ④ }
-    { \SourceHanSerif ⑤ }
-    { \SourceHanSerif ⑥ }
-    { \SourceHanSerif ⑦ }
-    { \SourceHanSerif ⑧ }
-    { \SourceHanSerif ⑨ }
+    { \__circle_number: ① }
+    { \__circle_number: ② }
+    { \__circle_number: ③ }
+    { \__circle_number: ④ }
+    { \__circle_number: ⑤ }
+    { \__circle_number: ⑥ }
+    { \__circle_number: ⑦ }
+    { \__circle_number: ⑧ }
+    { \__circle_number: ⑨ }
   }
 \setfnsymbol { pkuthesis-circles }
 
