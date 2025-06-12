@@ -1,4 +1,4 @@
-%% ctex-fontset-pkuthesis.def
+%% ctex-fontset-windows.def
 %% Copyright 2025 Elkeid Me
 %
 % This work may be distributed and/or modified under the
@@ -13,11 +13,13 @@
 %
 % The Current Maintainer of this work is Elkeid Me.
 %
-% This work consists of the file pkuthesis.cls and
-% ctex-fontset-pkuthesis.def.
+% This work consists of the file pkuthesis.cls,
+%                                ctex-fontset-pkuthesis.def,
+%                            and ctex-fontset-windows.def.
+%
 
 \ProvidesExplFile{ctex-fontset-pkuthesis.def}
-  {2025/06/11}{2.0.0-dev}{Font set for pkuthesis, using Windows fonts.}
+  {2025/06/12}{2.0.0-dev}{Font set for pkuthesis, using Windows fonts.}
 
 \setCJKmainfont { SimSun }
   [

@@ -13,12 +13,14 @@
 %
 % The Current Maintainer of this work is Elkeid Me.
 %
-% This work consists of the file pkuthesis.cls and
-% ctex-fontset-pkuthesis.def.
+% This work consists of the file pkuthesis.cls,
+%                                ctex-fontset-pkuthesis.def,
+%                            and ctex-fontset-windows.def.
+%
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesExplClass{pkuthesis}
-  {2025/06/11}{2.0.0-dev}{Thesis class for School of EECS, Peking University, 2025}
+  {2025/06/12}{2.0.0-dev}{Thesis class for School of EECS, Peking University, 2025}
 
 % `pkuthesis` 暂时只支持 XeTeX、LuaTeX 或 upLaTeX。
 \msg_new:nnn { pkuthesis } { unsupported-engine }
@@ -47,23 +49,15 @@
 \sys_if_engine_uptex:T
   { \msg_warning:nn { pkuthesis } { uplatex-support } }
 
-\bool_new:N \g__pku_centersec_bool
-\bool_new:N \g__pku_debug_bool
-\bool_new:N \g__pku_draft_bool
 \clist_new:N \g__pku_to_ctex_clist
 \cs_new_protected:Npn \__ccwd_space:n #1 { \skip_horizontal:n { #1 \ccwd } }
 \keys_define:nn { pkuthesis / options }
   {
-    draft     .code:n =
-      {
-        \bool_gset_true:N \g__pku_draft_bool
-        \clist_gput_right:Nn \g__pku_to_ctex_clist { draft }
-      },
+    draft     .code:n            =
+      { \clist_gput_right:Nn \g__pku_to_ctex_clist { draft } },
     draft     .value_forbidden:n = true,
-    debug     .code:n = { \bool_gset_true:N \g__pku_debug_bool },
-    draft     .value_forbidden:n = true,
-    centersec .code:n = { \bool_gset_true:N \g__pku_centersec_bool },
-    centersec .value_forbidden:n = true,
+    debug     .bool_gset:N       = \g__pku_debug_bool,
+    centersec .bool_gset:N       = \g__pku_centersec_bool,
   }
 \ProcessKeyOptions [ pkuthesis / options ]
 
@@ -199,7 +193,7 @@
   }
 
 \fancyhead [ L ] { }
-\fancyhead [ C ] { \zihao { -5 } \l__pku_info_title_cn_tl }
+\fancyhead [ C ] { \zihao { -5 } \g__pku_info_title_cn_tl }
 \fancyhead [ R ] { }
 \fancyfoot [ L ] { }
 \fancyfoot [ C ] { \zihao { 5 } \textsf { 第 \thepage 页 } }
@@ -215,18 +209,18 @@
   { \fontsize { 11 bp } { 14.4 bp } \selectfont }
 \captionsetup [ figure ]
   {
-    % labelfont = sf,
+    labelfont = sf,
     labelsep  = quad,
     font      = 11point,
-    name      = { 图 },
+    name      = \textrm { 图 },
   }
 \counterwithin { figure } { section }
 \captionsetup [ table ]
   {
-    % labelfont = sf,
+    labelfont = sf,
     labelsep  = quad,
     font      = 11point,
-    name      = { 表 },
+    name      = \textrm { 表 },
   }
 \counterwithin { table } { section }
 
@@ -294,11 +288,11 @@
   {
     hline { 1, Z } = { dash = solid, wd = 2.25 bp },
     hline { 2 }    = { dash = solid, wd = 0.5 bp },
-    rows           = { font = \small, rowsep=1.25 pt },
+    rows           = { font = \small, rowsep = 1.25 pt },
     row { 1 }      = { font = \small \sffamily \bfseries },
   }
 
-\AddToHook { begindocument / end }
+\hook_gput_code:nnn { begindocument / end } { . }
   {
     \pagestyle { empty }
     \begin { center }
@@ -326,17 +320,17 @@
         hline {2, 3, 4, 5, 6 } = { 2 } { 2 } { dash = solid, wd = 0.5 bp },
       }
         姓 \__ccwd_space:n { 2 } 名： &
-          \l__pku_info_author_tl      \\
+          \g__pku_info_author_tl      \\
 
         学 \__ccwd_space:n { 2 } 号： &
           \FangSongEn
-          \l__pku_info_student_id_tl  \\
+          \g__pku_info_student_id_tl  \\
 
         院 \__ccwd_space:n { 2 } 系： &
-          \l__pku_info_school_tl      \\
+          \g__pku_info_school_tl      \\
 
         专 \__ccwd_space:n { 2 } 业： &
-          \l__pku_info_major_tl       \\
+          \g__pku_info_major_tl       \\
 
         导师姓名： & \__pku_mentor:
     \end { tblr }
@@ -365,11 +359,14 @@
         columns         = { colsep = 0 pt },
         hline { 2 , 3 } = { 2 } { 2 } { dash = solid, wd = 0.75bp },
       }
-        题目：& \__pku_title_cn_format:
-               \l__pku_info_title_cn_tl \\
-
-             & \__pku_title_en_format:
-               \l__pku_info_title_en_tl \\
+        题目：& {
+                 \g__pku_style_title_format_cn_tl
+                 \g__pku_info_title_cn_tl
+               } \\
+             & {
+                 \g__pku_style_title_format_en_tl
+                 \g__pku_info_title_en_tl
+               } \\
     \end { tblr }
     \clearpage
     \newgeometry
@@ -421,18 +418,18 @@
             cell { 7 } { 1 }    = { r = 1, c = 6 }
                                   { halign = l, valign = m },
           }
-            学生姓名 & \l__pku_info_author_tl &
-            本科院系 & \l__pku_info_school_tl &
-            论文成绩（等级制）& \l__pku_info_grade_tl \\
+            学生姓名 & \g__pku_info_author_tl &
+            本科院系 & \g__pku_info_school_tl &
+            论文成绩（等级制）& \g__pku_info_grade_tl \\
 
-            学生学号 & \l__pku_info_student_id_tl & 本科专业 & \l__pku_info_major_tl & & \\
+            学生学号 & \g__pku_info_student_id_tl & 本科专业 & \g__pku_info_major_tl & & \\
 
             导师姓名 & \__pku_mentor_in_table: &
             { 导师单位 / \\ 所在学院 } & \__pku_mentor_workplace: &
             导师职称 & \__pku_mentor_academic_title: \\
 
-            论文题目 & 中文 & \l__pku_info_title_cn_tl & & & \\
-                    & 英文 & \l__pku_info_title_en_tl & & & \\
+            论文题目 & 中文 & \g__pku_info_title_cn_tl & & & \\
+                    & 英文 & \g__pku_info_title_en_tl & & & \\
               {
                 \setlength { \parindent } { 2 \ccwd }
                 \centerline { 导师评语 }
@@ -444,7 +441,7 @@
                     符合培养目标的目的等评价）
                   }
                 \par
-                \l__pku_info_mentor_comments_tl
+                \g__pku_info_mentor_comments_tl
               } & & & & & \\
               {
                 \__ccwd_space:n { 20.5 }
@@ -478,16 +475,16 @@
     \setcounter { page } { 1 }
     \centerline { \zihao{ 3 } \textsf{ \textbf{ 摘要 } } }
     \par \  \par
-    { \bfseries \l__pku_info_abstract_cn_tl }
+    { \bfseries \g__pku_info_abstract_cn_tl }
     \par \  \par
-    关键词：\l__pku_info_keywords_cn_tl
+    关键词：\g__pku_info_keywords_cn_tl
     \clearpage
     \setcounter { page } { 1 }
     \centerline { \zihao { 3 } \textsf { \textbf { ABSTRACT } } }
     \par \  \par
-    \l__pku_info_abstract_en_tl
+    \g__pku_info_abstract_en_tl
     \par \  \par
-    KEY~ WORDS:~ \l__pku_info_keywords_en_tl
+    KEY~ WORDS:~ \g__pku_info_keywords_en_tl
     \clearpage
     \setcounter { page } { 1 }
     \skip_vertical:n { 18.01bp }
@@ -497,7 +494,7 @@
     \setcounter { page } { 1 }
   }
 
-\AddToHook { enddocument }
+\hook_gput_code:nnn { enddocument } { . }
   {
     \newgeometry
       {
@@ -568,7 +565,7 @@
     \end { flushright }
   }
 
-\AddToHook { package / biblatex / after }
+\hook_gput_code:nnn { package / biblatex / after } { . }
   {
     \defbibheading { bibliography } [ \refname ]
       {
@@ -578,7 +575,7 @@
       }
   }
 
-\AddToHook { package / markdown / after }
+\hook_gput_code:nnn { package / markdown / after } { . }
   {
     \markdownSetup
       {
@@ -593,13 +590,13 @@
       }
   }
 
-\AddToHook { package / hyperref / after }
+\hook_gput_code:nnn { package / hyperref / after } { . }
   {
     \hypersetup
       {
-        pdftitle    = { \l__pku_info_title_cn_tl },
-        pdfauthor   = { \l__pku_info_author_tl },
-        pdfkeywords = { \l__pku_info_keywords_cn_tl },
+        pdftitle    = { \g__pku_info_title_cn_tl },
+        pdfauthor   = { \g__pku_info_author_tl },
+        pdfkeywords = { \g__pku_info_keywords_cn_tl },
         pdfcreator  = { LaTeX~ with~ pkuthesis~ class },
       }
   }
@@ -628,32 +625,40 @@
 
 \keys_define:nn { pkuthesis / info }
   {
-    title      .tl_set:N = \l__pku_info_title_cn_tl,
-    title*     .tl_set:N = \l__pku_info_title_en_tl,
-    author     .tl_set:N = \l__pku_info_author_tl,
-    student-id .tl_set:N = \l__pku_info_student_id_tl,
-    school     .tl_set:N = \l__pku_info_school_tl,
-    major      .tl_set:N = \l__pku_info_major_tl,
-    mentor     .tl_set:N = \l__pku_info_mentor_tl,
+    title      .tl_gset:N = \g__pku_info_title_cn_tl,
+    title*     .tl_gset:N = \g__pku_info_title_en_tl,
+    author     .tl_gset:N = \g__pku_info_author_tl,
+    student-id .tl_gset:N = \g__pku_info_student_id_tl,
+    school     .tl_gset:N = \g__pku_info_school_tl,
+    major      .tl_gset:N = \g__pku_info_major_tl,
+    mentor     .tl_gset:N = \g__pku_info_mentor_tl,
 
-    abstract .tl_set:N = \l__pku_info_abstract_cn_tl,
-    keywords .tl_set:N = \l__pku_info_keywords_cn_tl,
+    abstract .tl_gset:N = \g__pku_info_abstract_cn_tl,
+    keywords .tl_gset:N = \g__pku_info_keywords_cn_tl,
 
-    abstract* .tl_set:N = \l__pku_info_abstract_en_tl,
-    keywords* .tl_set:N = \l__pku_info_keywords_en_tl,
+    abstract* .tl_gset:N = \g__pku_info_abstract_en_tl,
+    keywords* .tl_gset:N = \g__pku_info_keywords_en_tl,
 
-    grade           .tl_set:N = \l__pku_info_grade_tl,
-    mentor-comments .tl_set:N = \l__pku_info_mentor_comments_tl,
+    grade           .tl_gset:N = \g__pku_info_grade_tl,
+    mentor-comments .tl_gset:N = \g__pku_info_mentor_comments_tl,
   }
 
-% \keys_define:nn { pkuthesis / style }
-%   {
-%     title   .code:n = \l__pku_info_title_cn_tl,
-%     title*  .code:n = \l__pku_info_title_en_tl,
-%   }
+\keys_define:nn { pkuthesis / style }
+  {
+    title-format  .tl_gset:N = \g__pku_style_title_format_cn_tl,
+    title-format* .tl_gset:N = \g__pku_style_title_format_en_tl,
+  }
 
-\NewDocumentCommand { \ThesisInfo } { +m }
-  { \keys_set:nn { pkuthesis / info } {#1} }
+\cs_new_protected:Npn \__pkuthesis_info:n
+  { \keys_set:nn { pkuthesis / info } }
+\NewDocumentCommand { \ThesisInfo } { }
+  { \__pkuthesis_info:n }
+
+\cs_new_protected:Npn \__pkuthesis_style:n
+  { \keys_set:nn { pkuthesis / style } }
+\NewDocumentCommand { \ThesisStyle } { }
+  { \__pkuthesis_style:n }
+
 \NewDocumentCommand { \mentor } { o m m m }
   {
     \cs_new:Npn \__pku_mentor: {#2}
@@ -662,14 +667,4 @@
     \IfNoValueTF {#1}
       { \cs_new:Npn \__pku_mentor_in_table: {#2} }
       { \cs_new:Npn \__pku_mentor_in_table: {#1} }
-  }
-
-\cs_new:Npn \__pku_title_cn_format: { }
-\cs_new:Npn \__pku_title_en_format: { }
-
-\NewDocumentCommand { \titleFormat } { s m }
-  {
-    \IfBooleanTF {#1}
-      { \cs_set:Npn \__pku_title_en_format: {#2} }
-      { \cs_set:Npn \__pku_title_cn_format: {#2} }
   }

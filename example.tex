@@ -2,77 +2,104 @@
 % bibtex = "biber"
 % +++
 \documentclass{pkuthesis}
-\titleCnFormat{\zihao{2}}
-\titleEnFormat{\zihao{3}}
-\titleCn{高超声速涡轮喷气发动机研究}
-\titleEn{Research on Hypersonic Turbojet}
-\author{千早爱音}
-\studentID{114514}
-\school{羽丘女子学园}
-\major{航空动力}
-\mentor{长崎素世}{月之森女子学园}{贝斯手}
-\abstractCn{
-    本文介绍了高超声速涡轮喷气发动机所面临的技术挑战，例如极高的气动加热、进气管理、燃烧效率和材料限制，
-    并概述了为应对这些挑战而采用的先进技术。文章重点介绍了日本航空航天研发机构（JAXA）开发的预冷式高超
-    声速涡轮喷气发动机亚比例模型——S-发动机。S-发动机旨在为 Mach 5 级高超声速客机提供动力，其主要特点
-    是采用液氢预冷系统。文章回顾了 S-发动机的研发目标、主要特点、研发进展以及其在日本高超声速技术发展
-    中的重要性。同时提及了日本在超燃冲压发动机等其他高超声速推进技术方面取得的进展。
-}
-\keywordsCn{高超声速涡轮喷气发动机，S-发动机，预冷技术，进气管理，超燃冲压发动机}
-\abstractEn{
-    This article introduces the technical challenges associated with hypersonic turbojet
-    engines, such as extreme aerodynamic heating, intake management, combustion efficiency,
-    and material limitations, and outlines the advanced technologies employed to address
-    these challenges. The article focuses on the S-engine, a sub-scale model of a precooled
-    hypersonic turbojet engine developed by the Japan Aerospace Exploration Agency (JAXA).
-    The S-engine is intended to power Mach 5 class hypersonic passenger aircraft, and its
-    key feature is the adoption of a liquid hydrogen precooling system. The article reviews
-    the S-engine's development goals, main characteristics, research progress, and its
-    significance in the development of hypersonic technology in Japan. It also mentions
-    Japan's progress in other hypersonic propulsion technologies such as scramjets.
-}
-\keywordsEn{
-    Hypersonic Turbojet Engine, S-engine, Precooling Technology,
-    Intake Management, Combustion Efficiency, cramjet
-}
-
-\grade{良}
-\turtorComments{
-    高超声速飞行器是各国航空业竞争的重要目标之一。然而传统的、基于火箭发动机或超燃冲压发动机的动力系统
-    要么比冲低，要么燃烧工况恶劣。
-
-    本文介绍了使用预冷却器的涡轮喷气发动机，使传统涡轮发动机的最大工作速度从 Mach 3 提高至 Mach 5。
-
-    论文结构清晰，内容完整，遵循学术写作规范。论文表明综合训练已达到培养目标的要求。
-
-    千早爱音同学通过本论文的研究工作，较好地掌握了本门学科的基础理论、专门知识和基本技能，并展现出一定
-    的创新能力和解决实际问题的能力，具有担负专门技术工作的初步能力。论文达到学士学位论文的水平要求，
-    同意提交答辩。
-}
+\usepackage{siunitx}
+\sisetup{mode=text, per-mode=symbol}
 \usepackage[style=gb7714-2015]{biblatex}
 \addbibresource{example.bib}
+
+\ThesisStyle {
+    title-format  = {\zihao{2}},
+    title-format* = {\zihao{3}},
+}
+
+\mentor{长崎素世}{月之森女子学园}{贝斯手}
+\ThesisInfo {
+    title      = {高超声速涡轮喷气发动机研究},
+    title*     = {Research on Hypersonic Turbojet},
+    author     = {千早爱音},
+    student-id = {114514},
+    school     = {羽丘女子学园},
+    major      = {航空动力},
+    abstract = {
+        本文介绍了高超声速涡轮喷气发动机所面临的技术挑战，例如极高的气动加热、进
+        气管理、燃烧效率和材料限制，并概述了为应对这些挑战而采用的先进技术。文章
+        重点介绍了日本航空航天研发机构（JAXA）开发的预冷式高超声速涡轮喷气发动机
+        亚比例模型——S-发动机。S-发动机旨在为 Mach~5 级高超声速客机提供动力，其
+        主要特点是采用液氢预冷系统。文章回顾了 S-发动机的研发目标、主要特点、研
+        发进展以及其在日本高超声速技术发展中的重要性。同时提及了日本在超燃冲压发
+        动机等其他高超声速推进技术方面取得的进展。
+    },
+    keywords = {
+        高超声速涡轮喷气发动机，S-发动机，预冷技术，进气管理，超燃冲压发动机
+    },
+    abstract* = {
+        This article introduces the technical challenges associated
+        with hypersonic turbojet engines, such as extreme aerodynamic
+        heating, intake management, combustion efficiency, and
+        material limitations, and outlines the advanced technologies
+        employed to address these challenges. The article focuses on
+        the S-engine, a sub-scale model of a precooled hypersonic
+        turbojet engine developed by the Japan Aerospace Exploration
+        Agency (JAXA). The S-engine is intended to power Mach~5
+        class hypersonic passenger aircraft, and its key feature is
+        the adoption of a liquid hydrogen precooling system. The
+        article reviews the S-engine's development goals, main
+        characteristics, research progress, and its significance in
+        the development of hypersonic technology in Japan. It also
+        mentions Japan's progress in other hypersonic propulsion
+        technologies such as scramjets.
+    },
+    keywords* = {
+        Hypersonic Turbojet Engine, S-engine, Precooling Technology,
+        Intake Management, Combustion Efficiency, cramjet
+    },
+    grade           = {良},
+    mentor-comments = {
+        高超声速飞行器是各国航空业竞争的重要目标之一。然而传统的、基于火箭发动机
+        或超燃冲压发动机的动力系统要么比冲低，要么燃烧工况恶劣，难以满足长时间大
+        航程的飞行需要。
+
+        本文介绍了使用预冷却器的涡轮喷气发动机，其最大工作速度从传统涡轮发动机的
+        Mach~3 提高至 Mach~5。
+
+        论文结构清晰，内容完整，遵循学术写作规范。论文表明综合训练已达到培养目标
+        的要求。
+
+        千早爱音同学通过本论文的研究工作，较好地掌握了本门学科的基础理论、专门知
+        识和基本技能，并展现出一定的创新能力和解决实际问题的能力，具有担负专门技
+        术工作的初步能力。论文达到学士学位论文的水平要求，同意提交答辩。
+    }
+}
+\usepackage[hidelinks]{hyperref}
 \begin{document}
 \section{引言}
 
-高超声速涡轮喷气发动机\footnote{此示例文档使用大语言模型生成，仅作展示模板之用，不保证内容的正确性。}
-是一种旨在在高超声速（通常指 Mach 5 或更高）下有效运行的航空喷气发动机\cite{noauthor_bang_2025}。
+高超声速涡轮喷气发动机\footnote{此示例文档使用大语言模型生成，仅作展示文档类之
+用，不保证内容的正确性。}
+是一种旨在在高超声速（通常指 Mach~5 或更高）下有效运行的航空喷气发动机\cite{noauthor_bang_2025}。
 与传统的亚音速或超音速涡轮喷气发动机相比，高超声速环境带来了极端挑战，包括：
 
 \begin{itemize}
-    \item 极高的气动加热：飞行器表面和发动机部件会因高速空气摩擦而产生极高的温度。
-    \item 进气管理：如何有效地减速并压缩进入发动机的超高速气流，同时避免激波和能量损失，是一个关键问题。
-    \item 燃烧效率：在极短的停留时间内，如何实现燃料与高速气流的有效混合和稳定燃烧。
+    \item 极高的气动加热：飞行器表面和发动机部件会因高速空气摩擦而产生极高的温
+    度。
+    \item 进气管理：如何有效地减速并压缩进入发动机的超高速气流，同时避免激波和能
+    量损失，是一个关键问题。
+    \item 燃烧效率：在极短的停留时间内，如何实现燃料与高速气流的有效混合和稳定燃
+    烧。
     \item 材料限制：常规材料难以承受高超声速飞行带来的极端温度和压力。
 \end{itemize}
 
 为了应对这些挑战，高超声速涡轮喷气发动机通常需要采用先进的技术，例如：
 
 \begin{itemize}
-    \item 预冷技术：在空气进入核心机之前，利用液氢或其他冷却剂对空气进行冷却，以降低温度，保护发动机部件，
-    并提高发动机性能。
-    \item 先进的进气道设计：采用多激波压缩或其他复杂几何形状的进气道，以实现高效的空气减速和压缩。
-    \item 特殊的燃烧室设计：优化燃料喷注和混合方式，以确保在高速气流下实现稳定高效的燃烧。
-    \item 耐高温材料：使用陶瓷基复合材料、高温合金等先进材料制造发动机的关键部件。
+    \item 预冷技术：在空气进入核心机之前，利用液氢或其他冷却剂对空气进行冷却，以
+    降低温度，保护发动机部件，并提高发动机性能。
+    \item 先进的进气道设计：采用多激波压缩或其他复杂几何形状的进气道，以实现高效
+    的空气减速和压缩。
+    \item 特殊的燃烧室设计：优化燃料喷注和混合方式，以确保在高速气流下实现稳定高
+    效的燃烧。
+    \item 耐高温材料：使用陶瓷基复合材料、高温合金等先进材料制造发动机的关键部
+    件。
     \item 复杂的控制系统：实现对发动机在不同飞行状态下的精确控制。
 \end{itemize}
 
@@ -87,41 +114,49 @@
 \end{table}
 
 \section{S-发动机}
-JAXA\footnote{日本宇宙航空研究开发机构} 自 2004 年以来一直在进行高超声速涡轮喷气发动机的研发工作，旨在为
-未来的高超声速客机和空天飞机提供动力。在这项研究中，JAXA 开发了一种名为 S-发动机 的预冷式高超声速涡轮喷气发
-动机的亚比例模型。
+JAXA\footnote{日本宇宙航空研究开发机构} 自 2004 年以来一直在进行高超声速涡轮喷
+气发动机的研发工作，旨在为未来的高超声速客机和空天飞机提供动力。在这项研究中，
+JAXA 开发了一种名为 S-发动机 的预冷式高超声速涡轮喷气发动机的亚比例模型。
 
 \subsection{特点和研发目标}
 
 \begin{itemize}
-    \item 预冷系统：S-发动机采用了空气预冷系统，利用液氢冷却剂来降低进入涡轮机械的空气温度。这有助于保护发
-    动机核心机免受高超声速飞行中气动加热的影响。
-    \item 尺寸和推力：S-发动机的横截面约为 0.225 米 x 0.225 米，总长度约为 2.67 米，在海平面静态条件下
-    可产生约 1.2 千牛的推力。
-    \item 飞行试验计划：JAXA 曾计划在 2015 年左右进行 Mach 5 的飞行试验。最初的目标飞行速度是 Mach 2，
-    计划利用一个名为“气球搭载运行飞行器（BOV）”的平流层气球进行投放试验。
-    \item 研发目标：S-发动机的研发目标是为 Mach 5 级高超声速客机提供连续从起飞到高超声速巡航的动力。
+    \item 预冷系统：S-发动机采用了空气预冷系统，利用液氢冷却剂来降低进入涡轮机械
+    的空气温度。这有助于保护发动机核心机免受高超声速飞行中气动加热的影响。
+    \item 尺寸和推力：S-发动机的横截面约为
+    $\qty{0.225}{\meter} \times \qty{0.225}{\meter}$，总长度约为
+    \qty{2.67}{\meter}，在海平面静态条件下可产生约
+    \qty{1.2}{\kilo\newton} 的推力。
+    \item 飞行试验计划：JAXA 曾计划在 2015 年左右进行 Mach~5 的飞行试验。最
+    初的目标飞行速度是 Mach~2，计划利用一个名为“气球搭载运行飞行器（BOV）”的平
+    流层气球进行投放试验。
+    \item 研发目标：S-发动机的研发目标是为 Mach~5 级高超声速客机提供连续从起飞
+    到高超声速巡航的动力。
 \end{itemize}
 
 \subsection{研究进展}
 
-JAXA 已经完成了 S-发动机的初步设计、制造和地面试验，包括部件和系统点火试验，并取得了成功。
+JAXA 已经完成了 S-发动机的初步设计、制造和地面试验，包括部件和系统点火试验，并取
+得了成功。
 
-原计划在 2008 年利用 BOV 进行首次飞行试验，BOV 预计长约 5 米，直径 0.55 米，重约 500 公斤。该飞行器将从
-40 公里的高空由气球投放，经过 40 秒的自由落体后，S-发动机将在 Mach 2 左右的速度下运行约 30 秒。
+原计划在 2008 年利用 BOV 进行首次飞行试验，BOV 预计长约 \qty{5}{\meter}，直
+径 \qty{0.55}{\meter}，重约 \qty{500}{\kilogram}。该飞行器将从
+\qty{40}{\kilo\meter} 的高空由气球投放，经过 \qty{40}{\second} 的自由落体
+后，S-发动机将在 Mach~2 左右的速度下运行约 \qty{30}{\second}。
 
 \subsection{重要性}
 
-S-发动机的研发是日本在高超声速技术领域的重要一步。通过验证预冷式涡轮喷气发动机的关键技术，JAXA 旨在为未来高
-超声速飞行器的发展奠定基础。虽然目前关于 S-发动机的最新进展信息相对较少，但其早期的研发工作为日本在高超声速
-推进领域积累了宝贵的经验。
+S-发动机的研发是日本在高超声速技术领域的重要一步。通过验证预冷式涡轮喷气发动机的关
+键技术，JAXA 旨在为未来高超声速飞行器的发展奠定基础。虽然目前关于 S-发动机的最新
+进展信息相对较少，但其早期的研发工作为日本在高超声速推进领域积累了宝贵的经验。
 
-值得注意的是，除了涡轮喷气发动机，日本也在积极研发其他类型的高超声速推进技术，例如冲压发动机和超燃冲压发动机，
-并将其应用于高超声速导弹等国防领域。2022 年，JAXA 成功进行了首次超燃冲压发动机的飞行试验，达到了约 Mach 5.5
-的速度，这标志着日本在高超声速推进技术方面取得了新的突破。
+值得注意的是，除了涡轮喷气发动机，日本也在积极研发其他类型的高超声速推进技术，例如
+冲压发动机和超燃冲压发动机，并将其应用于高超声速导弹等国防领域。2022 年，JAXA 成
+功进行了首次超燃冲压发动机的飞行试验，达到了约 Mach~5.5 的速度，这标志着日本在高
+超声速推进技术方面取得了新的突破。
 
-总而言之，S-发动机是日本在高超声速涡轮喷气发动机领域进行的重要研究项目，它代表了日本在该领域的技术探索和努力，
-并为未来高超声速飞行器的发展做出了贡献。
+总而言之，S-发动机是日本在高超声速涡轮喷气发动机领域进行的重要研究项目，它代表了日
+本在该领域的技术探索和努力，并为未来高超声速飞行器的发展做出了贡献。
 \printbibliography
 \appendix
 \section{声明}

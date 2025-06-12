@@ -2,23 +2,23 @@
 % bibtex = "biber"
 % +++
 \documentclass{pkuthesis}
-
-\titleCn{中文标题}
-\titleEn{英文标题}
-\author{学生姓名（作者）}
-\studentID{学号}
-\school{学院名}
-\major{专业名}
-\mentor{导师姓名}{导师单位}{导师职称}
-\abstractCn{中文摘要}
-\keywordsCn{中文关键词}
-\abstractEn{英文摘要}
-\keywordsEn{英文关键词}
-
-\grade{良} % 论文成绩（等级制）
-\turtorComments{导师评语}
-
 \usepackage[style=gb7714-2015]{biblatex}
+
+\ThesisInfo {
+    title           = {中文标题},
+    title*          = {英文标题},
+    author          = {学生姓名（作者）},
+    student-id      = {学号},
+    school          = {学院名},
+    major           = {专业名},
+    abstract        = {中文摘要},
+    keywords        = {中文关键词},
+    abstract*       = {英文摘要},
+    keywords*       = {英文关键词},
+    grade           = {良}, % 论文成绩（等级制）
+    mentor-comments = {导师评语},
+}
+
 \addbibresource{thesis.bib}
 
 \begin{document}
@@ -32,6 +32,6 @@
 % 附录
 
 \acknowledgments
-感谢本模板的用户
 % 致谢
+感谢 pkuthesis 文档类的用户。
 \end{document}
