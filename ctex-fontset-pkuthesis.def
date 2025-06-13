@@ -19,7 +19,7 @@
 %
 
 \ProvidesExplFile{ctex-fontset-pkuthesis.def}
-  {2025/06/12}{2.0.0-dev}{Font set for pkuthesis, using local fonts.}
+  {2025/06/13}{2.0.0-dev}{Font set for pkuthesis, using local fonts.}
 
 \setCJKmainfont { -SourceHanSerifSC-Regular.otf }
   [
@@ -96,7 +96,7 @@
     Path     = fonts/,
     Renderer = OpenType,
   ]
-\newfontfamily \__circle_number: { -SourceHanSerifSC-Regular.otf }
+\newfontfamily \__circled_number: { -SourceHanSerifSC-Regular.otf }
   [
     Path     = fonts/,
     Renderer = OpenType,

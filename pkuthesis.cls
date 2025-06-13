@@ -20,7 +20,7 @@
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesExplClass{pkuthesis}
-  {2025/06/12}{2.0.0-dev}{Thesis class for School of EECS, Peking University, 2025}
+  {2025/06/13}{2.0.0-dev}{Thesis class for School of EECS, Peking University, 2025}
 
 % `pkuthesis` 暂时只支持 XeTeX、LuaTeX 或 upLaTeX。
 \msg_new:nnn { pkuthesis } { unsupported-engine }
@@ -144,7 +144,7 @@
       },
     subsubsection =
       {
-        format     = \zihao{ 4 } \rmfamily,
+        format     = \zihao { 4 } \rmfamily,
         indent     = 2 \ccwd,
         beforeskip = 5.64 bp,
         afterskip  = 5.64 bp,
@@ -271,15 +271,31 @@
 
 \DefineFNsymbols* { pkuthesis-circles }
   {
-    { \__circle_number: ① }
-    { \__circle_number: ② }
-    { \__circle_number: ③ }
-    { \__circle_number: ④ }
-    { \__circle_number: ⑤ }
-    { \__circle_number: ⑥ }
-    { \__circle_number: ⑦ }
-    { \__circle_number: ⑧ }
-    { \__circle_number: ⑨ }
+    { \__circled_number: ① } { \__circled_number: ② }
+    { \__circled_number: ③ } { \__circled_number: ④ }
+    { \__circled_number: ⑤ } { \__circled_number: ⑥ }
+    { \__circled_number: ⑦ } { \__circled_number: ⑧ }
+    { \__circled_number: ⑨ } { \__circled_number: ⑩ }
+    { \__circled_number: ⑪ } { \__circled_number: ⑫ }
+    { \__circled_number: ⑬ } { \__circled_number: ⑭ }
+    { \__circled_number: ⑮ } { \__circled_number: ⑯ }
+    { \__circled_number: ⑰ } { \__circled_number: ⑱ }
+    { \__circled_number: ⑲ } { \__circled_number: ⑳ }
+    { \__circled_number: ㉑ } { \__circled_number: ㉒ }
+    { \__circled_number: ㉓ } { \__circled_number: ㉔ }
+    { \__circled_number: ㉕ } { \__circled_number: ㉖ }
+    { \__circled_number: ㉗ } { \__circled_number: ㉘ }
+    { \__circled_number: ㉙ } { \__circled_number: ㉚ }
+    { \__circled_number: ㉛ } { \__circled_number: ㉜ }
+    { \__circled_number: ㉝ } { \__circled_number: ㉞ }
+    { \__circled_number: ㉟ } { \__circled_number: ㊱ }
+    { \__circled_number: ㊲ } { \__circled_number: ㊳ }
+    { \__circled_number: ㊴ } { \__circled_number: ㊵ }
+    { \__circled_number: ㊶ } { \__circled_number: ㊷ }
+    { \__circled_number: ㊸ } { \__circled_number: ㊹ }
+    { \__circled_number: ㊺ } { \__circled_number: ㊻ }
+    { \__circled_number: ㊼ } { \__circled_number: ㊽ }
+    { \__circled_number: ㊾ } { \__circled_number: ㊿ }
   }
 \setfnsymbol { pkuthesis-circles }
 

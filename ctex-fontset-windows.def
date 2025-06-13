@@ -19,7 +19,7 @@
 %
 
 \ProvidesExplFile{ctex-fontset-pkuthesis.def}
-  {2025/06/12}{2.0.0-dev}{Font set for pkuthesis, using Windows fonts.}
+  {2025/06/13}{2.0.0-dev}{Font set for pkuthesis, using Windows fonts.}
 
 \setCJKmainfont { SimSun }
   [
@@ -72,7 +72,7 @@
   [ Renderer = OpenType ]
 \newfontfamily \FangSongEn { FangSong }
   [ Renderer = OpenType ]
-\newfontfamily \__circle_number: { SimSun }
+\newfontfamily \__circled_number: { Microsoft~YaHei }
   [ Renderer = OpenType ]
 \newCJKfontfamily \KaiTi { KaiTi }
   [ Renderer = OpenType ]
