@@ -10,7 +10,7 @@
 
 ## 使用
 
-文档见 [pkuthesis](https://elkeid-me.github.io/posts/templeate-doc)
+文档见 [pkuthesis](https://elkeid-me.github.io/posts/pkuthesis-doc)
 
 `pkuthesis` 已在以下在线环境测试：
 
@@ -30,7 +30,7 @@
 
 ## 截图
 
-![](https://cdn.jsdelivr.net/gh/Elkeid-me/elkeid-me.github.io@refs/heads/main/pages/posts/templeate-doc/screen-shot.webp)
+![](https://media.githubusercontent.com/media/Elkeid-me/elkeid-me.github.io/refs/heads/main/pages/posts/pkuthesis-doc/screen-shot.webp)
 
 ## 2.0 版本开发进展
 
