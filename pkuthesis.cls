@@ -20,7 +20,7 @@
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesExplClass{pkuthesis}
-  {2025/06/13}{2.0.0-dev}{Thesis class for School of EECS, Peking University, 2025}
+  {2025/07/02}{2.0.0-dev}{Thesis class for School of EECS, Peking University, 2025}
 
 % `pkuthesis` 暂时只支持 XeTeX、LuaTeX 或 upLaTeX。
 \msg_new:nnn { pkuthesis } { unsupported-engine }
@@ -346,7 +346,7 @@
           \g__pku_info_school_tl      \\
 
         专 \__ccwd_space:n { 2 } 业： &
-          \g__pku_info_major_tl       \\
+          \g__pku_info_specialty_tl   \\
 
         导师姓名： & \__pku_mentor:
     \end { tblr }
@@ -438,7 +438,7 @@
             本科院系 & \g__pku_info_school_tl &
             论文成绩（等级制）& \g__pku_info_grade_tl \\
 
-            学生学号 & \g__pku_info_student_id_tl & 本科专业 & \g__pku_info_major_tl & & \\
+            学生学号 & \g__pku_info_student_id_tl & 本科专业 & \g__pku_info_specialty_tl & & \\
 
             导师姓名 & \__pku_mentor_in_table: &
             { 导师单位 / \\ 所在学院 } & \__pku_mentor_workplace: &
@@ -646,7 +646,7 @@
     author     .tl_gset:N = \g__pku_info_author_tl,
     student-id .tl_gset:N = \g__pku_info_student_id_tl,
     school     .tl_gset:N = \g__pku_info_school_tl,
-    major      .tl_gset:N = \g__pku_info_major_tl,
+    specialty  .tl_gset:N = \g__pku_info_specialty_tl,
     mentor     .tl_gset:N = \g__pku_info_mentor_tl,
 
     abstract .tl_gset:N = \g__pku_info_abstract_cn_tl,
