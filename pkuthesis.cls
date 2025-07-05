@@ -18,7 +18,7 @@
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesExplClass{pkuthesis}
-  {2025/05/24}{1.0.0}{2025 年本科生毕业论文 LaTeX 模板}
+  {2025/07/05}{1.1.0}{2025 年本科生毕业论文 LaTeX 模板}
 
 \bool_new:N \__pkuthesis_centersec_bool
 \keys_define:nn { pkuthesis }
@@ -114,7 +114,7 @@
 \tocloftpagestyle { empty }
 
 \cs_new:Npn \__pkuthesis_inter_tnum:
-  { \InterTnum \fontsize { 11bp } { 13.248bp } \selectfont }
+  { \__tnum_sans: \fontsize { 11bp } { 13.248bp } \selectfont }
 
 \RenewDocumentCommand { \cftdot } { }
   { \textmd { . } }
@@ -196,12 +196,12 @@
     \noindent \hspace* { 1.25cm }
     \begin { tblr } {
         colspec = {
-            Q [ halign = c, valign = b, wd = 2.75cm,
+            Q [ halign = c, valign = f, wd = 2.75cm,
                 font = \zihao { 2 } ]
-            Q [ halign = c, valign = b, wd = 10.16cm,
+            Q [ halign = c, valign = f, wd = 10.16cm,
                 font = \zihao { 1 } \sffamily \bfseries ]
         },
-        rows            = { ht = 1.08cm, rowsep = 2mm },
+        rows            = { ht = 1.25cm, rowsep = 2mm },
         columns         = { colsep = 0pt },
         hline { 2 , 3 } = { 2 } { 2 } { dash = solid, wd = 0.75bp },
     }
@@ -274,7 +274,7 @@
                     符合培养目标的目的等评价）
                 }
                 \par
-                \__pkuthesis_turtor_comments:
+                \__pkuthesis_mentor_comments:
             } & & & & & \\
             {
                 \__pkuthesis_ccwd_space:n { 20.5 }
@@ -420,11 +420,11 @@
 
 \RequirePackage [ perpage, symbol* ] { footmisc }
 \DefineFNsymbols* { pkuthesis-circles } {
-    { \SourceHanSerif ① } { \SourceHanSerif ② }
-    { \SourceHanSerif ③ } { \SourceHanSerif ④ }
-    { \SourceHanSerif ⑤ } { \SourceHanSerif ⑥ }
-    { \SourceHanSerif ⑦ } { \SourceHanSerif ⑧ }
-    { \SourceHanSerif ⑨ }
+    { \__circled_number: ① } { \__circled_number: ② }
+    { \__circled_number: ③ } { \__circled_number: ④ }
+    { \__circled_number: ⑤ } { \__circled_number: ⑥ }
+    { \__circled_number: ⑦ } { \__circled_number: ⑧ }
+    { \__circled_number: ⑨ }
 }
 \setfnsymbol { pkuthesis-circles }
 
@@ -494,8 +494,21 @@
   { \cs_new:Npn \__pkuthesis_major: {#1} }
 \NewDocumentCommand { \grade } { m }
   { \cs_new:Npn \__pkuthesis_grade: {#1} }
-\NewDocumentCommand { \turtorComments } { +m }
-  { \cs_new:Npn \__pkuthesis_turtor_comments: {#1} }
+\NewDocumentCommand { \mentorComments } { +m }
+  { \cs_new:Npn \__pkuthesis_mentor_comments: {#1} }
+
+\msg_new:nnn { pkuthesis } { turtor-comments-deprecated }
+  { `#1'~ is~ deprecated.~ Please~ use~ `#2'. }
+
+\NewDocumentCommand { \turtorComments } { }
+  {
+    \msg_warning:nnee
+      { pkuthesis }
+      { turtor-comments-deprecated }
+      { \token_to_str:N \turtorComments }
+      { \token_to_str:N \mentorComments }
+    \mentorComments
+  }
 \NewDocumentCommand { \titleCnFormat } { m }
   { \cs_set:Npn \__pkuthesis_title_cn_format: {#1} }
 \NewDocumentCommand { \titleEnFormat } { m }
