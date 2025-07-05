@@ -20,7 +20,7 @@
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesExplClass{pkuthesis}
-  {2025/07/02}{2.0.0-dev}{Thesis class for School of EECS, Peking University, 2025}
+  {2025/07/05}{2.0.0-dev}{Thesis class for School of EECS, Peking University, 2025}
 
 % `pkuthesis` 暂时只支持 XeTeX、LuaTeX 或 upLaTeX。
 \msg_new:nnn { pkuthesis } { unsupported-engine }
@@ -35,7 +35,7 @@
     { \sys_if_engine_uptex_p:  }
   }
   {
-    \msg_fatal:nnx { pkuthesis } { unsupported-engine }
+    \msg_fatal:nne { pkuthesis } { unsupported-engine }
       { \c_sys_engine_str }
   }
 
