@@ -20,7 +20,7 @@
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesExplClass{pkuthesis}
-  {2025/07/05}{2.0.0-dev}{Thesis class for School of EECS, Peking University, 2025}
+  {2025/07/07}{2.0.0-dev}{Thesis class for School of EECS, Peking University, 2025}
 
 % `pkuthesis` 暂时只支持 XeTeX、LuaTeX 或 upLaTeX。
 \msg_new:nnn { pkuthesis } { unsupported-engine }
@@ -366,14 +366,14 @@
       {
         colspec =
           {
-            Q [ halign = c, valign = b, wd = 27.5 mm,
+            Q [ halign = c, valign = f, wd = 27.5 mm,
                 font = \zihao { 2 } ]
-            Q [ halign = c, valign = b, wd = 101.6 mm,
+            Q [ halign = c, valign = f, wd = 101.6 mm,
                 font = \zihao { 1 } \sffamily \bfseries ]
           },
-        rows            = { ht = 10.8 mm, rowsep = 2 mm },
+        rows            = { ht = 12.5 mm, rowsep = 2 mm },
         columns         = { colsep = 0 pt },
-        hline { 2 , 3 } = { 2 } { 2 } { dash = solid, wd = 0.75bp },
+        hline { 2 , 3 } = { 2 } { 2 } { dash = solid, wd = 0.75 bp },
       }
         题目：& {
                  \g__pku_style_title_format_cn_tl
