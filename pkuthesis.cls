@@ -20,12 +20,12 @@
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesExplClass{pkuthesis}
-  {2025/07/17}{2.0.0-preview-1}{Thesis class for School of EECS, Peking University, 2025}
+  {2025/07/17}{2.0.0-preview-2}{Thesis class for School of EECS, Peking University, 2025}
 
 \cs_new_protected:Npn \__pku_define_separator:nn #1#2#3
   { \tl_const:cn { c__pku_separator_ #1 _ #2 _tl } {#3} }
 
-\cs_new_protected:Npn \__pku_use_separator:nn #1#2
+\cs_new:Npn \__pku_separator:nn #1#2
   { \tl_use:c { c__pku_separator_ \tl_use:c { g__pku_style_ #1 _separator_tl } _ #2 _tl } }
 
 \__pku_define_separator:nn { comma     } { cn } { ， }
@@ -509,7 +509,7 @@
     \par \  \par
     关键词：
     \clist_use:Nn \g__pku_info_keywords_cn_clist
-      { \__pku_use_separator:nn { keywords } { cn } }
+      { \__pku_separator:nn { keywords } { cn } }
     \clearpage
     \setcounter { page } { 1 }
     \centerline { \zihao { 3 } \textsf { \textbf { ABSTRACT } } }
@@ -518,7 +518,7 @@
     \par \  \par
     KEY~ WORDS:~
     \clist_use:Nn \g__pku_info_keywords_en_clist
-      { \__pku_use_separator:nn { keywords } { en } }
+      { \__pku_separator:nn { keywords } { en } }
     \clearpage
     \setcounter { page } { 1 }
     \vspace* { 18 bp }
@@ -627,11 +627,17 @@
 
 \hook_gput_code:nnn { package / hyperref / after } { . }
   {
+    \tl_new:N \l__pdfkeywords_tl
+    \tl_set:Ne \l__pdfkeywords_tl
+      {
+        \clist_use:Nn \g__pku_info_keywords_cn_clist
+          { \__pku_separator:nn { keywords } { cn } }
+      }
     \hypersetup
       {
         pdftitle    = \g__pku_info_title_cn_tl,
         pdfauthor   = \g__pku_info_author_tl,
-        pdfkeywords = \g__pku_info_keywords_cn_clist,
+        pdfkeywords = \l__pdfkeywords_tl,
         pdfcreator  = { LaTeX~ with~ pkuthesis~ class },
       }
   }
@@ -695,7 +701,7 @@
     keywords-separator / comma     .code:n =
       { \tl_gset:Nn \g__pku_style_keywords_separator_tl { comma } },
     keywords-separator / semicolon .code:n =
-      { \tl_gset:Nn \g__pku_style_keywords_separator_tl { semicolon } }
+      { \tl_gset:Nn \g__pku_style_keywords_separator_tl { semicolon } },
   }
 
 \cs_new_protected:Npn \__pkuthesis_info:n
