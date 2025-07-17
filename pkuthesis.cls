@@ -408,6 +408,7 @@
     \begin { center }
         \vspace* { -10.002 bp }
         { \zihao{ 3 } 北京大学本科毕业论文导师评阅表 }
+        \par
         \vspace* { 22.491 bp }
         \begin { tblr }
           {
