@@ -20,7 +20,18 @@
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesExplClass{pkuthesis}
-  {2025/07/07}{2.0.0-dev}{Thesis class for School of EECS, Peking University, 2025}
+  {2025/07/17}{2.0.0-preview-1}{Thesis class for School of EECS, Peking University, 2025}
+
+\cs_new_protected:Npn \__pku_define_separator:nn #1#2#3
+  { \tl_const:cn { c__pku_separator_ #1 _ #2 _tl } {#3} }
+
+\cs_new_protected:Npn \__pku_use_separator:nn #1#2
+  { \tl_use:c { c__pku_separator_ \tl_use:c { g__pku_style_ #1 _separator_tl } _ #2 _tl } }
+
+\__pku_define_separator:nn { comma     } { cn } { ， }
+\__pku_define_separator:nn { comma     } { en } { ,~ }
+\__pku_define_separator:nn { semicolon } { cn } { ； }
+\__pku_define_separator:nn { semicolon } { en } { ;~ }
 
 % `pkuthesis` 暂时只支持 XeTeX、LuaTeX 或 upLaTeX。
 \msg_new:nnn { pkuthesis } { unsupported-engine }
@@ -50,7 +61,9 @@
   { \msg_warning:nn { pkuthesis } { uplatex-support } }
 
 \clist_new:N \g__pku_to_ctex_clist
-\cs_new_protected:Npn \__ccwd_space:n #1 { \skip_horizontal:n { #1 \ccwd } }
+\tl_new:N    \g__pku_style_keywords_separator_tl
+\tl_gset:Nn  \g__pku_style_keywords_separator_tl { comma }
+\cs_new_protected:Npn \__ccwd_space:n #1 { \hspace* { #1 \ccwd } }
 \keys_define:nn { pkuthesis / options }
   {
     draft     .code:n            =
@@ -93,7 +106,6 @@
     \g__pku_to_ctex_clist
   ]
   { ctexart }
-
 
 % 处理 `centersec` 开关。
 \bool_if:NTF \g__pku_centersec_bool
@@ -312,16 +324,16 @@
   {
     \pagestyle { empty }
     \begin { center }
-        % \skip_vertical:n { 0pt }
+        \vspace* { -7.297 bp }
         \includegraphics [ width = 83.9 mm ] { PKU-Logo.pdf }
         \par
-        % \skip_vertical:n { -58.39 mm }
+        \vspace* { -16.713 bp }
         \zihao { -0 } \textsf { 本科生毕业论文 }
     \end { center }
     \par
-    \skip_vertical:n { 78.887 mm }
+    \vspace* { 224.363 bp }
     \noindent
-    \skip_horizontal:n { 17.5 mm }
+    \hspace* { 17.5 mm }
     \begin { tblr }
       {
         colspec =
@@ -348,20 +360,20 @@
         专 \__ccwd_space:n { 2 } 业： &
           \g__pku_info_specialty_tl   \\
 
-        导师姓名： & \__pku_mentor:
+        导师姓名： & \clist_use:Nn \g__pku_info_mentor_name_clist { 、 }
     \end { tblr }
 
-    \skip_vertical:n { 32.158 mm }
+    \vspace* { 93.396 bp }
 
     \begin { center }
         \zihao{ 3 } 二〇二五 \textsf { 年五月 }
     \end { center }
 
-    \skip_vertical:n { -176.595 mm }
+    \vspace* { -502.413 bp }
 
     \par
     \noindent
-    \skip_horizontal:n { 12.5 mm }
+    \hspace* { 12.5 mm }
     \begin { tblr }
       {
         colspec =
@@ -394,9 +406,9 @@
         bindingoffset =  0 mm,
       }
     \begin { center }
+        \vspace* { -10.002 bp }
         { \zihao{ 3 } 北京大学本科毕业论文导师评阅表 }
-        \skip_vertical:n { 10.535 mm }
-
+        \vspace* { 22.491 bp }
         \begin { tblr }
           {
             hline { 1, 2, 3, 4, 5, 6, 8 } = { solid },
@@ -438,11 +450,12 @@
             本科院系 & \g__pku_info_school_tl &
             论文成绩（等级制）& \g__pku_info_grade_tl \\
 
-            学生学号 & \g__pku_info_student_id_tl & 本科专业 & \g__pku_info_specialty_tl & & \\
+            学生学号 & \g__pku_info_student_id_tl &
+            本科专业 & \g__pku_info_specialty_tl & & \\
 
-            导师姓名 & \__pku_mentor_in_table: &
-            { 导师单位 / \\ 所在学院 } & \__pku_mentor_workplace: &
-            导师职称 & \__pku_mentor_academic_title: \\
+            导师姓名 & \clist_use:Nn \g__pku_info_mentor_name_clist { \\ } &
+            { 导师单位 / \\ 所在学院 } & \clist_use:Nn \g__pku_info_mentor_workplace_clist { \\ }&
+            导师职称 & \clist_use:Nn \g__pku_info_mentor_academic_rank_clist { \\ } \\
 
             论文题目 & 中文 & \g__pku_info_title_cn_tl & & & \\
                     & 英文 & \g__pku_info_title_en_tl & & & \\
@@ -473,11 +486,11 @@
         \end { tblr }
     \end { center }
     \clearpage
-    \skip_vertical:n { 7.622 mm }
+    \vspace* { 1.747 bp }
     \begin{center}
         \zihao{ 3 } \textsf { 版权声明 }
     \end{center}
-    \skip_vertical:n { 14.522 mm }
+    \vspace* { 28.475 bp }
     \noindent
     \begin { minipage } [ t ] { \textwidth }
         \linespread { 2.167 } \selectfont
@@ -493,17 +506,21 @@
     \par \  \par
     { \bfseries \g__pku_info_abstract_cn_tl }
     \par \  \par
-    关键词：\g__pku_info_keywords_cn_tl
+    关键词：
+    \clist_use:Nn \g__pku_info_keywords_cn_clist
+      { \__pku_use_separator:nn { keywords } { cn } }
     \clearpage
     \setcounter { page } { 1 }
     \centerline { \zihao { 3 } \textsf { \textbf { ABSTRACT } } }
     \par \  \par
     \g__pku_info_abstract_en_tl
     \par \  \par
-    KEY~ WORDS:~ \g__pku_info_keywords_en_tl
+    KEY~ WORDS:~
+    \clist_use:Nn \g__pku_info_keywords_en_clist
+      { \__pku_use_separator:nn { keywords } { en } }
     \clearpage
     \setcounter { page } { 1 }
-    \skip_vertical:n { 18.01bp }
+    \vspace* { 18 bp }
     \tableofcontents
     \clearpage
     \pagestyle { fancy }
@@ -516,7 +533,7 @@
       {
         left          = 25 mm,
         right         = 20 mm,
-        top           = 25 mm,
+        top           = 78.587 bp,
         bottom        = 25 mm,
         bindingoffset =  0 mm,
       }
@@ -524,21 +541,22 @@
     \addcontentsline { toc } { section }
       { 北京大学学位论文原创性声明和使用授权说明 }
     \pagestyle { empty }
-    \skip_vertical:n { 2.359 mm }
+    \vspace* { 1.961 bp }
     \begin{center}
         \zihao { 4 } \textbf { 原创性声明 }
     \end{center}
-    \skip_vertical:n { 7.572 mm }
+    \par
+    \vspace* { 9.871 bp }
     本人郑重声明：所呈交的学位论文，是本人在导师的指导下，独立进行研究工作
     所取得的成果。除文中已经注明引用的内容外，本论文不含任何其他个人或集体
     已经发表或撰写过的作品或成果。对本文的研究做出重要贡献的个人和集体，均
     已在文中以明确方式标明。本声明的法律结果由本人承担。
-    \skip_vertical:n { 17.497 mm }
+    \vspace* { 52.347 bp }
     \begin { flushright }
         论文作者签名：
         \__ccwd_space:n { 8.5 }
         \par
-        \skip_vertical:n { 1.538 mm }
+        \vspace* { 4.244 bp }
         日期：
         \__ccwd_space:n { 2 }
         年
@@ -548,11 +566,11 @@
         日
         \par
     \end { flushright }
-    \skip_vertical:n { 51.83 mm }
+    \vspace* { 75.581 bp }
     \begin{center}
         \zihao{ 4 } \textbf{ 学位论文使用授权说明 }
     \end{center}
-    \skip_vertical:n { 10.817 mm }
+    \vspace* { 17.652 bp }
     \par
     本人完全了解北京大学关于收集、保存、使用学位论文的规定，即：
     \begin { itemize }
@@ -561,14 +579,14 @@
         在校园网上提供服务；
         \item 学校可以采用影印、缩印、数字化或其它复制手段保存论文；
     \end { itemize }
-    \skip_vertical:n { 14.694 mm }
+    \vspace* { 27.258 bp }
     \begin { flushright }
         论文作者签名：
         \__ccwd_space:n { 5 }
         导师签名：
         \__ccwd_space:n { 5 }
         \par
-        \skip_vertical:n { 3.042 mm }
+        \vspace* { 8.564 bp }
         日期：
         \__ccwd_space:n { 1.5 }
         年
@@ -587,7 +605,7 @@
       {
         \section* {#1}
         \addcontentsline { toc } { section } {#1}
-        \skip_vertical:n { 16.5bp }
+        \vspace* { 16.5 bp }
       }
   }
 
@@ -610,9 +628,9 @@
   {
     \hypersetup
       {
-        pdftitle    = { \g__pku_info_title_cn_tl },
-        pdfauthor   = { \g__pku_info_author_tl },
-        pdfkeywords = { \g__pku_info_keywords_cn_tl },
+        pdftitle    = \g__pku_info_title_cn_tl,
+        pdfauthor   = \g__pku_info_author_tl,
+        pdfkeywords = \g__pku_info_keywords_cn_clist,
         pdfcreator  = { LaTeX~ with~ pkuthesis~ class },
       }
   }
@@ -639,6 +657,13 @@
     \addcontentsline { toc } { section } { 致谢 }
   }
 
+\keys_define:nn { pkuthesis / info / mentor }
+  {
+    name          .clist_gset:N = \g__pku_info_mentor_name_clist,
+    workplace     .clist_gset:N = \g__pku_info_mentor_workplace_clist,
+    academic-rank .clist_gset:N = \g__pku_info_mentor_academic_rank_clist,
+  }
+
 \keys_define:nn { pkuthesis / info }
   {
     title      .tl_gset:N = \g__pku_info_title_cn_tl,
@@ -647,13 +672,13 @@
     student-id .tl_gset:N = \g__pku_info_student_id_tl,
     school     .tl_gset:N = \g__pku_info_school_tl,
     specialty  .tl_gset:N = \g__pku_info_specialty_tl,
-    mentor     .tl_gset:N = \g__pku_info_mentor_tl,
+    mentor     .meta:nn   = { pkuthesis / info / mentor } {#1},
 
-    abstract .tl_gset:N = \g__pku_info_abstract_cn_tl,
-    keywords .tl_gset:N = \g__pku_info_keywords_cn_tl,
+    abstract .tl_gset:N    = \g__pku_info_abstract_cn_tl,
+    keywords .clist_gset:N = \g__pku_info_keywords_cn_clist,
 
-    abstract* .tl_gset:N = \g__pku_info_abstract_en_tl,
-    keywords* .tl_gset:N = \g__pku_info_keywords_en_tl,
+    abstract* .tl_gset:N    = \g__pku_info_abstract_en_tl,
+    keywords* .clist_gset:N = \g__pku_info_keywords_en_clist,
 
     grade           .tl_gset:N = \g__pku_info_grade_tl,
     mentor-comments .tl_gset:N = \g__pku_info_mentor_comments_tl,
@@ -663,6 +688,13 @@
   {
     title-format  .tl_gset:N = \g__pku_style_title_format_cn_tl,
     title-format* .tl_gset:N = \g__pku_style_title_format_en_tl,
+
+    keywords-separator .choice:,
+    keywords-separator .value_required:n = true,
+    keywords-separator / comma     .code:n =
+      { \tl_gset:Nn \g__pku_style_keywords_separator_tl { comma } },
+    keywords-separator / semicolon .code:n =
+      { \tl_gset:Nn \g__pku_style_keywords_separator_tl { semicolon } }
   }
 
 \cs_new_protected:Npn \__pkuthesis_info:n
@@ -674,13 +706,3 @@
   { \keys_set:nn { pkuthesis / style } }
 \NewDocumentCommand { \ThesisStyle } { }
   { \__pkuthesis_style:n }
-
-\NewDocumentCommand { \mentor } { o m m m }
-  {
-    \cs_new:Npn \__pku_mentor: {#2}
-    \cs_new:Npn \__pku_mentor_workplace: {#3}
-    \cs_new:Npn \__pku_mentor_academic_title: {#4}
-    \IfNoValueTF {#1}
-      { \cs_new:Npn \__pku_mentor_in_table: {#2} }
-      { \cs_new:Npn \__pku_mentor_in_table: {#1} }
-  }
