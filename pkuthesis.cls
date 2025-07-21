@@ -20,7 +20,7 @@
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesExplClass{pkuthesis}
-  {2025/07/17}{2.0.0-preview-2}{Thesis class for School of EECS, Peking University, 2025}
+  {2025/07/17}{2.0.0-preview-1}{Thesis class for School of EECS, Peking University, 2025}
 
 \cs_new_protected:Npn \__pku_define_separator:nn #1#2#3
   { \tl_const:cn { c__pku_separator_ #1 _ #2 _tl } {#3} }
@@ -33,32 +33,21 @@
 \__pku_define_separator:nn { semicolon } { cn } { ； }
 \__pku_define_separator:nn { semicolon } { en } { ;~ }
 
-% `pkuthesis` 暂时只支持 XeTeX、LuaTeX 或 upLaTeX。
+% `pkuthesis` 只支持 XeTeX 和 LuaTeX。
 \msg_new:nnn { pkuthesis } { unsupported-engine }
   {
-    The~ pkuthesis~ class~ requires~ XeTeX,~ LuaTeX~ or~ upTeX.~
+    The~ pkuthesis~ class~ requires~ XeTeX,~ or~ LuaTeX.~
     `#1'~ is~ not~ supported~ at~ present.
   }
 \bool_lazy_any:nF
   {
     { \sys_if_engine_xetex_p:  }
     { \sys_if_engine_luatex_p: }
-    { \sys_if_engine_uptex_p:  }
   }
   {
     \msg_fatal:nne { pkuthesis } { unsupported-engine }
       { \c_sys_engine_str }
   }
-
-% 与此同时，对 upLaTeX 的支持尚在测试中。
-\msg_new:nnn { pkuthesis } { uplatex-support }
-  {
-    Support~ for~ upTeX~ is~ currently~ in~ testing.~ Functionality~ may~
-    be~ incomplete~ and~ contain~ errors.~ Please~ prioritize~ XeTeX~ or~
-    LuaTeX~ instead.
-  }
-\sys_if_engine_uptex:T
-  { \msg_warning:nn { pkuthesis } { uplatex-support } }
 
 \clist_new:N \g__pku_to_ctex_clist
 \tl_new:N    \g__pku_style_keywords_separator_tl

@@ -19,7 +19,7 @@
 %
 
 \ProvidesExplFile{ctex-fontset-pkuthesis.def}
-  {2025/06/13}{2.0.0-dev}{Font set for pkuthesis, using local fonts.}
+  {2025/07/21}{2.0.0-preview-2}{Font set for pkuthesis, using local fonts.}
 
 \setCJKmainfont { -SourceHanSerifSC-Regular.otf }
   [
@@ -49,35 +49,47 @@
   ]
 \setmainfont { -STIXTwoText }
   [
-    Path           = fonts/,
-    Extension      = .otf,
-    UprightFont    = *-Regular,
-    BoldFont       = *-Bold,
-    ItalicFont     = *-Italic,
-    BoldItalicFont = *-BoldItalic,
-    Renderer       = OpenType,
+    Path                = fonts/,
+    Extension           = .otf,
+    UprightFont         = *-Regular,
+    BoldFont            = *-Bold,
+    ItalicFont          = *-Italic,
+    BoldItalicFont      = *-BoldItalic,
+    SlantedFont         = *-Regular,
+    BoldSlantedFont     = *-Bold,
+    SlantedFeatures     = { FakeSlant },
+    BoldSlantedFeatures = { FakeSlant },
+    Renderer            = OpenType,
   ]
 \setsansfont { -Inter }
   [
-    Path             = fonts/,
-    Extension        = .otf,
-    UprightFont      = *-Regular,
-    BoldFont         = *-Bold,
-    ItalicFont       = *-Italic,
-    BoldItalicFont   = *-BoldItalic,
-    CharacterVariant = 1,
-    StylisticSet     = 3,
-    Renderer         = OpenType,
+    Path                = fonts/,
+    Extension           = .otf,
+    UprightFont         = *-Regular,
+    BoldFont            = *-Bold,
+    ItalicFont          = *-Italic,
+    BoldItalicFont      = *-BoldItalic,
+    SlantedFont         = *-Regular,
+    BoldSlantedFont     = *-Bold,
+    SlantedFeatures     = { FakeSlant },
+    BoldSlantedFeatures = { FakeSlant },
+    CharacterVariant    = 1,
+    StylisticSet        = 3,
+    Renderer            = OpenType,
   ]
 \setmonofont { -JetBrainsMonoNL }
   [
-    Path           = fonts/,
-    Extension      = .ttf,
-    UprightFont    = *-Regular,
-    BoldFont       = *-Bold,
-    ItalicFont     = *-Italic,
-    BoldItalicFont = *-BoldItalic,
-    Renderer       = OpenType,
+    Path                = fonts/,
+    Extension           = .ttf,
+    UprightFont         = *-Regular,
+    BoldFont            = *-Bold,
+    ItalicFont          = *-Italic,
+    BoldItalicFont      = *-BoldItalic,
+    SlantedFont         = *-Regular,
+    BoldSlantedFont     = *-Bold,
+    SlantedFeatures     = { FakeSlant },
+    BoldSlantedFeatures = { FakeSlant },
+    Renderer            = OpenType,
   ]
 \newfontfamily \__tnum_sans: { -Inter-Regular.otf }
   [
