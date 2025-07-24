@@ -19,7 +19,7 @@
 %
 
 \ProvidesExplFile{ctex-fontset-pkuthesis.def}
-  {2025/06/13}{2.0.0-dev}{Font set for pkuthesis, using Windows fonts.}
+  {2025/07/24}{2.0.0-preview-2}{Font set for pkuthesis, using Windows fonts.}
 
 \setCJKmainfont { SimSun }
   [
@@ -44,24 +44,38 @@
   ]
 \setmainfont { Times~New~Roman }
   [
-    BoldFont       = *~Bold,
-    ItalicFont     = *~Italic,
-    BoldItalicFont = *~Bold~Italic,
-    Renderer       = OpenType,
+    BoldFont            = *~Bold,
+    ItalicFont          = *~Italic,
+    BoldItalicFont      = *~Bold~Italic,
+    SlantedFont         = *,
+    BoldSlantedFont     = *~Bold,
+    SlantedFeatures     = { FakeSlant },
+    BoldSlantedFeatures = { FakeSlant },
+    Renderer            = OpenType,
   ]
 \setsansfont { Segoe~UI }
   [
-    BoldFont       = *-Bold,
-    ItalicFont     = *-Italic,
-    BoldItalicFont = *-Bold~Italic,
-    Renderer       = OpenType,
+    BoldFont            = *~Bold,
+    ItalicFont          = *~Italic,
+    BoldItalicFont      = *~Bold~Italic,
+    SlantedFont         = *,
+    BoldSlantedFont     = *~Bold,
+    SlantedFeatures     = { FakeSlant },
+    BoldSlantedFeatures = { FakeSlant },
+    Numbers             = Proportional,
+    StylisticSet        = 19,
+    Renderer            = OpenType,
   ]
 \setmonofont { Consolas }
   [
-    BoldFont       = *~Bold,
-    ItalicFont     = *~Italic,
-    BoldItalicFont = *~Bold~Italic,
-    Renderer       = OpenType,
+    BoldFont            = *~Bold,
+    ItalicFont          = *~Italic,
+    BoldItalicFont      = *~Bold~Italic,
+    SlantedFont         = *,
+    BoldSlantedFont     = *~Bold,
+    SlantedFeatures     = { FakeSlant },
+    BoldSlantedFeatures = { FakeSlant },
+    Renderer            = OpenType,
   ]
 \newfontfamily \__tnum_sans: { Segoe~UI }
   [
