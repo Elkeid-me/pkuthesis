@@ -20,7 +20,7 @@
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesExplClass{pkuthesis}
-  {2025/07/17}{2.0.0-preview-1}{Thesis class for School of EECS, Peking University, 2025}
+  {2025/07/31}{2.0.0-preview-2}{Thesis class for School of EECS, Peking University, 2025}
 
 \cs_new_protected:Npn \__pku_define_separator:nn #1#2#3
   { \tl_const:cn { c__pku_separator_ #1 _ #2 _tl } {#3} }
@@ -51,7 +51,6 @@
 
 \clist_new:N \g__pku_to_ctex_clist
 \tl_new:N    \g__pku_style_keywords_separator_tl
-\tl_gset:Nn  \g__pku_style_keywords_separator_tl { comma }
 \cs_new_protected:Npn \__ccwd_space:n #1 { \hspace* { #1 \ccwd } }
 \keys_define:nn { pkuthesis / options }
   {
@@ -309,7 +308,7 @@
     row { 1 }      = { font = \small \sffamily \bfseries },
   }
 
-\hook_gput_code:nnn { begindocument / end } { . }
+\hook_gput_next_code:nn { begindocument / end }
   {
     \pagestyle { empty }
     \begin { center }
@@ -355,7 +354,9 @@
     \vspace* { 93.396 bp }
 
     \begin { center }
-        \zihao{ 3 } 二〇二五 \textsf { 年五月 }
+        \zihao { 3 }
+        \zhdigits { \int_use:N \g__pku_info_year_int }
+        \textsf { 年 \zhnumber { \int_use:N \g__pku_info_month_int } 月 }
     \end { center }
 
     \vspace* { -502.413 bp }
@@ -517,7 +518,7 @@
     \setcounter { page } { 1 }
   }
 
-\hook_gput_code:nnn { enddocument } { . }
+\hook_gput_next_code:nn { enddocument }
   {
     \newgeometry
       {
@@ -589,7 +590,7 @@
     \end { flushright }
   }
 
-\hook_gput_code:nnn { package / biblatex / after } { . }
+\hook_gput_next_code:nn { package / biblatex / after }
   {
     \defbibheading { bibliography } [ \refname ]
       {
@@ -599,7 +600,7 @@
       }
   }
 
-\hook_gput_code:nnn { package / markdown / after } { . }
+\hook_gput_next_code:nn { package / markdown / after }
   {
     \markdownSetup
       {
@@ -614,28 +615,8 @@
       }
   }
 
-\hook_gput_code:nnn { package / hyperref / after } { . }
+\hook_gput_next_code:nn { cmd / appendix / after }
   {
-    \tl_new:N \l__pdfkeywords_tl
-    \tl_set:Ne \l__pdfkeywords_tl
-      {
-        \clist_use:Nn \g__pku_info_keywords_cn_clist
-          { \__pku_separator:nn { keywords } { cn } }
-      }
-    \hypersetup
-      {
-        pdftitle    = \g__pku_info_title_cn_tl,
-        pdfauthor   = \g__pku_info_author_tl,
-        pdfkeywords = \l__pdfkeywords_tl,
-        pdfcreator  = { LaTeX~ with~ pkuthesis~ class },
-      }
-  }
-
-\cs_new_eq:NN \__pku_appendix: \appendix
-
-\RenewDocumentCommand { \appendix } { }
-  {
-    \__pku_appendix:
     \ctexset
       {
         subsection =
@@ -670,6 +651,11 @@
     specialty  .tl_gset:N = \g__pku_info_specialty_tl,
     mentor     .meta:nn   = { pkuthesis / info / mentor } {#1},
 
+    year  .int_gset:N = \g__pku_info_year_int,
+    month .int_gset:N = \g__pku_info_month_int,
+    year  .initial:n  = { \int_use:N \c_sys_year_int },
+    month .initial:n  = 5,
+
     abstract .tl_gset:N    = \g__pku_info_abstract_cn_tl,
     keywords .clist_gset:N = \g__pku_info_keywords_cn_clist,
 
@@ -685,20 +671,34 @@
     title-format  .tl_gset:N = \g__pku_style_title_format_cn_tl,
     title-format* .tl_gset:N = \g__pku_style_title_format_en_tl,
 
-    keywords-separator .choice:,
-    keywords-separator .value_required:n = true,
-    keywords-separator / comma     .code:n =
-      { \tl_gset:Nn \g__pku_style_keywords_separator_tl { comma } },
-    keywords-separator / semicolon .code:n =
-      { \tl_gset:Nn \g__pku_style_keywords_separator_tl { semicolon } },
+    keywords-separator .choices:nn =
+      { comma, semicolon }
+      { \tl_gset_eq:NN \g__pku_style_keywords_separator_tl \l_keys_choice_tl },
+    keywords-separator .initial:n  = { comma },
   }
 
-\cs_new_protected:Npn \__pkuthesis_info:n
-  { \keys_set:nn { pkuthesis / info } }
-\NewDocumentCommand { \ThesisInfo } { }
-  { \__pkuthesis_info:n }
+\NewDocumentCommand { \ThesisInfo } { +m }
+  { \keys_set:nn { pkuthesis / info } {#1} }
+\NewDocumentCommand { \ThesisStyle } { +m }
+  { \keys_set:nn { pkuthesis / style } {#1} }
 
-\cs_new_protected:Npn \__pkuthesis_style:n
-  { \keys_set:nn { pkuthesis / style } }
-\NewDocumentCommand { \ThesisStyle } { }
-  { \__pkuthesis_style:n }
+\hook_gput_next_code:nn { begindocument / before }
+  {
+    \IfPackageLoadedTF { hyperref }
+      {
+        \tl_new:N \l__pdfkeywords_tl
+        \tl_set:Ne \l__pdfkeywords_tl
+          {
+            \clist_use:Nn \g__pku_info_keywords_cn_clist
+              { \__pku_separator:nn { keywords } { cn } }
+          }
+        \hypersetup
+          {
+            pdftitle    = \g__pku_info_title_cn_tl,
+            pdfauthor   = \g__pku_info_author_tl,
+            pdfkeywords = \l__pdfkeywords_tl,
+            pdfcreator  = { LaTeX~ with~ pkuthesis~ class },
+          }
+      }
+      {}
+  }

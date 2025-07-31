@@ -19,7 +19,7 @@
 %
 
 \ProvidesExplFile{ctex-fontset-pkuthesis.def}
-  {2025/07/21}{2.0.0-preview-2}{Font set for pkuthesis, using local fonts.}
+  {2025/07/31}{2.0.0-preview-2}{Font set for pkuthesis, using local fonts.}
 
 \setCJKmainfont { -SourceHanSerifSC-Regular.otf }
   [
