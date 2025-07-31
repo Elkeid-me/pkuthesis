@@ -192,6 +192,7 @@
       { \geometry { showframe } }
   }
 
+% 设置页眉页脚，这基于 `fancyhdr` 包。
 \fancyhead [ L ] { }
 \fancyhead [ C ] { \zihao { -5 } \g__pku_info_title_cn_tl }
 \fancyhead [ R ] { }
@@ -199,12 +200,14 @@
 \fancyfoot [ C ] { \zihao { 5 } \textsf { 第 \thepage 页 } }
 \fancyfoot [ R ] { }
 
+% 设置列表格式，这基于 `enumitem` 包。
 \setlist
   {
     itemsep       = 0 pt,
     listparindent = 2 \ccwd,
   }
 
+% 设置图表 `\caption` 格式，这基于 `caption` 包。
 \DeclareCaptionFont { 11point }
   { \fontsize { 11 bp } { 14.4 bp } \selectfont }
 \captionsetup [ figure ]
@@ -224,6 +227,8 @@
   }
 \counterwithin { table } { section }
 
+% 设置目录格式，这基于 `tocloft` 包。
+% 这个包的用户接口确实不好……
 \RenewDocumentCommand { \cfttoctitlefont } { }
   { \hfil \zihao { -2 } \sffamily \bfseries }
 \RenewDocumentCommand { \cftaftertoctitle } { }
@@ -269,6 +274,7 @@
 \RenewDocumentCommand { \cftsubsubsecpagefont } { }
   { \__pku_inter_tnum: }
 
+% 设置脚注格式细节，这基于 `footmisc` 包。
 \DefineFNsymbols* { pkuthesis-circles }
   {
     { \__circled_number: ① } { \__circled_number: ② }
@@ -299,6 +305,7 @@
   }
 \setfnsymbol { pkuthesis-circles }
 
+% 三线表 `hqtblr` 环境。基于 `tabularray` 包。
 \NewTblrEnviron { hqtblr }
 \SetTblrInner [ hqtblr ]
   {
@@ -308,6 +315,29 @@
     row { 1 }      = { font = \small \sffamily \bfseries },
   }
 
+% `\begin{document}` 的钩子，使用 `hyperref` 设置 PDF 元数据。
+\hook_gput_next_code:nn { begindocument / before }
+  {
+    \IfPackageLoadedTF { hyperref }
+      {
+        \tl_new:N \l__pdfkeywords_tl
+        \tl_set:Ne \l__pdfkeywords_tl
+          {
+            \clist_use:Nn \g__pku_info_keywords_cn_clist
+              { \__pku_separator:nn { keywords } { cn } }
+          }
+        \hypersetup
+          {
+            pdftitle    = \g__pku_info_title_cn_tl,
+            pdfauthor   = \g__pku_info_author_tl,
+            pdfkeywords = \l__pdfkeywords_tl,
+            pdfcreator  = { LaTeX~ with~ pkuthesis~ class },
+          }
+      }
+      {}
+  }
+
+% `\begin{document}` 钩子，处理封面、导师评价表、声明、摘要、关键词与目录。
 \hook_gput_next_code:nn { begindocument / end }
   {
     \pagestyle { empty }
@@ -518,6 +548,7 @@
     \setcounter { page } { 1 }
   }
 
+% `\end{document}` 钩子，处理声明。
 \hook_gput_next_code:nn { enddocument }
   {
     \newgeometry
@@ -590,6 +621,7 @@
     \end { flushright }
   }
 
+% `biblatex` 包的钩子，处理“参考文献”标题格式。
 \hook_gput_next_code:nn { package / biblatex / after }
   {
     \defbibheading { bibliography } [ \refname ]
@@ -600,6 +632,7 @@
       }
   }
 
+% `markdown` 包的钩子，提供实验性的 Markdown 支持。
 \hook_gput_next_code:nn { package / markdown / after }
   {
     \markdownSetup
@@ -615,6 +648,9 @@
       }
   }
 
+% 以下为用户接口部分。
+
+% `\appendix` 命令的钩子，处理附录的标题格式。
 \hook_gput_next_code:nn { cmd / appendix / after }
   {
     \ctexset
@@ -628,6 +664,7 @@
       }
   }
 
+% 致谢。
 \NewDocumentCommand { \acknowledgments } { }
   {
     \section* { 致谢 }
@@ -682,23 +719,3 @@
 \NewDocumentCommand { \ThesisStyle } { +m }
   { \keys_set:nn { pkuthesis / style } {#1} }
 
-\hook_gput_next_code:nn { begindocument / before }
-  {
-    \IfPackageLoadedTF { hyperref }
-      {
-        \tl_new:N \l__pdfkeywords_tl
-        \tl_set:Ne \l__pdfkeywords_tl
-          {
-            \clist_use:Nn \g__pku_info_keywords_cn_clist
-              { \__pku_separator:nn { keywords } { cn } }
-          }
-        \hypersetup
-          {
-            pdftitle    = \g__pku_info_title_cn_tl,
-            pdfauthor   = \g__pku_info_author_tl,
-            pdfkeywords = \l__pdfkeywords_tl,
-            pdfcreator  = { LaTeX~ with~ pkuthesis~ class },
-          }
-      }
-      {}
-  }
