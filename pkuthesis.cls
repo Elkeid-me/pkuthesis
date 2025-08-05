@@ -20,7 +20,7 @@
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesExplClass{pkuthesis}
-  {2025/07/31}{2.0.0-preview-2}{Thesis class for School of EECS, Peking University, 2025}
+  {2025/08/05}{2.0.0-preview-2}{Thesis class for School of EECS, Peking University, 2025}
 
 \cs_new_protected:Npn \__pku_define_separator:nn #1#2#3
   { \tl_const:cn { c__pku_separator_ #1 _ #2 _tl } {#3} }
@@ -39,11 +39,8 @@
     The~ pkuthesis~ class~ requires~ XeTeX,~ or~ LuaTeX.~
     `#1'~ is~ not~ supported~ at~ present.
   }
-\bool_lazy_any:nF
-  {
-    { \sys_if_engine_xetex_p:  }
-    { \sys_if_engine_luatex_p: }
-  }
+\bool_if:nF
+  { \sys_if_engine_xetex_p: || \sys_if_engine_luatex_p: }
   {
     \msg_fatal:nne { pkuthesis } { unsupported-engine }
       { \c_sys_engine_str }
@@ -335,6 +332,12 @@
           }
       }
       {}
+      \bool_if:nF
+        {
+          { \str_if_empty_p:N \g__pku_info_eval_form_str } &&
+          { \str_if_empty_p:N \g__pku_info_decl_page_str }
+        }
+        { \RequirePackage { pdfpages } }
   }
 
 % `\begin{document}` 钩子，处理封面、导师评价表、声明、摘要、关键词与目录。
@@ -416,97 +419,101 @@
                  \g__pku_info_title_en_tl
                } \\
     \end { tblr }
-    \clearpage
-    \newgeometry
+    \str_if_empty:NTF \g__pku_info_eval_form_str
       {
-        left          = 26 mm,
-        right         = 26 mm,
-        top           = 30 mm,
-        bottom        = 25 mm,
-        bindingoffset =  0 mm,
-      }
-    \begin { center }
-        \vspace* { -10.002 bp }
-        { \zihao{ 3 } 北京大学本科毕业论文导师评阅表 }
-        \par
-        \vspace* { 22.491 bp }
-        \begin { tblr }
+        \clearpage
+        \newgeometry
           {
-            hline { 1, 2, 3, 4, 5, 6, 8 } = { solid },
-            vlines,
-            hspan   = minimal,
-            rows    = { rowsep = 0.5 mm },
-            columns = { colsep = 1.5 mm },
-            colspec =
-              {
-                Q [ halign = c, wd = 18.16 mm ]
-                Q [ halign = c, wd = 21.46 mm ]
-                Q [ halign = c, wd = 21.46 mm ]
-                Q [ halign = c, wd = 34.86 mm ]
-                Q [ halign = c, wd = 20.16 mm ]
-                Q [ halign = c, wd = 22.86 mm ]
-              },
-            rowspec =
-              {
-                Q [ valign = m,             ht = 7.2 mm ]
-                Q [ valign = m,             ht = 7.2 mm ]
-                Q [ halign = c, valign = m, ht =  10 mm ]
-                Q [ valign = m,             ht = 7.2 mm ]
-                Q [ valign = m,             ht = 7.2 mm ]
-                Q [                         ht = 145 mm ]
-              },
-            cell { 1 } { 5, 6 } = { r = 2, c = 1 }
-                                  { halign = c, valign = m },
-            cell { 4 } { 1 }    = { r = 2, c = 1 }
-                                  { halign = c, valign = m },
-            cell { 4, 5 } { 2 } = { halign = c },
-            cell { 4, 5 } { 3 } = { r = 1, c = 4 }
-                                  { halign = c },
-            cell { 6 } { 1 }    = { r = 1, c = 6 }
-                                  { halign = l, valign = h },
-            cell { 7 } { 1 }    = { r = 1, c = 6 }
-                                  { halign = l, valign = m },
+            left          = 26 mm,
+            right         = 26 mm,
+            top           = 30 mm,
+            bottom        = 25 mm,
+            bindingoffset =  0 mm,
           }
-            学生姓名 & \g__pku_info_author_tl &
-            本科院系 & \g__pku_info_school_tl &
-            论文成绩（等级制）& \g__pku_info_grade_tl \\
-
-            学生学号 & \g__pku_info_student_id_tl &
-            本科专业 & \g__pku_info_specialty_tl & & \\
-
-            导师姓名 & \clist_use:Nn \g__pku_info_mentor_name_clist { \\ } &
-            { 导师单位 / \\ 所在学院 } & \clist_use:Nn \g__pku_info_mentor_workplace_clist { \\ }&
-            导师职称 & \clist_use:Nn \g__pku_info_mentor_academic_rank_clist { \\ } \\
-
-            论文题目 & 中文 & \g__pku_info_title_cn_tl & & & \\
-                    & 英文 & \g__pku_info_title_en_tl & & & \\
+        \begin { center }
+            \vspace* { -10.002 bp }
+            { \zihao{ 3 } 北京大学本科毕业论文导师评阅表 }
+            \par
+            \vspace* { 22.491 bp }
+            \begin { tblr }
               {
-                \setlength { \parindent } { 2 \ccwd }
-                \centerline { 导师评语 }
-                \par
-                \KaiTi
-                \centerline
+                hline { 1, 2, 3, 4, 5, 6, 8 } = { solid },
+                vlines,
+                hspan   = minimal,
+                rows    = { rowsep = 0.5 mm },
+                columns = { colsep = 1.5 mm },
+                colspec =
                   {
-                    （包含对论文的性质、难度、分量、综合训练等是否
-                    符合培养目标的目的等评价）
-                  }
-                \par
-                \g__pku_info_mentor_comments_tl
-              } & & & & & \\
-              {
-                \__ccwd_space:n { 20.5 }
-                导师签名：
-                \par \  \par
-                \__ccwd_space:n { 24.5 }
-                年
-                \__ccwd_space:n { 3 }
-                月
-                \__ccwd_space:n { 3 }
-                日
-              } & & & & & \\
-        \end { tblr }
-    \end { center }
-    \clearpage
+                    Q [ halign = c, wd = 18.16 mm ]
+                    Q [ halign = c, wd = 21.46 mm ]
+                    Q [ halign = c, wd = 21.46 mm ]
+                    Q [ halign = c, wd = 34.86 mm ]
+                    Q [ halign = c, wd = 20.16 mm ]
+                    Q [ halign = c, wd = 22.86 mm ]
+                  },
+                rowspec =
+                  {
+                    Q [ valign = m,             ht = 7.2 mm ]
+                    Q [ valign = m,             ht = 7.2 mm ]
+                    Q [ halign = c, valign = m, ht =  10 mm ]
+                    Q [ valign = m,             ht = 7.2 mm ]
+                    Q [ valign = m,             ht = 7.2 mm ]
+                    Q [                         ht = 145 mm ]
+                  },
+                cell { 1 } { 5, 6 } = { r = 2, c = 1 }
+                                      { halign = c, valign = m },
+                cell { 4 } { 1 }    = { r = 2, c = 1 }
+                                      { halign = c, valign = m },
+                cell { 4, 5 } { 2 } = { halign = c },
+                cell { 4, 5 } { 3 } = { r = 1, c = 4 }
+                                      { halign = c },
+                cell { 6 } { 1 }    = { r = 1, c = 6 }
+                                      { halign = l, valign = h },
+                cell { 7 } { 1 }    = { r = 1, c = 6 }
+                                      { halign = l, valign = m },
+              }
+                学生姓名 & \g__pku_info_author_tl &
+                本科院系 & \g__pku_info_school_tl &
+                论文成绩（等级制）& \g__pku_info_grade_tl \\
+
+                学生学号 & \g__pku_info_student_id_tl &
+                本科专业 & \g__pku_info_specialty_tl & & \\
+
+                导师姓名 & \clist_use:Nn \g__pku_info_mentor_name_clist { \\ } &
+                { 导师单位 / \\ 所在学院 } & \clist_use:Nn \g__pku_info_mentor_workplace_clist { \\ }&
+                导师职称 & \clist_use:Nn \g__pku_info_mentor_academic_rank_clist { \\ } \\
+
+                论文题目 & 中文 & \g__pku_info_title_cn_tl & & & \\
+                        & 英文 & \g__pku_info_title_en_tl & & & \\
+                  {
+                    \setlength { \parindent } { 2 \ccwd }
+                    \centerline { 导师评语 }
+                    \par
+                    \KaiTi
+                    \centerline
+                      {
+                        （包含对论文的性质、难度、分量、综合训练等是否
+                        符合培养目标的目的等评价）
+                      }
+                    \par
+                    \g__pku_info_mentor_comments_tl
+                  } & & & & & \\
+                  {
+                    \__ccwd_space:n { 20.5 }
+                    导师签名：
+                    \par \  \par
+                    \__ccwd_space:n { 24.5 }
+                    年
+                    \__ccwd_space:n { 3 }
+                    月
+                    \__ccwd_space:n { 3 }
+                    日
+                  } & & & & & \\
+            \end { tblr }
+        \end { center }
+        \clearpage
+      }
+      { \includepdf [ pages = { 1 } ] { \g__pku_info_eval_form_str } }
     \vspace* { 1.747 bp }
     \begin{center}
         \zihao{ 3 } \textsf { 版权声明 }
@@ -551,74 +558,78 @@
 % `\end{document}` 钩子，处理声明。
 \hook_gput_next_code:nn { enddocument }
   {
-    \newgeometry
+    \str_if_empty:NTF \g__pku_info_decl_page_str
       {
-        left          = 25 mm,
-        right         = 20 mm,
-        top           = 78.587 bp,
-        bottom        = 25 mm,
-        bindingoffset =  0 mm,
+        \newgeometry
+          {
+            left          = 25 mm,
+            right         = 20 mm,
+            top           = 78.587 bp,
+            bottom        = 25 mm,
+            bindingoffset =  0 mm,
+          }
+        \section* { \centerline{ 北京大学学位论文原创性声明和使用授权说明 } }
+        \addcontentsline { toc } { section }
+          { 北京大学学位论文原创性声明和使用授权说明 }
+        \pagestyle { empty }
+        \vspace* { 1.961 bp }
+        \begin{center}
+            \zihao { 4 } \textbf { 原创性声明 }
+        \end{center}
+        \par
+        \vspace* { 9.871 bp }
+        本人郑重声明：所呈交的学位论文，是本人在导师的指导下，独立进行研究工作
+        所取得的成果。除文中已经注明引用的内容外，本论文不含任何其他个人或集体
+        已经发表或撰写过的作品或成果。对本文的研究做出重要贡献的个人和集体，均
+        已在文中以明确方式标明。本声明的法律结果由本人承担。
+        \vspace* { 52.347 bp }
+        \begin { flushright }
+            论文作者签名：
+            \__ccwd_space:n { 8.5 }
+            \par
+            \vspace* { 4.244 bp }
+            日期：
+            \__ccwd_space:n { 2 }
+            年
+            \__ccwd_space:n { 1.5 }
+            月
+            \__ccwd_space:n { 2 }
+            日
+            \par
+        \end { flushright }
+        \vspace* { 75.581 bp }
+        \begin{center}
+            \zihao{ 4 } \textbf{ 学位论文使用授权说明 }
+        \end{center}
+        \vspace* { 17.652 bp }
+        \par
+        本人完全了解北京大学关于收集、保存、使用学位论文的规定，即：
+        \begin { itemize }
+            \item 按照学校要求提交学位论文的印刷本和电子版本；
+            \item 学校有权保存学位论文的印刷本和电子版，并提供目录检索与阅览服务，
+            在校园网上提供服务；
+            \item 学校可以采用影印、缩印、数字化或其它复制手段保存论文；
+        \end { itemize }
+        \vspace* { 27.258 bp }
+        \begin { flushright }
+            论文作者签名：
+            \__ccwd_space:n { 5 }
+            导师签名：
+            \__ccwd_space:n { 5 }
+            \par
+            \vspace* { 8.564 bp }
+            日期：
+            \__ccwd_space:n { 1.5 }
+            年
+            \__ccwd_space:n { 1.5 }
+            月
+            \__ccwd_space:n { 1.5 }
+            日
+            \__ccwd_space:n { 6.5 }
+            \par
+        \end { flushright }
       }
-    \section* { \centerline{ 北京大学学位论文原创性声明和使用授权说明 } }
-    \addcontentsline { toc } { section }
-      { 北京大学学位论文原创性声明和使用授权说明 }
-    \pagestyle { empty }
-    \vspace* { 1.961 bp }
-    \begin{center}
-        \zihao { 4 } \textbf { 原创性声明 }
-    \end{center}
-    \par
-    \vspace* { 9.871 bp }
-    本人郑重声明：所呈交的学位论文，是本人在导师的指导下，独立进行研究工作
-    所取得的成果。除文中已经注明引用的内容外，本论文不含任何其他个人或集体
-    已经发表或撰写过的作品或成果。对本文的研究做出重要贡献的个人和集体，均
-    已在文中以明确方式标明。本声明的法律结果由本人承担。
-    \vspace* { 52.347 bp }
-    \begin { flushright }
-        论文作者签名：
-        \__ccwd_space:n { 8.5 }
-        \par
-        \vspace* { 4.244 bp }
-        日期：
-        \__ccwd_space:n { 2 }
-        年
-        \__ccwd_space:n { 1.5 }
-        月
-        \__ccwd_space:n { 2 }
-        日
-        \par
-    \end { flushright }
-    \vspace* { 75.581 bp }
-    \begin{center}
-        \zihao{ 4 } \textbf{ 学位论文使用授权说明 }
-    \end{center}
-    \vspace* { 17.652 bp }
-    \par
-    本人完全了解北京大学关于收集、保存、使用学位论文的规定，即：
-    \begin { itemize }
-        \item 按照学校要求提交学位论文的印刷本和电子版本；
-        \item 学校有权保存学位论文的印刷本和电子版，并提供目录检索与阅览服务，
-        在校园网上提供服务；
-        \item 学校可以采用影印、缩印、数字化或其它复制手段保存论文；
-    \end { itemize }
-    \vspace* { 27.258 bp }
-    \begin { flushright }
-        论文作者签名：
-        \__ccwd_space:n { 5 }
-        导师签名：
-        \__ccwd_space:n { 5 }
-        \par
-        \vspace* { 8.564 bp }
-        日期：
-        \__ccwd_space:n { 1.5 }
-        年
-        \__ccwd_space:n { 1.5 }
-        月
-        \__ccwd_space:n { 1.5 }
-        日
-        \__ccwd_space:n { 6.5 }
-        \par
-    \end { flushright }
+      { \includepdf [ pages = { 1 } ] { \g__pku_info_decl_page_str } }
   }
 
 % `biblatex` 包的钩子，处理“参考文献”标题格式。
@@ -671,6 +682,7 @@
     \addcontentsline { toc } { section } { 致谢 }
   }
 
+% 导师信息的键
 \keys_define:nn { pkuthesis / info / mentor }
   {
     name          .clist_gset:N = \g__pku_info_mentor_name_clist,
@@ -678,6 +690,7 @@
     academic-rank .clist_gset:N = \g__pku_info_mentor_academic_rank_clist,
   }
 
+% 论文信息的键
 \keys_define:nn { pkuthesis / info }
   {
     title      .tl_gset:N = \g__pku_info_title_cn_tl,
@@ -701,8 +714,12 @@
 
     grade           .tl_gset:N = \g__pku_info_grade_tl,
     mentor-comments .tl_gset:N = \g__pku_info_mentor_comments_tl,
+
+    evaluation-form  .str_gset:N = \g__pku_info_eval_form_str,
+    declaration-page .str_gset:N = \g__pku_info_decl_page_str,
   }
 
+% 论文格式的键
 \keys_define:nn { pkuthesis / style }
   {
     title-format  .tl_gset:N = \g__pku_style_title_format_cn_tl,
@@ -714,8 +731,8 @@
     keywords-separator .initial:n  = { comma },
   }
 
+% 设置以上键的用户命令
 \NewDocumentCommand { \ThesisInfo } { +m }
   { \keys_set:nn { pkuthesis / info } {#1} }
 \NewDocumentCommand { \ThesisStyle } { +m }
   { \keys_set:nn { pkuthesis / style } {#1} }
-
