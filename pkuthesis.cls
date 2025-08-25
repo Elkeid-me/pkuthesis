@@ -20,7 +20,9 @@
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesExplClass{pkuthesis}
-  {2025/08/05}{2.0.0-preview-2}{Thesis class for School of EECS, Peking University, 2025}
+  {2025/08/25}{2.0.0}{Thesis class for School of EECS, Peking University, 2025}
+
+\cs_generate_variant:Nn \regex_replace_all:nnN { nnc }
 
 \cs_new_protected:Npn \__pku_define_separator:nn #1#2#3
   { \tl_const:cn { c__pku_separator_ #1 _ #2 _tl } {#3} }
@@ -32,6 +34,24 @@
 \__pku_define_separator:nn { comma     } { en } { ,~ }
 \__pku_define_separator:nn { semicolon } { cn } { ； }
 \__pku_define_separator:nn { semicolon } { en } { ;~ }
+
+\tl_new:N \g__pku_info_title_cn_tl
+\tl_new:N \g__pku_info_title_en_tl
+\tl_new:N \g__pku_info_title_cn_sanitized_tl
+\tl_new:N \g__pku_info_title_en_sanitized_tl
+
+\cs_new_protected:Npn \__pku_set_title:nn #1#2
+  {
+    \tl_set:cn { g__pku_info_title_ #1 _tl           } {#2}
+    \tl_set:cn { g__pku_info_title_ #1 _sanitized_tl } {#2}
+    \tl_replace_all:cnn { g__pku_info_title_ #1 _sanitized_tl } { \\ } { ~ }
+    \regex_replace_all:nnc
+      { \s+ } { \ }
+      { g__pku_info_title_ #1 _sanitized_tl }
+    \regex_replace_all:nnc
+      { ([\x{4e00}-\x{9fff}]) \s+ ([\x{4e00}-\x{9fff}]) } { \1 \2 }
+      { g__pku_info_title_ #1 _sanitized_tl }
+  }
 
 % `pkuthesis` 只支持 XeTeX 和 LuaTeX。
 \msg_new:nnn { pkuthesis } { unsupported-engine }
@@ -46,13 +66,13 @@
       { \c_sys_engine_str }
   }
 
-\clist_new:N \g__pku_to_ctex_clist
+\clist_new:N \g__pku_ctex_arg_clist
 \tl_new:N    \g__pku_style_keywords_separator_tl
 \cs_new_protected:Npn \__ccwd_space:n #1 { \hspace* { #1 \ccwd } }
 \keys_define:nn { pkuthesis / options }
   {
     draft     .code:n            =
-      { \clist_gput_right:Nn \g__pku_to_ctex_clist { draft } },
+      { \clist_gput_right:Nn \g__pku_ctex_arg_clist { draft } },
     draft     .value_forbidden:n = true,
     debug     .bool_gset:N       = \g__pku_debug_bool,
     centersec .bool_gset:N       = \g__pku_centersec_bool,
@@ -88,7 +108,7 @@
     zihao      = -4,
     linespread = 1.354167,
     sub3section,
-    \g__pku_to_ctex_clist
+    \g__pku_ctex_arg_clist
   ]
   { ctexart }
 
@@ -191,7 +211,7 @@
 
 % 设置页眉页脚，这基于 `fancyhdr` 包。
 \fancyhead [ L ] { }
-\fancyhead [ C ] { \zihao { -5 } \g__pku_info_title_cn_tl }
+\fancyhead [ C ] { \zihao { -5 } \g__pku_info_title_cn_sanitized_tl }
 \fancyhead [ R ] { }
 \fancyfoot [ L ] { }
 \fancyfoot [ C ] { \zihao { 5 } \textsf { 第 \thepage 页 } }
@@ -325,7 +345,7 @@
           }
         \hypersetup
           {
-            pdftitle    = \g__pku_info_title_cn_tl,
+            pdftitle    = \g__pku_info_title_cn_sanitized_tl,
             pdfauthor   = \g__pku_info_author_tl,
             pdfkeywords = \l__pdfkeywords_tl,
             pdfcreator  = { LaTeX~ with~ pkuthesis~ class },
@@ -483,8 +503,8 @@
                 { 导师单位 / \\ 所在学院 } & \clist_use:Nn \g__pku_info_mentor_workplace_clist { \\ }&
                 导师职称 & \clist_use:Nn \g__pku_info_mentor_academic_rank_clist { \\ } \\
 
-                论文题目 & 中文 & \g__pku_info_title_cn_tl & & & \\
-                        & 英文 & \g__pku_info_title_en_tl & & & \\
+                论文题目 & 中文 & \g__pku_info_title_cn_sanitized_tl & & & \\
+                        & 英文 & \g__pku_info_title_en_sanitized_tl & & & \\
                   {
                     \setlength { \parindent } { 2 \ccwd }
                     \centerline { 导师评语 }
@@ -682,7 +702,7 @@
     \addcontentsline { toc } { section } { 致谢 }
   }
 
-% 导师信息的键
+% 导师信息的键值对
 \keys_define:nn { pkuthesis / info / mentor }
   {
     name          .clist_gset:N = \g__pku_info_mentor_name_clist,
@@ -690,11 +710,13 @@
     academic-rank .clist_gset:N = \g__pku_info_mentor_academic_rank_clist,
   }
 
-% 论文信息的键
+% 论文信息的键值对
 \keys_define:nn { pkuthesis / info }
   {
-    title      .tl_gset:N = \g__pku_info_title_cn_tl,
-    title*     .tl_gset:N = \g__pku_info_title_en_tl,
+    title      .code:n =
+      { \__pku_set_title:nn { cn } {#1} },
+    title*     .code:n =
+      { \__pku_set_title:nn { en } {#1} },
     author     .tl_gset:N = \g__pku_info_author_tl,
     student-id .tl_gset:N = \g__pku_info_student_id_tl,
     school     .tl_gset:N = \g__pku_info_school_tl,
@@ -719,7 +741,7 @@
     declaration-page .str_gset:N = \g__pku_info_decl_page_str,
   }
 
-% 论文格式的键
+% 论文格式的键值对
 \keys_define:nn { pkuthesis / style }
   {
     title-format  .tl_gset:N = \g__pku_style_title_format_cn_tl,
@@ -731,7 +753,7 @@
     keywords-separator .initial:n  = { comma },
   }
 
-% 设置以上键的用户命令
+% 设置以上键值对的用户命令
 \NewDocumentCommand { \ThesisInfo } { +m }
   { \keys_set:nn { pkuthesis / info } {#1} }
 \NewDocumentCommand { \ThesisStyle } { +m }
