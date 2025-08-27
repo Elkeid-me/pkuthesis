@@ -32,12 +32,3 @@
 
 ![](https://media.githubusercontent.com/media/Elkeid-me/elkeid-me.github.io/refs/heads/main/pages/posts/pkuthesis-doc/screen-shot.webp)
 
-## 2.0 版本开发进展
-
-预计在 2025 年暑假发布 2.0 版本。计划的特性有：
-
-1. 初步的 upLaTeX 支持。
-2. 更清晰的用户接口，可能采用命令式，也可能采用 key-value 式。
-3. 整理代码，添加注释。
-
-切换至 `dev` 分支以查看 `2.0-dev` 版本开发进展。

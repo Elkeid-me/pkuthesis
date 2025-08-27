@@ -1,0 +1,92 @@
+%% ctex-fontset-windows.def
+%% Copyright 2025 Elkeid Me
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   https://www.latex-project.org/lppl.txt
+% and version 1.3c or later is part of all distributions of LaTeX
+% version 2008 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+%
+% The Current Maintainer of this work is Elkeid Me.
+%
+% This work consists of the file pkuthesis.cls,
+%                                ctex-fontset-pkuthesis.def,
+%                            and ctex-fontset-windows.def.
+%
+
+\ProvidesExplFile{ctex-fontset-pkuthesis.def}
+  {2025/08/25}{2.0.0}{Font set for pkuthesis, using Windows fonts.}
+
+\setCJKmainfont { SimSun }
+  [
+    BoldFont       = SimHei,
+    ItalicFont     = KaiTi,
+    BoldItalicFont = KaiTi,
+    Renderer       = OpenType,
+  ]
+\setCJKsansfont { Microsoft~YaHei }
+  [
+    BoldFont       = *~Bold,
+    ItalicFont     = *~Light,
+    BoldItalicFont = *~Light,
+    Renderer       = OpenType,
+  ]
+\setCJKmonofont { Microsoft~YaHei }
+  [
+    BoldFont       = *~Bold,
+    ItalicFont     = KaiTi,
+    BoldItalicFont = KaiTi,
+    Renderer       = OpenType,
+  ]
+\setmainfont { Times~New~Roman }
+  [
+    BoldFont            = *~Bold,
+    ItalicFont          = *~Italic,
+    BoldItalicFont      = *~Bold~Italic,
+    SlantedFont         = *,
+    BoldSlantedFont     = *~Bold,
+    SlantedFeatures     = { FakeSlant },
+    BoldSlantedFeatures = { FakeSlant },
+    Renderer            = OpenType,
+  ]
+\setsansfont { Segoe~UI }
+  [
+    BoldFont            = *~Bold,
+    ItalicFont          = *~Italic,
+    BoldItalicFont      = *~Bold~Italic,
+    SlantedFont         = *,
+    BoldSlantedFont     = *~Bold,
+    SlantedFeatures     = { FakeSlant },
+    BoldSlantedFeatures = { FakeSlant },
+    Numbers             = Proportional,
+    StylisticSet        = 19,
+    Renderer            = OpenType,
+  ]
+\setmonofont { Consolas }
+  [
+    BoldFont            = *~Bold,
+    ItalicFont          = *~Italic,
+    BoldItalicFont      = *~Bold~Italic,
+    SlantedFont         = *,
+    BoldSlantedFont     = *~Bold,
+    SlantedFeatures     = { FakeSlant },
+    BoldSlantedFeatures = { FakeSlant },
+    Renderer            = OpenType,
+  ]
+\newfontfamily \__tnum_sans: { Segoe~UI }
+  [
+    Numbers  = Monospaced,
+    Renderer = OpenType,
+  ]
+\newCJKfontfamily \FangSong { FangSong }
+  [ Renderer = OpenType ]
+\newfontfamily \FangSongEn { FangSong }
+  [ Renderer = OpenType ]
+\newfontfamily \__circled_number: { Microsoft~YaHei }
+  [ Renderer = OpenType ]
+\newCJKfontfamily \KaiTi { KaiTi }
+  [ Renderer = OpenType ]

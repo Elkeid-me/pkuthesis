@@ -13,287 +13,534 @@
 %
 % The Current Maintainer of this work is Elkeid Me.
 %
-% This work consists of the file pkuthesis.cls and
-% ctex-fontset-pkuthesis.def.
+% This work consists of the file pkuthesis.cls,
+%                                ctex-fontset-pkuthesis.def,
+%                            and ctex-fontset-windows.def.
+%
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesExplClass{pkuthesis}
-  {2025/07/05}{1.1.0}{2025 年本科生毕业论文 LaTeX 模板}
+  {2025/08/25}{2.0.0}{Thesis class for School of EECS, Peking University, 2025}
 
-\bool_new:N \__pkuthesis_centersec_bool
-\keys_define:nn { pkuthesis }
-{
-    centersec .code:n = { \bool_gset_true:N \__pkuthesis_centersec_bool },
-    centersec .value_forbidden:n = true,
-}
-\ProcessKeyOptions [ pkuthesis ]
-\cs_new:Npn \__pkuthesis_ccwd_space:n #1 { \hspace* { #1 \ccwd } }
+\cs_generate_variant:Nn \regex_replace_all:nnN { nnc }
 
+\cs_new_protected:Npn \__pku_define_separator:nn #1#2#3
+  { \tl_const:cn { c__pku_separator_ #1 _ #2 _tl } {#3} }
+
+\cs_new:Npn \__pku_separator:nn #1#2
+  { \tl_use:c { c__pku_separator_ \tl_use:c { g__pku_style_ #1 _separator_tl } _ #2 _tl } }
+
+\__pku_define_separator:nn { comma     } { cn } { ， }
+\__pku_define_separator:nn { comma     } { en } { ,~ }
+\__pku_define_separator:nn { semicolon } { cn } { ； }
+\__pku_define_separator:nn { semicolon } { en } { ;~ }
+
+\tl_new:N \g__pku_info_title_cn_tl
+\tl_new:N \g__pku_info_title_en_tl
+\tl_new:N \g__pku_info_title_cn_sanitized_tl
+\tl_new:N \g__pku_info_title_en_sanitized_tl
+
+\cs_new_protected:Npn \__pku_set_title:nn #1#2
+  {
+    \tl_set:cn { g__pku_info_title_ #1 _tl           } {#2}
+    \tl_set:cn { g__pku_info_title_ #1 _sanitized_tl } {#2}
+    \tl_replace_all:cnn { g__pku_info_title_ #1 _sanitized_tl } { \\ } { ~ }
+    \regex_replace_all:nnc
+      { \s+ } { \ }
+      { g__pku_info_title_ #1 _sanitized_tl }
+    \regex_replace_all:nnc
+      { ([\x{4e00}-\x{9fff}]) \s+ ([\x{4e00}-\x{9fff}]) } { \1 \2 }
+      { g__pku_info_title_ #1 _sanitized_tl }
+  }
+
+% `pkuthesis` 只支持 XeTeX 和 LuaTeX。
+\msg_new:nnn { pkuthesis } { unsupported-engine }
+  {
+    The~ pkuthesis~ class~ requires~ XeTeX,~ or~ LuaTeX.~
+    `#1'~ is~ not~ supported~ at~ present.
+  }
+\bool_if:nF
+  { \sys_if_engine_xetex_p: || \sys_if_engine_luatex_p: }
+  {
+    \msg_fatal:nne { pkuthesis } { unsupported-engine }
+      { \c_sys_engine_str }
+  }
+
+\clist_new:N \g__pku_ctex_arg_clist
+\tl_new:N    \g__pku_style_keywords_separator_tl
+\cs_new_protected:Npn \__ccwd_space:n #1 { \hspace* { #1 \ccwd } }
+\keys_define:nn { pkuthesis / options }
+  {
+    draft     .code:n            =
+      { \clist_gput_right:Nn \g__pku_ctex_arg_clist { draft } },
+    draft     .value_forbidden:n = true,
+    debug     .bool_gset:N       = \g__pku_debug_bool,
+    centersec .bool_gset:N       = \g__pku_centersec_bool,
+  }
+\ProcessKeyOptions [ pkuthesis / options ]
+
+% 为 `fontspec` 传入 `no-math` 选项。
 \PassOptionsToPackage { no-math } { fontspec }
+
+% 使用 XeTeX 时，打开 `xeCJK` 的 `CJKmath` 选项，使数学环境中可以直接输入
+% CJK 字符，与使用 LuaTeX 时 `LuaTeX-ja` 的行为一致。
+\sys_if_engine_xetex:T
+  { \PassOptionsToPackage { CJKmath } { xecjk } }
+
+% 现在，加载 `ctexart` 文档类，字体配置为 `pkuthesis`，
+% 正文字号为小四号，行距因子为 1.354167。
+%
+% 在教务 Word 模板中，行距被设置为 1.25 倍；且设置文档网格为 15.6 磅
+% (磅 = point，在 Word 中为 1/72 英寸，即 TeX 中的 big point，bp)。
+% 因此，教务 Word 模板的行距为 1.25 × 15.6 = 19.5bp。
+%
+% 而我们将正文字号设置为小四（12bp），`ctex` 会自动设置 `\baselineskip` 为
+% 12 × 1.2 = 14.4bp。而真正的行距为 `\baselineskip` 乘 `linespread`。
+%
+% 可见 `linespread` 应为 19.5 / 14.4 = 1.354167。
+%
+% 此外，打开 `sub3section` 开关，在 `\paragraph` 后换行。
+%
+% 可能更好的选择是 `ctexbook` 文档类。
 \LoadClass
-  [ a4paper, fontset = pkuthesis, zihao = -4,
-    linespread = 1.354167, sub3section ]
+  [
+    fontset    = pkuthesis,
+    zihao      = -4,
+    linespread = 1.354167,
+    sub3section,
+    \g__pku_ctex_arg_clist
+  ]
   { ctexart }
 
-\ctexset {
-    appendix/name = { \appendixname },
-    contentsname  = {
+% 处理 `centersec` 开关。
+\bool_if:NTF \g__pku_centersec_bool
+  {
+    \ctexset
+      {
+        section =
+          {
+            format     = \zihao { 3 } \sffamily \centering,
+            name       = { 第, 章 },
+            beforeskip = 5.64 bp,
+            afterskip  = 5.64 bp,
+            number     = \zhnum { section },
+            break      = \clearpage,
+          }
+      }
+  }
+  {
+    \ctexset
+      {
+        section =
+          {
+            format     = \zihao { 3 } \sffamily,
+            name       = { , . },
+            beforeskip = 5.64 bp,
+            afterskip  = 5.64 bp,
+            break      = \clearpage,
+          }
+      }
+  }
+
+% 设置其他级别标题的格式。为什么不设置 `\paragraph` 等级别的格式？
+% 因为教务模板里没有。
+\ctexset
+  {
+    appendix / name = { \appendixname },
+    contentsname  =
+      {
         目
-        \__pkuthesis_ccwd_space:n { 1 }
+        \__ccwd_space:n { 1 }
         录
-    },
-    section = {
-        format     = \zihao { 3 }\sffamily,
-        name       = { , . },
-        beforeskip = 5.64bp,
-        afterskip  = 5.64bp,
-        break      = \clearpage,
-    },
-    subsection = {
-        format = \zihao { 3 } \rmfamily,
-        beforeskip = 5.64bp,
-        afterskip  = 5.64bp,
-    },
-    subsubsection = {
-        format     = \zihao{ 4 } \rmfamily,
+      },
+    subsection =
+      {
+        format     = \zihao { 3 } \rmfamily,
+        beforeskip = 5.64 bp,
+        afterskip  = 5.64 bp,
+      },
+    subsubsection =
+      {
+        format     = \zihao { 4 } \rmfamily,
         indent     = 2 \ccwd,
-        beforeskip = 5.64pt,
-        afterskip  = 5.64pt,
-    }
-}
+        beforeskip = 5.64 bp,
+        afterskip  = 5.64 bp,
+      }
+  }
 
-\bool_if:NT \__pkuthesis_centersec_bool
-{
-    \ctexset {
-        section = {
-            format += \centering,
-            name    = { 第, 章 },
-            number  = \zhnum { section },
-        }
-    }
-}
+% 加载 `fancyhdr` 宏包，设置页眉页脚格式。
+\RequirePackage [ nocheck ] { fancyhdr }
 
+% 加载 `footmisc` 宏包，设置脚注格式。
+\RequirePackage [ perpage, symbol* ] { footmisc }
+
+% 加载 `geometry` 宏包，设置页边距。
 \RequirePackage
-  [ inner = 2cm, outer = 2cm, bindingoffset = 0.5cm,
-    top = 2.5cm, bottom = 2.5cm, head = 3.8mm,
-    headsep = 12.02mm, footskip = 7.5mm, twoside ]
+  [
+    paperheight   = 297 mm,
+    paperwidth    = 210 mm,
+    inner         = 20 mm,
+    outer         = 20 mm,
+    bindingoffset = 5 mm,
+    top           = 25 mm,
+    bottom        = 25 mm,
+    head          = 3.8 mm,
+    headsep       = 12.02 mm,
+    footskip      = 7.5 mm,
+    twoside,
+  ]
   { geometry }
 
-\RequirePackage [ nocheck ] { fancyhdr }
-\fancyhead [ C ] { \zihao { -5 } \__pkuthesis_title_cn: }
+% 其他的包。
+\RequirePackage
+  {
+    caption,
+    enumitem,
+    graphicx,
+    tabularray,
+    tocloft,
+  }
+
+% 处理 `debug` 开关。
+\bool_if:NT \g__pku_debug_bool
+  {
+    \sys_if_engine_luatex:TF
+      { \RequirePackage { lua-visual-debug } }
+      { \geometry { showframe } }
+  }
+
+% 设置页眉页脚，这基于 `fancyhdr` 包。
 \fancyhead [ L ] { }
+\fancyhead [ C ] { \zihao { -5 } \g__pku_info_title_cn_sanitized_tl }
 \fancyhead [ R ] { }
+\fancyfoot [ L ] { }
 \fancyfoot [ C ] { \zihao { 5 } \textsf { 第 \thepage 页 } }
+\fancyfoot [ R ] { }
 
-\RequirePackage { enumitem }
-\setlist { itemsep = 0pt, listparindent = 2 \ccwd }
+% 设置列表格式，这基于 `enumitem` 包。
+\setlist
+  {
+    itemsep       = 0 pt,
+    listparindent = 2 \ccwd,
+  }
 
-\RequirePackage { caption }
+% 设置图表 `\caption` 格式，这基于 `caption` 包。
 \DeclareCaptionFont { 11point }
-  { \fontsize { 11bp } { 14.4bp } \selectfont }
-\captionsetup [ figure ] {
-    labelfont = sf, labelsep = quad,
-    font = 11point, name = \textrm { 图 }
-}
+  { \fontsize { 11 bp } { 14.4 bp } \selectfont }
+\captionsetup [ figure ]
+  {
+    labelfont = sf,
+    labelsep  = quad,
+    font      = 11point,
+    name      = \textrm { 图 },
+  }
 \counterwithin { figure } { section }
-\captionsetup [ table ] {
-    labelfont = sf, labelsep = quad,
-    font = 11point, name = \textrm { 表 }
-}
+\captionsetup [ table ]
+  {
+    labelfont = sf,
+    labelsep  = quad,
+    font      = 11point,
+    name      = \textrm { 表 },
+  }
 \counterwithin { table } { section }
 
-\RequirePackage { tocloft }
+% 设置目录格式，这基于 `tocloft` 包。
+% 这个包的用户接口确实不好……
 \RenewDocumentCommand { \cfttoctitlefont } { }
   { \hfil \zihao { -2 } \sffamily \bfseries }
 \RenewDocumentCommand { \cftaftertoctitle } { }
   { \hfill }
 \RenewDocumentCommand { \cftbeforetoctitleskip } { }
-  { 0pt }
+  { 0 pt }
 \RenewDocumentCommand { \cftaftertoctitleskip } { }
-  { 0.755bp }
+  { 0.755 bp }
 \tocloftpagestyle { empty }
 
-\cs_new:Npn \__pkuthesis_inter_tnum:
-  { \__tnum_sans: \fontsize { 11bp } { 13.248bp } \selectfont }
+\cs_new_protected:Npn \__pku_inter_tnum:
+  { \__tnum_sans: \fontsize { 11 bp } { 13.248 bp } \selectfont }
 
 \RenewDocumentCommand { \cftdot } { }
   { \textmd { . } }
 \RenewDocumentCommand { \cftdotsep } { }
   { 0.5 }
 \RenewDocumentCommand { \cftparskip } { }
-  { 3.44bp }
+  { 3.44 bp }
 
 \RenewDocumentCommand { \cftbeforesecskip } { }
-  { 0pt }
+  { 0 pt }
 \RenewDocumentCommand { \cftsecdotsep } { }
   { \cftdotsep }
 \RenewDocumentCommand { \cftsecfont } { }
-  { \sffamily \__pkuthesis_inter_tnum: }
+  { \sffamily \__pku_inter_tnum: }
 \RenewDocumentCommand { \cftsecpagefont } { }
-  { \__pkuthesis_inter_tnum: }
+  { \__pku_inter_tnum: }
 
-\cftsetindents { subsection } { 0.39cm } { 1.5em }
+\cftsetindents { subsection } { 3.9 mm } { 1.5 \ccwd }
 \RenewDocumentCommand { \cftsubsecfont } { }
-  { \__pkuthesis_inter_tnum: }
+  { \__pku_inter_tnum: }
 \RenewDocumentCommand { \cftsubsecaftersnumb } { }
   { \rmfamily }
 \RenewDocumentCommand { \cftsubsecpagefont } { }
-  { \__pkuthesis_inter_tnum: }
+  { \__pku_inter_tnum: }
 
-\cftsetindents { subsubsection } { 0.78cm } { 1.5em }
+\cftsetindents { subsubsection } { 7.8 mm } { 1.5 \ccwd }
 \RenewDocumentCommand { \cftsubsubsecfont } { }
-  { \__pkuthesis_inter_tnum: }
+  { \__pku_inter_tnum: }
 \RenewDocumentCommand { \cftsubsubsecaftersnumb } { }
   { \rmfamily }
 \RenewDocumentCommand { \cftsubsubsecpagefont } { }
-  { \__pkuthesis_inter_tnum: }
+  { \__pku_inter_tnum: }
 
-\AddToHook { begindocument / end }
-{
+% 设置脚注格式细节，这基于 `footmisc` 包。
+\DefineFNsymbols* { pkuthesis-circles }
+  {
+    { \__circled_number: ① } { \__circled_number: ② }
+    { \__circled_number: ③ } { \__circled_number: ④ }
+    { \__circled_number: ⑤ } { \__circled_number: ⑥ }
+    { \__circled_number: ⑦ } { \__circled_number: ⑧ }
+    { \__circled_number: ⑨ } { \__circled_number: ⑩ }
+    { \__circled_number: ⑪ } { \__circled_number: ⑫ }
+    { \__circled_number: ⑬ } { \__circled_number: ⑭ }
+    { \__circled_number: ⑮ } { \__circled_number: ⑯ }
+    { \__circled_number: ⑰ } { \__circled_number: ⑱ }
+    { \__circled_number: ⑲ } { \__circled_number: ⑳ }
+    { \__circled_number: ㉑ } { \__circled_number: ㉒ }
+    { \__circled_number: ㉓ } { \__circled_number: ㉔ }
+    { \__circled_number: ㉕ } { \__circled_number: ㉖ }
+    { \__circled_number: ㉗ } { \__circled_number: ㉘ }
+    { \__circled_number: ㉙ } { \__circled_number: ㉚ }
+    { \__circled_number: ㉛ } { \__circled_number: ㉜ }
+    { \__circled_number: ㉝ } { \__circled_number: ㉞ }
+    { \__circled_number: ㉟ } { \__circled_number: ㊱ }
+    { \__circled_number: ㊲ } { \__circled_number: ㊳ }
+    { \__circled_number: ㊴ } { \__circled_number: ㊵ }
+    { \__circled_number: ㊶ } { \__circled_number: ㊷ }
+    { \__circled_number: ㊸ } { \__circled_number: ㊹ }
+    { \__circled_number: ㊺ } { \__circled_number: ㊻ }
+    { \__circled_number: ㊼ } { \__circled_number: ㊽ }
+    { \__circled_number: ㊾ } { \__circled_number: ㊿ }
+  }
+\setfnsymbol { pkuthesis-circles }
+
+% 三线表 `hqtblr` 环境。基于 `tabularray` 包。
+\NewTblrEnviron { hqtblr }
+\SetTblrInner [ hqtblr ]
+  {
+    hline { 1, Z } = { dash = solid, wd = 2.25 bp },
+    hline { 2 }    = { dash = solid, wd = 0.5 bp },
+    rows           = { font = \small, rowsep = 1.25 pt },
+    row { 1 }      = { font = \small \sffamily \bfseries },
+  }
+
+% `\begin{document}` 的钩子，使用 `hyperref` 设置 PDF 元数据。
+\hook_gput_next_code:nn { begindocument / before }
+  {
+    \IfPackageLoadedTF { hyperref }
+      {
+        \tl_new:N \l__pdfkeywords_tl
+        \tl_set:Ne \l__pdfkeywords_tl
+          {
+            \clist_use:Nn \g__pku_info_keywords_cn_clist
+              { \__pku_separator:nn { keywords } { cn } }
+          }
+        \hypersetup
+          {
+            pdftitle    = \g__pku_info_title_cn_sanitized_tl,
+            pdfauthor   = \g__pku_info_author_tl,
+            pdfkeywords = \l__pdfkeywords_tl,
+            pdfcreator  = { LaTeX~ with~ pkuthesis~ class },
+          }
+      }
+      {}
+      \bool_if:nF
+        {
+          { \str_if_empty_p:N \g__pku_info_eval_form_str } &&
+          { \str_if_empty_p:N \g__pku_info_decl_page_str }
+        }
+        { \RequirePackage { pdfpages } }
+  }
+
+% `\begin{document}` 钩子，处理封面、导师评价表、声明、摘要、关键词与目录。
+\hook_gput_next_code:nn { begindocument / end }
+  {
     \pagestyle { empty }
     \begin { center }
-        \vspace* { -2.569mm }
-        \includegraphics [ width = 8.39cm ] { PKU-Logo.pdf }
+        \vspace* { -7.297 bp }
+        \includegraphics [ width = 83.9 mm ] { PKU-Logo.pdf }
         \par
-        \vspace* { -5.839mm }
+        \vspace* { -16.713 bp }
         \zihao { -0 } \textsf { 本科生毕业论文 }
-        \vspace* { 78.887mm }
     \end { center }
+    \par
+    \vspace* { 224.363 bp }
+    \noindent
+    \hspace* { 17.5 mm }
+    \begin { tblr }
+      {
+        colspec =
+          {
+            Q [ halign = c, valign = b, wd = 31.9 mm,
+                font = \zihao { 3 } \sffamily ]
+            Q [ halign = c, valign = b, wd = 83 mm,
+                font = \zihao { 3 } \FangSong ]
+          },
+        rows                   = { ht = 11 mm, rowsep = 0 pt },
+        columns                = { colsep = 0 pt },
+        hline {2, 3, 4, 5, 6 } = { 2 } { 2 } { dash = solid, wd = 0.5 bp },
+      }
+        姓 \__ccwd_space:n { 2 } 名： &
+          \g__pku_info_author_tl      \\
 
-    \noindent \hspace* { 1.75cm }
-    \begin { tblr } {
-        colspec = {
-            Q [ halign = c, valign = b, wd = 3.19cm,
-                font = \zihao{3} \sffamily ]
-            Q [ halign = c, valign = b, wd = 8.3cm,
-                font = \zihao{3} \FangSong ]
-        },
-        rows                   = { ht = 1.1cm, rowsep = 0pt },
-        columns                = { colsep = 0pt },
-        hline {2, 3, 4, 5, 6 } = { 2 } { 2 } { dash = solid, wd = 0.5bp },
-    }
-        姓 \__pkuthesis_ccwd_space:n { 2 } 名：&
-          \__pkuthesis_author:     \\
+        学 \__ccwd_space:n { 2 } 号： &
+          \FangSongEn
+          \g__pku_info_student_id_tl  \\
 
-        学 \__pkuthesis_ccwd_space:n { 2 } 号：&
-          \FangSongEn \__pkuthesis_student_id: \\
+        院 \__ccwd_space:n { 2 } 系： &
+          \g__pku_info_school_tl      \\
 
-        院 \__pkuthesis_ccwd_space:n { 2 } 系：&
-          \__pkuthesis_school:     \\
+        专 \__ccwd_space:n { 2 } 业： &
+          \g__pku_info_specialty_tl   \\
 
-        专 \__pkuthesis_ccwd_space:n { 2 } 业：&
-          \__pkuthesis_major:      \\
-
-        导师姓名： & \__pkuthesis_mentor:
+        导师姓名： & \clist_use:Nn \g__pku_info_mentor_name_clist { 、 }
     \end { tblr }
+
+    \vspace* { 93.396 bp }
 
     \begin { center }
-        \vspace* { 32.158mm }
-        \zihao{ 3 } 二〇二五 \textsf { 年五月 }
-        \vspace* { -176.595mm }
+        \zihao { 3 }
+        \zhdigits { \int_use:N \g__pku_info_year_int }
+        \textsf { 年 \zhnumber { \int_use:N \g__pku_info_month_int } 月 }
     \end { center }
 
-    \noindent \hspace* { 1.25cm }
-    \begin { tblr } {
-        colspec = {
-            Q [ halign = c, valign = f, wd = 2.75cm,
+    \vspace* { -502.413 bp }
+
+    \par
+    \noindent
+    \hspace* { 12.5 mm }
+    \begin { tblr }
+      {
+        colspec =
+          {
+            Q [ halign = c, valign = f, wd = 27.5 mm,
                 font = \zihao { 2 } ]
-            Q [ halign = c, valign = f, wd = 10.16cm,
+            Q [ halign = c, valign = f, wd = 101.6 mm,
                 font = \zihao { 1 } \sffamily \bfseries ]
-        },
-        rows            = { ht = 1.25cm, rowsep = 2mm },
-        columns         = { colsep = 0pt },
-        hline { 2 , 3 } = { 2 } { 2 } { dash = solid, wd = 0.75bp },
-    }
-        题目：& \__pkuthesis_title_cn_format:
-               \__pkuthesis_title_cn: \\
-
-             & \__pkuthesis_title_en_format:
-               \__pkuthesis_title_en: \\
+          },
+        rows            = { ht = 12.5 mm, rowsep = 2 mm },
+        columns         = { colsep = 0 pt },
+        hline { 2 , 3 } = { 2 } { 2 } { dash = solid, wd = 0.75 bp },
+      }
+        题目：& {
+                 \g__pku_style_title_format_cn_tl
+                 \g__pku_info_title_cn_tl
+               } \\
+             & {
+                 \g__pku_style_title_format_en_tl
+                 \g__pku_info_title_en_tl
+               } \\
     \end { tblr }
-    \clearpage
-    \newgeometry { left = 2.6cm, right = 2.6cm, top = 3cm,
-                   bottom = 2.5cm, bindingoffset = 0cm }
-    \centerline { \zihao{ 3 } 北京大学本科毕业论文导师评阅表 }
-    \vspace* { 10.535mm }
-    \centerline {
-        \noindent
-        \begin { tblr } {
-            hline { 1, 2, 3, 4, 5, 6, 8 } = { solid },
-            vlines,
-            hspan   = minimal,
-            rows    = { rowsep = 0.5mm },
-            columns = { colsep = 1.5mm },
-            colspec = {
-                Q [ halign = c, wd = 1.80cm ]
-                Q [ halign = c, wd = 2.13cm ]
-                Q [ halign = c, wd = 2.13cm ]
-                Q [ halign = c, wd = 3.47cm ]
-                Q [ halign = c, wd = 2.20cm ]
-                Q [ halign = c, wd = 2.87cm ]
-            },
-            rowspec = {
-                Q [ valign = m, ht = 0.72cm ]
-                Q [ valign = m, ht = 0.72cm ]
-                Q [ halign = c, valign = m, ht = 1.0cm ]
-                Q [ valign = m, ht = 0.72cm ]
-                Q [ valign = m, ht = 0.72cm ]
-                Q [ ht = 14.5cm ]
-            },
-            cell { 1 } { 5, 6 } = { r = 2, c = 1 }
-                                  { halign = c, valign = m },
-            cell { 4 } { 1 }    = { r = 2, c = 1 }
-                                  { halign = c, valign = m },
-            cell { 4, 5 } { 2 } = { halign = c },
-            cell { 4, 5 } { 3 } = { r = 1, c = 4 }
-                                  { halign = c },
-            cell { 6 } { 1 }    = { r = 1, c = 6 }
-                                  { halign = l, valign = h },
-            cell { 7 } { 1 }    = { r = 1, c = 6 }
-                                  { halign = l, valign = m },
-        }
-            学生姓名 & \__pkuthesis_author: &
-            本科院系 & \__pkuthesis_school: &
-            论文成绩（等级制）& \__pkuthesis_grade: \\
+    \str_if_empty:NTF \g__pku_info_eval_form_str
+      {
+        \clearpage
+        \newgeometry
+          {
+            left          = 26 mm,
+            right         = 26 mm,
+            top           = 30 mm,
+            bottom        = 25 mm,
+            bindingoffset =  0 mm,
+          }
+        \begin { center }
+            \vspace* { -10.002 bp }
+            { \zihao{ 3 } 北京大学本科毕业论文导师评阅表 }
+            \par
+            \vspace* { 22.491 bp }
+            \begin { tblr }
+              {
+                hline { 1, 2, 3, 4, 5, 6, 8 } = { solid },
+                vlines,
+                hspan   = minimal,
+                rows    = { rowsep = 0.5 mm },
+                columns = { colsep = 1.5 mm },
+                colspec =
+                  {
+                    Q [ halign = c, wd = 18.16 mm ]
+                    Q [ halign = c, wd = 21.46 mm ]
+                    Q [ halign = c, wd = 21.46 mm ]
+                    Q [ halign = c, wd = 34.86 mm ]
+                    Q [ halign = c, wd = 20.16 mm ]
+                    Q [ halign = c, wd = 22.86 mm ]
+                  },
+                rowspec =
+                  {
+                    Q [ valign = m,             ht = 7.2 mm ]
+                    Q [ valign = m,             ht = 7.2 mm ]
+                    Q [ halign = c, valign = m, ht =  10 mm ]
+                    Q [ valign = m,             ht = 7.2 mm ]
+                    Q [ valign = m,             ht = 7.2 mm ]
+                    Q [                         ht = 145 mm ]
+                  },
+                cell { 1 } { 5, 6 } = { r = 2, c = 1 }
+                                      { halign = c, valign = m },
+                cell { 4 } { 1 }    = { r = 2, c = 1 }
+                                      { halign = c, valign = m },
+                cell { 4, 5 } { 2 } = { halign = c },
+                cell { 4, 5 } { 3 } = { r = 1, c = 4 }
+                                      { halign = c },
+                cell { 6 } { 1 }    = { r = 1, c = 6 }
+                                      { halign = l, valign = h },
+                cell { 7 } { 1 }    = { r = 1, c = 6 }
+                                      { halign = l, valign = m },
+              }
+                学生姓名 & \g__pku_info_author_tl &
+                本科院系 & \g__pku_info_school_tl &
+                论文成绩（等级制）& \g__pku_info_grade_tl \\
 
-            学生学号 & \__pkuthesis_student_id: & 本科专业 & \__pkuthesis_major: & & \\
+                学生学号 & \g__pku_info_student_id_tl &
+                本科专业 & \g__pku_info_specialty_tl & & \\
 
-            导师姓名 & \__pkuthesis_mentor_in_table: &
-            { 导师单位 / \\ 所在学院 } & \__pkuthesis_mentor_workplace: &
-            导师职称 & \__pkuthesis_mentor_academic_title: \\
+                导师姓名 & \clist_use:Nn \g__pku_info_mentor_name_clist { \\ } &
+                { 导师单位 / \\ 所在学院 } & \clist_use:Nn \g__pku_info_mentor_workplace_clist { \\ }&
+                导师职称 & \clist_use:Nn \g__pku_info_mentor_academic_rank_clist { \\ } \\
 
-            论文题目 & 中文 & \__pkuthesis_title_cn: & & & \\
-                    & 英文 & \__pkuthesis_title_en: & & & \\
-            {
-                \setlength { \parindent } { 2 \ccwd }
-                \centerline { 导师评语 }
-                \par
-                \KaiTi
-                \centerline {
-                    （包含对论文的性质、难度、分量、综合训练等是否
-                    符合培养目标的目的等评价）
-                }
-                \par
-                \__pkuthesis_mentor_comments:
-            } & & & & & \\
-            {
-                \__pkuthesis_ccwd_space:n { 20.5 }
-                导师签名：
-                \par \  \par
-                \__pkuthesis_ccwd_space:n { 24.5 }
-                年
-                \__pkuthesis_ccwd_space:n { 3 }
-                月
-                \__pkuthesis_ccwd_space:n { 3 }
-                日
-            } & & & & & \\
-        \end { tblr }
-    }
-    \clearpage
-    \vspace* { 7.622mm }
-    \centerline { \zihao{ 3 } \textsf { 版权声明 } }
-    \vspace* { 14.522mm }
-    \noindent \begin { minipage } [ t ] { \textwidth }
+                论文题目 & 中文 & \g__pku_info_title_cn_sanitized_tl & & & \\
+                        & 英文 & \g__pku_info_title_en_sanitized_tl & & & \\
+                  {
+                    \setlength { \parindent } { 2 \ccwd }
+                    \centerline { 导师评语 }
+                    \par
+                    \KaiTi
+                    \centerline
+                      {
+                        （包含对论文的性质、难度、分量、综合训练等是否
+                        符合培养目标的目的等评价）
+                      }
+                    \par
+                    \g__pku_info_mentor_comments_tl
+                  } & & & & & \\
+                  {
+                    \__ccwd_space:n { 20.5 }
+                    导师签名：
+                    \par \  \par
+                    \__ccwd_space:n { 24.5 }
+                    年
+                    \__ccwd_space:n { 3 }
+                    月
+                    \__ccwd_space:n { 3 }
+                    日
+                  } & & & & & \\
+            \end { tblr }
+        \end { center }
+        \clearpage
+      }
+      { \includepdf [ pages = { 1 } ] { \g__pku_info_eval_form_str } }
+    \vspace* { 1.747 bp }
+    \begin{center}
+        \zihao{ 3 } \textsf { 版权声明 }
+    \end{center}
+    \vspace* { 28.475 bp }
+    \noindent
+    \begin { minipage } [ t ] { \textwidth }
         \linespread { 2.167 } \selectfont
         \setlength { \parindent } { 2 \ccwd }
         任何收存和保管本论文各种版本的单位和个人，未经本论文作者同意，
@@ -305,99 +552,122 @@
     \setcounter { page } { 1 }
     \centerline { \zihao{ 3 } \textsf{ \textbf{ 摘要 } } }
     \par \  \par
-    { \bfseries \__pkuthesis_abstract_cn: }
+    { \bfseries \g__pku_info_abstract_cn_tl }
     \par \  \par
-    关键词：\__pkuthesis_keywords_cn:
+    关键词：
+    \clist_use:Nn \g__pku_info_keywords_cn_clist
+      { \__pku_separator:nn { keywords } { cn } }
     \clearpage
     \setcounter { page } { 1 }
     \centerline { \zihao { 3 } \textsf { \textbf { ABSTRACT } } }
     \par \  \par
-    \__pkuthesis_abstract_en:
+    \g__pku_info_abstract_en_tl
     \par \  \par
-    KEY~WORDS:~\__pkuthesis_keywords_en:
+    KEY~ WORDS:~
+    \clist_use:Nn \g__pku_info_keywords_en_clist
+      { \__pku_separator:nn { keywords } { en } }
     \clearpage
     \setcounter { page } { 1 }
-    \vspace* { 18.01bp }
+    \vspace* { 18 bp }
     \tableofcontents
     \clearpage
     \pagestyle { fancy }
     \setcounter { page } { 1 }
-}
+  }
 
-\AddToHook { enddocument }
-{
-    \newgeometry { left = 2.5cm, right = 2cm, top = 2.5cm,
-                   bottom = 2.5cm, bindingoffset = 0cm }
-    \section* { \centerline{ 北京大学学位论文原创性声明和使用授权说明 } }
-    \addcontentsline { toc } { section }
-      { 北京大学学位论文原创性声明和使用授权说明 }
-    \pagestyle { empty }
-    \vspace* { 2.359mm }
-    \centerline { \zihao { 4 } \textbf { 原创性声明 } }
-    \vspace* { 7.572mm }
-    本人郑重声明：所呈交的学位论文，是本人在导师的指导下，独立进行研究工作
-    所取得的成果。除文中已经注明引用的内容外，本论文不含任何其他个人或集体
-    已经发表或撰写过的作品或成果。对本文的研究做出重要贡献的个人和集体，均
-    已在文中以明确方式标明。本声明的法律结果由本人承担。
-    \vspace* { 17.497mm }
-    \begin { flushright }
-        论文作者签名：
-        \__pkuthesis_ccwd_space:n { 8.5 }
+% `\end{document}` 钩子，处理声明。
+\hook_gput_next_code:nn { enddocument }
+  {
+    \str_if_empty:NTF \g__pku_info_decl_page_str
+      {
+        \newgeometry
+          {
+            left          = 25 mm,
+            right         = 20 mm,
+            top           = 78.587 bp,
+            bottom        = 25 mm,
+            bindingoffset =  0 mm,
+          }
+        \section* { \centerline{ 北京大学学位论文原创性声明和使用授权说明 } }
+        \addcontentsline { toc } { section }
+          { 北京大学学位论文原创性声明和使用授权说明 }
+        \pagestyle { empty }
+        \vspace* { 1.961 bp }
+        \begin{center}
+            \zihao { 4 } \textbf { 原创性声明 }
+        \end{center}
         \par
-        \vspace* { 1.538mm }
-        日期：
-        \__pkuthesis_ccwd_space:n { 2 }
-        年
-        \__pkuthesis_ccwd_space:n { 1.5 }
-        月
-        \__pkuthesis_ccwd_space:n { 2 }
-        日
+        \vspace* { 9.871 bp }
+        本人郑重声明：所呈交的学位论文，是本人在导师的指导下，独立进行研究工作
+        所取得的成果。除文中已经注明引用的内容外，本论文不含任何其他个人或集体
+        已经发表或撰写过的作品或成果。对本文的研究做出重要贡献的个人和集体，均
+        已在文中以明确方式标明。本声明的法律结果由本人承担。
+        \vspace* { 52.347 bp }
+        \begin { flushright }
+            论文作者签名：
+            \__ccwd_space:n { 8.5 }
+            \par
+            \vspace* { 4.244 bp }
+            日期：
+            \__ccwd_space:n { 2 }
+            年
+            \__ccwd_space:n { 1.5 }
+            月
+            \__ccwd_space:n { 2 }
+            日
+            \par
+        \end { flushright }
+        \vspace* { 75.581 bp }
+        \begin{center}
+            \zihao{ 4 } \textbf{ 学位论文使用授权说明 }
+        \end{center}
+        \vspace* { 17.652 bp }
         \par
-    \end { flushright }
-    \vspace* { 51.83mm }
-    \centerline { \zihao{ 4 } \textbf{ 学位论文使用授权说明 } }
-    \vspace* { 10.817mm }
-    \par
-    本人完全了解北京大学关于收集、保存、使用学位论文的规定，即：
-    \begin { itemize }
-        \item 按照学校要求提交学位论文的印刷本和电子版本；
-        \item 学校有权保存学位论文的印刷本和电子版，并提供目录检索与阅览服务，
-        在校园网上提供服务；
-        \item 学校可以采用影印、缩印、数字化或其它复制手段保存论文；
-    \end { itemize }
-    \vspace* { 14.694mm }
-    \begin { flushright }
-        论文作者签名：
-        \__pkuthesis_ccwd_space:n { 5 }
-        导师签名：
-        \__pkuthesis_ccwd_space:n { 5 }
-        \par
-        \vspace* { 3.042mm }
-        日期：
-        \__pkuthesis_ccwd_space:n { 1.5 }
-        年
-        \__pkuthesis_ccwd_space:n { 1.5 }
-        月
-        \__pkuthesis_ccwd_space:n { 1.5 }
-        日
-        \__pkuthesis_ccwd_space:n { 6.5 }
-        \par
-    \end { flushright }
-}
+        本人完全了解北京大学关于收集、保存、使用学位论文的规定，即：
+        \begin { itemize }
+            \item 按照学校要求提交学位论文的印刷本和电子版本；
+            \item 学校有权保存学位论文的印刷本和电子版，并提供目录检索与阅览服务，
+            在校园网上提供服务；
+            \item 学校可以采用影印、缩印、数字化或其它复制手段保存论文；
+        \end { itemize }
+        \vspace* { 27.258 bp }
+        \begin { flushright }
+            论文作者签名：
+            \__ccwd_space:n { 5 }
+            导师签名：
+            \__ccwd_space:n { 5 }
+            \par
+            \vspace* { 8.564 bp }
+            日期：
+            \__ccwd_space:n { 1.5 }
+            年
+            \__ccwd_space:n { 1.5 }
+            月
+            \__ccwd_space:n { 1.5 }
+            日
+            \__ccwd_space:n { 6.5 }
+            \par
+        \end { flushright }
+      }
+      { \includepdf [ pages = { 1 } ] { \g__pku_info_decl_page_str } }
+  }
 
-\AddToHook { package / biblatex / after }
-{
+% `biblatex` 包的钩子，处理“参考文献”标题格式。
+\hook_gput_next_code:nn { package / biblatex / after }
+  {
     \defbibheading { bibliography } [ \refname ]
-    {
+      {
         \section* {#1}
         \addcontentsline { toc } { section } {#1}
-        \vspace* { 16.5bp }
-    }
-}
+        \vspace* { 16.5 bp }
+      }
+  }
 
-\AddToHook { package / markdown / after }
-{
-    \markdownSetup {
+% `markdown` 包的钩子，提供实验性的 Markdown 支持。
+\hook_gput_next_code:nn { package / markdown / after }
+  {
+    \markdownSetup
+      {
         shiftHeadings          = -1,
         citations              = true,
         relativeReferences     = true,
@@ -406,110 +676,85 @@
         hashEnumerators        = true,
         texMathDollars         = true,
         texMathSingleBackslash = true,
-    }
-}
+      }
+  }
 
-\AddToHook { package / hyperref / after }
-{
-    \hypersetup {
-        pdftitle    = { \__pkuthesis_title_cn: },
-        pdfauthor   = { \__pkuthesis_author: },
-        pdfkeywords = { \__pkuthesis_keywords_cn: },
-    }
-}
+% 以下为用户接口部分。
 
-\RequirePackage [ perpage, symbol* ] { footmisc }
-\DefineFNsymbols* { pkuthesis-circles } {
-    { \__circled_number: ① } { \__circled_number: ② }
-    { \__circled_number: ③ } { \__circled_number: ④ }
-    { \__circled_number: ⑤ } { \__circled_number: ⑥ }
-    { \__circled_number: ⑦ } { \__circled_number: ⑧ }
-    { \__circled_number: ⑨ }
-}
-\setfnsymbol { pkuthesis-circles }
-
-\RequirePackage { graphicx }
-\RequirePackage { tabularray }
-
-\NewTblrEnviron { hqtblr }
-\SetTblrInner [ hqtblr ] {
-    hline { 1, Z } = { dash = solid, wd = 2.25bp },
-    hline { 2 }    = { dash = solid, wd = 0.5bp },
-    rows           = { font = \small, rowsep=1.25pt },
-    row { 1 }      = { font = \small \sffamily \bfseries },
-}
-
-\cs_new_eq:NN \__pkuthesis_appendix: \appendix
-
-\RenewDocumentCommand { \appendix } { }
-{
-    \__pkuthesis_appendix:
-    \ctexset {
-        subsection = {
+% `\appendix` 命令的钩子，处理附录的标题格式。
+\hook_gput_next_code:nn { cmd / appendix / after }
+  {
+    \ctexset
+      {
+        subsection =
+          {
             name   = 附录,
             format = \zihao { -4 } \rmfamily,
             indent = 2 \ccwd,
-        }
-    }
-}
+          }
+      }
+  }
 
+% 致谢。
 \NewDocumentCommand { \acknowledgments } { }
-{
+  {
     \section* { 致谢 }
     \addcontentsline { toc } { section } { 致谢 }
-}
-
-\NewDocumentCommand { \mentor } { o m m m }
-{
-    \cs_new:Npn \__pkuthesis_mentor: {#2}
-    \cs_new:Npn \__pkuthesis_mentor_workplace: {#3}
-    \cs_new:Npn \__pkuthesis_mentor_academic_title: {#4}
-    \IfNoValueTF {#1}
-      { \cs_new:Npn \__pkuthesis_mentor_in_table: {#2} }
-      { \cs_new:Npn \__pkuthesis_mentor_in_table: {#1} }
-}
-
-\cs_new:Npn \__pkuthesis_title_cn_format: { }
-\cs_new:Npn \__pkuthesis_title_en_format: { }
-
-\RenewDocumentCommand { \author } { m }
-  { \cs_new:Npn \__pkuthesis_author: {#1} }
-\NewDocumentCommand { \titleCn } { m }
-  { \cs_new:Npn \__pkuthesis_title_cn: {#1} }
-\NewDocumentCommand { \titleEn } { m }
-  { \cs_new:Npn \__pkuthesis_title_en: {#1} }
-\NewDocumentCommand { \abstractCn } { +m }
-  { \cs_new:Npn \__pkuthesis_abstract_cn: {#1} }
-\NewDocumentCommand { \abstractEn } { +m }
-  { \cs_new:Npn \__pkuthesis_abstract_en: {#1} }
-\NewDocumentCommand { \keywordsCn } { m }
-  { \cs_new:Npn \__pkuthesis_keywords_cn: {#1} }
-\NewDocumentCommand { \keywordsEn } { m }
-  { \cs_new:Npn \__pkuthesis_keywords_en: {#1} }
-\NewDocumentCommand { \studentID } { m }
-  { \cs_new:Npn \__pkuthesis_student_id: {#1} }
-\NewDocumentCommand { \school } { m }
-  { \cs_new:Npn \__pkuthesis_school: {#1} }
-\NewDocumentCommand { \major } { m }
-  { \cs_new:Npn \__pkuthesis_major: {#1} }
-\NewDocumentCommand { \grade } { m }
-  { \cs_new:Npn \__pkuthesis_grade: {#1} }
-\NewDocumentCommand { \mentorComments } { +m }
-  { \cs_new:Npn \__pkuthesis_mentor_comments: {#1} }
-
-\msg_new:nnn { pkuthesis } { turtor-comments-deprecated }
-  { `#1'~ is~ deprecated.~ Please~ use~ `#2'. }
-
-\NewDocumentCommand { \turtorComments } { }
-  {
-    \msg_warning:nnee
-      { pkuthesis }
-      { turtor-comments-deprecated }
-      { \token_to_str:N \turtorComments }
-      { \token_to_str:N \mentorComments }
-    \mentorComments
   }
-\NewDocumentCommand { \titleCnFormat } { m }
-  { \cs_set:Npn \__pkuthesis_title_cn_format: {#1} }
-\NewDocumentCommand { \titleEnFormat } { m }
-  { \cs_set:Npn \__pkuthesis_title_en_format: {#1} }
+
+% 导师信息的键值对
+\keys_define:nn { pkuthesis / info / mentor }
+  {
+    name          .clist_gset:N = \g__pku_info_mentor_name_clist,
+    workplace     .clist_gset:N = \g__pku_info_mentor_workplace_clist,
+    academic-rank .clist_gset:N = \g__pku_info_mentor_academic_rank_clist,
+  }
+
+% 论文信息的键值对
+\keys_define:nn { pkuthesis / info }
+  {
+    title      .code:n =
+      { \__pku_set_title:nn { cn } {#1} },
+    title*     .code:n =
+      { \__pku_set_title:nn { en } {#1} },
+    author     .tl_gset:N = \g__pku_info_author_tl,
+    student-id .tl_gset:N = \g__pku_info_student_id_tl,
+    school     .tl_gset:N = \g__pku_info_school_tl,
+    specialty  .tl_gset:N = \g__pku_info_specialty_tl,
+    mentor     .meta:nn   = { pkuthesis / info / mentor } {#1},
+
+    year  .int_gset:N = \g__pku_info_year_int,
+    month .int_gset:N = \g__pku_info_month_int,
+    year  .initial:n  = { \int_use:N \c_sys_year_int },
+    month .initial:n  = 5,
+
+    abstract .tl_gset:N    = \g__pku_info_abstract_cn_tl,
+    keywords .clist_gset:N = \g__pku_info_keywords_cn_clist,
+
+    abstract* .tl_gset:N    = \g__pku_info_abstract_en_tl,
+    keywords* .clist_gset:N = \g__pku_info_keywords_en_clist,
+
+    grade           .tl_gset:N = \g__pku_info_grade_tl,
+    mentor-comments .tl_gset:N = \g__pku_info_mentor_comments_tl,
+
+    evaluation-form  .str_gset:N = \g__pku_info_eval_form_str,
+    declaration-page .str_gset:N = \g__pku_info_decl_page_str,
+  }
+
+% 论文格式的键值对
+\keys_define:nn { pkuthesis / style }
+  {
+    title-format  .tl_gset:N = \g__pku_style_title_format_cn_tl,
+    title-format* .tl_gset:N = \g__pku_style_title_format_en_tl,
+
+    keywords-separator .choices:nn =
+      { comma, semicolon }
+      { \tl_gset_eq:NN \g__pku_style_keywords_separator_tl \l_keys_choice_tl },
+    keywords-separator .initial:n  = { comma },
+  }
+
+% 设置以上键值对的用户命令
+\NewDocumentCommand { \ThesisInfo } { +m }
+  { \keys_set:nn { pkuthesis / info } {#1} }
+\NewDocumentCommand { \ThesisStyle } { +m }
+  { \keys_set:nn { pkuthesis / style } {#1} }
