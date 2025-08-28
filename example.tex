@@ -5,7 +5,7 @@
 \usepackage[style=gb7714-2015]{biblatex}
 \addbibresource{example.bib}
 \usepackage[hidelinks]{hyperref}
-
+\UseTblrLibrary{diagbox}
 \ThesisStyle {
     keywords-separator = {semicolon},
     title-format*      = {\zihao{-2}},
@@ -37,11 +37,10 @@
     },
     grade           = {优},
     mentor-comments = {
-        千早爱音同学的这篇论文深入探讨了键盘手在乐队中的重要性，选题新颖，论证充分。
-        通过对《BanG Dream! It's MyGO!!!!!》和《Girls Band Cry》两部作品的细致分析，
-        结合具体音乐表现案例，有力地支持了“乐队必须有键盘手”这一论点。
-        论文结构严谨，语言流畅，展现了作者扎实的音乐理论功底和对乐队实践的深刻理解。
-        尤其对《春日影》和《熙熙攘攘，我们的城市》的对比分析，见解独到，令人印象深刻。
+        千早爱音同学的这篇论文深入探讨了键盘手在乐队中的重要性，选题新颖，论证充分。通过对《BanG Dream! It's MyGO!!!!!》和《Girls Band Cry》两部作品的细致分析，结合具体音乐表现案例，有力地支持了“乐队必须有键盘手”这一论点。
+
+        论文结构严谨，语言流畅，展现了作者扎实的音乐理论功底和对乐队实践的深刻理解。尤其对《春日影》和《熙熙攘攘，我们的城市》的对比分析，见解独到，令人印象深刻。
+
         本论文达到了学士学位论文的优秀水平，同意提交答辩。
     },
 }
@@ -74,6 +73,71 @@
 综上所述，无论是从音乐表现力、和声与旋律的丰富性，还是从乐队结构和稳定性的角度来看，键盘手在现代乐队中都扮演着不可或缺的角色。通过对《BanG Dream! It's MyGO!!!!!》和《Girls Band Cry》中乐队实践的分析，我们可以清晰地看到，有键盘手参与的乐队，其音乐往往更具层次感、更饱满、更富有感染力。键盘手不仅能够提供多样的音色和和声支持，还能在乐队内部起到协调和引导的作用，帮助乐队成员更好地协作，共同创造出更具深度和广度的音乐作品。
 
 因此，本文坚定地认为：乐队必须有键盘手。键盘手是乐队走向成熟和多元化的重要标志，是提升乐队整体音乐品质的关键力量。
+
+\appendix
+
+\section{字体配置}
+
+在这里展示 \verb|pkuthesis| 使用的字体配置。
+
+\begin{table}[!ht]
+    \caption{\texttt{pkuthesis} 使用的字体配置（西文）}
+    \centering
+    \begin{tblr} {
+        colspec={ccccccc},
+        hline{1,2,3,Z},
+        hline{6} = {4-7}{},
+        vline{1,2,4,6,Z},
+        cell{1}{2} = {c = 2}{halign = c},
+        cell{1}{4} = {c = 2}{halign = c},
+        cell{1}{6} = {c = 2}{halign = c},
+        cell{6}{4} = {c = 4}{halign = c},
+    }
+        Family                  & Serif            &                           & Sans Serif                &                                    & Monospaced                                                     \\
+        \diagbox{Shape}{Series} & Regular          & Bold                      & Regular                   & Bold                               & Regular                   & Bold                               \\
+        Upright                 & Satisfy          & \textbf{Satisfy}          & \textsf{Satisfy}          & \textsf{\textbf{Satisfy}}          & \texttt{Satisfy}          & \texttt{\textbf{Satisfy}}          \\
+        Italic                  & \textit{Satisfy} & \textit{\textbf{Satisfy}} & \textit{\textsf{Satisfy}} & \textit{\textsf{\textbf{Satisfy}}} & \textit{\texttt{Satisfy}} & \textit{\texttt{\textbf{Satisfy}}} \\
+        Slanted                 & \textsl{Satisfy} & \textsl{\textbf{Satisfy}} & \textsl{\textsf{Satisfy}} & \textsl{\textsf{\textbf{Satisfy}}} & \textsl{\texttt{Satisfy}} & \textsl{\texttt{\textbf{Satisfy}}} \\
+        Small Caps              & \textsc{Satisfy} & \textsc{\textbf{Satisfy}} & Unsupported               &                                    &                           &                                    \\
+    \end{tblr}
+\end{table}
+
+\begin{table}[!ht]
+    \caption{\texttt{pkuthesis} 使用的字体配置（西文）}
+    \centering
+    \begin{tblr} {
+        colspec={ccccccc},
+        hline{1,2,3,Z},
+        vline{1,2,4,6,Z},
+        hline{6} = {6-7}{},
+        cell{1}{2} = {c = 2}{halign = c},
+        cell{1}{4} = {c = 2}{halign = c},
+        cell{1}{6} = {c = 2}{halign = c},
+        cell{6}{6} = {c = 2}{halign = c},
+    }
+        Family                  & Serif            &                           & Sans Serif                &                                    & Monospaced                                                     \\
+        \diagbox{Shape}{Series} & Regular          & Bold                      & Regular                   & Bold                               & Regular                   & Bold                               \\
+        Upright                 & Satisfy          & \textbf{Satisfy}          & \textsf{Satisfy}          & \textsf{\textbf{Satisfy}}          & \texttt{Satisfy}          & \texttt{\textbf{Satisfy}}          \\
+        Italic                  & \textit{Satisfy} & \textit{\textbf{Satisfy}} & \textit{\textsf{Satisfy}} & \textit{\textsf{\textbf{Satisfy}}} & \textit{\texttt{Satisfy}} & \textit{\texttt{\textbf{Satisfy}}} \\
+        Slanted                 & \textsl{Satisfy} & \textsl{\textbf{Satisfy}} & \textsl{\textsf{Satisfy}} & \textsl{\textsf{\textbf{Satisfy}}} & \textsl{\texttt{Satisfy}} & \textsl{\texttt{\textbf{Satisfy}}} \\
+        Small Caps              & \textsc{Satisfy} & \textsc{\textbf{Satisfy}} & \textsc{\textsf{Satisfy}} & \textsc{\textsf{\textbf{Satisfy}}} & Unsupported                                                    \\
+    \end{tblr}
+\end{table}
+
+\section{三线表展示}
+
+\begin{table}[!ht]
+    \caption{三线表}
+    \centering
+    \begin{3-l-tablr}{cccc}
+        城市  & 2023年人口（万人）& 2023年GDP（亿元） & 人均可支配收入（元） \\
+        A 市  & 985   & 14,500 & 48,000 \\
+        B 市  & 1,230 & 18,200 & 51,500 \\
+        C 市  & 760   & 9,800  & 39,200 \\
+        D 市  & 1,510 & 22,100 & 55,800 \\
+        E 市  & 650   & 8,500  & 36,500 \\
+    \end{3-l-tablr}
+\end{table}
 
 \printbibliography
 \acknowledgments

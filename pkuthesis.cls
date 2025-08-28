@@ -20,7 +20,7 @@
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesExplClass{pkuthesis}
-  {2025/08/25}{2.0.0}{Thesis class for School of EECS, Peking University, 2025}
+  {2025/08/28}{2.0.0}{Thesis class for School of EECS, Peking University, 2025}
 
 \cs_generate_variant:Nn \regex_replace_all:nnN { nnc }
 
@@ -322,9 +322,9 @@
   }
 \setfnsymbol { pkuthesis-circles }
 
-% 三线表 `hqtblr` 环境。基于 `tabularray` 包。
-\NewTblrEnviron { hqtblr }
-\SetTblrInner [ hqtblr ]
+% 三线表 `3-l-tablr` 环境。基于 `tabularray` 包。
+\NewTblrEnviron { 3-l-tablr }
+\SetTblrInner [ 3-l-tablr ]
   {
     hline { 1, Z } = { dash = solid, wd = 2.25 bp },
     hline { 2 }    = { dash = solid, wd = 0.5 bp },
