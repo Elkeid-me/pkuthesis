@@ -82,11 +82,11 @@
     Numbers  = Monospaced,
     Renderer = OpenType,
   ]
-\newCJKfontfamily \FangSong { FangSong }
+\newCJKfontfamily \__fang_song: { FangSong }
   [ Renderer = OpenType ]
-\newfontfamily \FangSongEn { FangSong }
+\newfontfamily \__fang_song_en: { FangSong }
   [ Renderer = OpenType ]
 \newfontfamily \__circled_number: { Microsoft~YaHei }
   [ Renderer = OpenType ]
-\newCJKfontfamily \KaiTi { KaiTi }
+\newCJKfontfamily \__kai_ti: { KaiTi }
   [ Renderer = OpenType ]

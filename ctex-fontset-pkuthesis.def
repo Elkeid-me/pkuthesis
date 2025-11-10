@@ -98,12 +98,12 @@
     CharacterVariant = 1,
     Renderer         = OpenType,
   ]
-\newCJKfontfamily \FangSong { -HYFangSongS.ttf }
+\newCJKfontfamily \__fang_song: { -HYFangSongS.ttf }
   [
     Path     = fonts/,
     Renderer = OpenType,
   ]
-\newfontfamily \FangSongEn { -ShipporiMincho-Regular.otf }
+\newfontfamily \__fang_song_en: { -ShipporiMincho-Regular.otf }
   [
     Path     = fonts/,
     Renderer = OpenType,
@@ -113,7 +113,7 @@
     Path     = fonts/,
     Renderer = OpenType,
   ]
-\newCJKfontfamily \KaiTi { -HYKaiTiS.ttf }
+\newCJKfontfamily \__kai_ti: { -HYKaiTiS.ttf }
   [
     Path     = fonts/,
     Renderer = OpenType,

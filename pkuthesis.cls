@@ -40,6 +40,7 @@
 \tl_new:N \g__pku_info_title_cn_sanitized_tl
 \tl_new:N \g__pku_info_title_en_sanitized_tl
 
+% 参考 fduthesis 中的实现。
 \cs_new_protected:Npn \__pku_set_title:nn #1#2
   {
     \tl_set:cn { g__pku_info_title_ #1 _tl           } {#2}
@@ -382,7 +383,7 @@
             Q [ halign = c, valign = b, wd = 31.9 mm,
                 font = \zihao { 3 } \sffamily ]
             Q [ halign = c, valign = b, wd = 83 mm,
-                font = \zihao { 3 } \FangSong ]
+                font = \zihao { 3 } \__fang_song: ]
           },
         rows                   = { ht = 11 mm, rowsep = 0 pt },
         columns                = { colsep = 0 pt },
@@ -392,7 +393,7 @@
           \g__pku_info_author_tl      \\
 
         学 \__ccwd_space:n { 2 } 号： &
-          \FangSongEn
+          \__fang_song_en:
           \g__pku_info_student_id_tl  \\
 
         院 \__ccwd_space:n { 2 } 系： &
@@ -509,7 +510,7 @@
                     \setlength { \parindent } { 2 \ccwd }
                     \centerline { 导师评语 }
                     \par
-                    \KaiTi
+                    \__kai_ti:
                     \centerline
                       {
                         （包含对论文的性质、难度、分量、综合训练等是否
