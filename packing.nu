@@ -1,0 +1,2 @@
+7z a pkuthesis.7z ctex-fontset-pkuthesis.def ctex-fontset-windows.def example.bib example.tex example.pdf fonts LICENSE PKU-Logo.pdf pkuthesis.cls README.md thesis.bib thesis.pdf thesis.tex -mx9
+7z a pkuthesis.zip ctex-fontset-pkuthesis.def ctex-fontset-windows.def example.bib example.tex example.pdf fonts LICENSE PKU-Logo.pdf pkuthesis.cls README.md thesis.bib thesis.pdf thesis.tex -mx9

@@ -19,7 +19,7 @@
 %
 
 \ProvidesExplFile{ctex-fontset-pkuthesis.def}
-  {2025/08/28}{2.0.0}{Font set for pkuthesis, using Windows fonts.}
+  {2025/12/01}{2.0.1}{Font set for pkuthesis, using Windows fonts.}
 
 \setCJKmainfont { SimSun }
   [

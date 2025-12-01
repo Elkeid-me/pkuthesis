@@ -20,7 +20,7 @@
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesExplClass{pkuthesis}
-  {2025/08/28}{2.0.0}{Thesis class for School of EECS, Peking University, 2025}
+  {2025/12/01}{2.0.1}{Thesis class for School of EECS, Peking University, 2025}
 
 \cs_generate_variant:Nn \regex_replace_all:nnN { nnc }
 

@@ -19,17 +19,17 @@
 %
 
 \ProvidesExplFile{ctex-fontset-pkuthesis.def}
-  {2025/08/28}{2.0.0}{Font set for pkuthesis, using local fonts.}
+  {2025/12/01}{2.0.1}{Font set for pkuthesis, using local fonts.}
 
-\setCJKmainfont { -SourceHanSerifSC-Regular.otf }
+\setCJKmainfont { -SourceHanSerifCN-Regular.otf }
   [
     Path           = fonts/,
-    BoldFont       = -SourceHanSerifSC-Bold.otf,
+    BoldFont       = -SourceHanSerifCN-Bold.otf,
     ItalicFont     = -HYKaiTiS.ttf,
     BoldItalicFont = -HYKaiTiS.ttf,
     Renderer       = OpenType,
   ]
-\setCJKsansfont { -SourceHanSansSC }
+\setCJKsansfont { -SourceHanSansCN }
   [
     Path           = fonts/,
     Extension      = .otf,
@@ -39,10 +39,10 @@
     BoldItalicFont = *-Regular,
     Renderer       = OpenType,
   ]
-\setCJKmonofont { -SourceHanSansSC-Regular.otf }
+\setCJKmonofont { -SourceHanSansCN-Regular.otf }
   [
     Path           = fonts/,
-    BoldFont       = -SourceHanSansSC-Bold.otf,
+    BoldFont       = -SourceHanSansCN-Bold.otf,
     ItalicFont     = -HYKaiTiS.ttf,
     BoldItalicFont = -HYKaiTiS.ttf,
     Renderer       = OpenType,
@@ -108,7 +108,7 @@
     Path     = fonts/,
     Renderer = OpenType,
   ]
-\newfontfamily \__circled_number: { -SourceHanSerifSC-Regular.otf }
+\newfontfamily \__circled_number: { -SourceHanSerifCN-Regular.otf }
   [
     Path     = fonts/,
     Renderer = OpenType,
