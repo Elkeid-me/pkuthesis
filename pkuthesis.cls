@@ -24,16 +24,16 @@
 
 \cs_generate_variant:Nn \regex_replace_all:nnN { nnc }
 
-\cs_new_protected:Npn \__pku_define_separator:nn #1#2#3
+\cs_new_protected:Npn \__pku_define_separator:nnn #1#2#3
   { \tl_const:cn { c__pku_separator_ #1 _ #2 _tl } {#3} }
 
 \cs_new:Npn \__pku_separator:nn #1#2
   { \tl_use:c { c__pku_separator_ \tl_use:c { g__pku_style_ #1 _separator_tl } _ #2 _tl } }
 
-\__pku_define_separator:nn { comma     } { cn } { ， }
-\__pku_define_separator:nn { comma     } { en } { ,~ }
-\__pku_define_separator:nn { semicolon } { cn } { ； }
-\__pku_define_separator:nn { semicolon } { en } { ;~ }
+\__pku_define_separator:nnn { comma     } { cn } { ， }
+\__pku_define_separator:nnn { comma     } { en } { ,~ }
+\__pku_define_separator:nnn { semicolon } { cn } { ； }
+\__pku_define_separator:nnn { semicolon } { en } { ;~ }
 
 \tl_new:N \g__pku_info_title_cn_tl
 \tl_new:N \g__pku_info_title_en_tl
